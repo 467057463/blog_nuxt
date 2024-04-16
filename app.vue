@@ -3,6 +3,7 @@
     <!-- <NuxtWelcome /> -->
     {{ runtimeConfig.public.api }}
     {{ appConfig.title }}
+    这是离目标最近的一次了
   </div>
 </template>
 
