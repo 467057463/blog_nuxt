@@ -6,5 +6,9 @@ export default defineNuxtConfig({
     public: {
       api: 'test'
     }
-  }
+  },
+  modules: [
+    '@pinia/nuxt',
+    '@element-plus/nuxt'
+  ]
 })
