@@ -46,20 +46,20 @@ jobs:
           source: ${{ github.sha }}.tar.gz
           target: /var/www/html/artifacts
 
-      # - name: Extract archive and create directories
-      #   uses: appleboy/ssh-action@master
-      #   env:
-      #     GITHUB_SHA: ${{ github.sha }}
-      #   with:
-      #     host: ${{env.IP_ADDRESS}}
-      #     username: "root"
-      #     key: ${{ secrets.SSH_KEY }}
-      #     port: "22"
-      #     envs: GITHUB_SHA
-      #     script: |
-      #       mkdir -p "/var/www/html/releases/${GITHUB_SHA}"
-      #       tar xzf /var/www/html/artifacts/${GITHUB_SHA}.tar.gz -C "/var/www/html/releases/${GITHUB_SHA}"
-      #       rm -rf /var/www/html/artifacts/${GITHUB_SHA}.tar.gz
+      - name: Extract archive and create directories
+        uses: appleboy/ssh-action@master
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+        with:
+          host: ${{env.SSH_HOST}}
+          username: "root"
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: "22"
+          envs: GITHUB_SHA
+          script: |
+            mkdir -p "/var/www/html/releases/${GITHUB_SHA}"
+            tar xzf /var/www/html/artifacts/${GITHUB_SHA}.tar.gz -C "/var/www/html/releases/${GITHUB_SHA}"
+            rm -rf /var/www/html/artifacts/${GITHUB_SHA}.tar.gz
 
 
 
