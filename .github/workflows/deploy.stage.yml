@@ -19,9 +19,9 @@ jobs:
           node-version: ${{env.NODE_VERSION}}
           cache: 'npm'
       - run: |
-        npm install
-        npm run build:stage
-        tar -czf "${GITHUB_SHA}".tar.gz .output
+          npm install
+          npm run build:stage
+          tar -czf "${GITHUB_SHA}".tar.gz .output
         
   # deploy:
   #   runs-on: ubuntu-latest
