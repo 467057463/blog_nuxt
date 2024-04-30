@@ -6,15 +6,22 @@
     </ul>
 
     <div class="user-info">
-      <NuxtLink v-if="!user.userInfo" to="/login">登录</NuxtLink>
-      <NuxtLink v-else to="/life">{{ user.userInfo.name }}</NuxtLink>
+      <NuxtLink v-if="!userInfo" to="/login">登录</NuxtLink>
+      <template v-else>
+        <NuxtLink to="/login">
+          {{ userInfo?.username }} 
+          <img :src="userInfo.profile.avatar"/>
+        </NuxtLink>
+        <ul>
+          <li><NuxtLink to="/articles/create">添加文章</NuxtLink></li>
+          <li><span @click="userStore.logout">退出登录</span></li>
+        </ul>
+      </template>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from '@/stores/user'
-const user = useUserStore();
-console.log(user.userInfo)
-console.log(user.userInfo)
+const userStore = useUserStore();
+const { userInfo } = storeToRefs(userStore)
 </script>

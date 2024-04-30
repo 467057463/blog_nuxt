@@ -2,7 +2,7 @@
   <div>login</div>
   <el-form @submit.prevent ref="$form" :model="form" :rules="rules">
     <el-form-item label="用户名" prop="name">
-      <el-input v-model="form.name"/>
+      <el-input v-model="form.username"/>
     </el-form-item>
 
     <el-form-item label="密码">
@@ -13,21 +13,34 @@
 </template>
 
 <script setup lang="ts">
+const userStore = useUserStore()
+
 const $form = ref('');
 const rules = reactive({
-  name: [
-    { required: true, message: 'Please input Activity name', trigger: 'blur' },
-    { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+  username: [
+    { 
+      required: true, 
+      message: 'Please input Activity name', 
+      trigger: 'blur' 
+    },
+    { 
+      min: 6, 
+      max: 12,
+      message: 'Length should be 6 to 12', 
+      trigger: 'blur'
+    },
   ]
 });
 const form = reactive({
-  name: '',
+  username: '',
   password: ''
 });
 
 async function handleLogin(){
   try {
     await $form.value.validate();
+    await userStore.login(form);
+    navigateTo('/')
   } catch (error) {
     console.error(error);
   };
