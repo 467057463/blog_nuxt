@@ -41,7 +41,7 @@ jobs:
         with:
           host: ${{secrets.SSH_HOST}}
           port: "22"
-          username: "root"
+          username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.DEPLOY_KEY }}
           source: ${{ github.sha }}.tar.gz
           target: /var/www/html/artifacts
@@ -51,8 +51,8 @@ jobs:
         env:
           GITHUB_SHA: ${{ github.sha }}
         with:
-          host: ${{env.SSH_HOST}}
-          username: "root"
+          host: ${{secrets.SSH_HOST}}
+          username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.DEPLOY_KEY }}
           port: "22"
           envs: GITHUB_SHA
