@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'blog_nuxt_stage',
+      name: 'blog_nuxt-stage',
       port: '3001',
       exec_mode: 'cluster',
       instances: 'max',

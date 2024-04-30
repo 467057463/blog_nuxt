@@ -3,7 +3,7 @@ name: BLOG_API CI/CD
 on:
   push:
     branches:
-      - production
+      - stage
 
 jobs:
   deploy:
@@ -24,9 +24,9 @@ jobs:
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
             npm --help
-            cd /var/www/blog_nuxt
-            git pull origin production
+            cd /var/www/blog_nuxt-stage
+            git pull origin stage
             git status
             npm install
-            npm run build:production
-            pm2 restart ./ecosystem.config.production.cjs
+            npm run build:stage
+            pm2 restart ./ecosystem.config.stage.cjs
