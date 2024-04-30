@@ -1,7 +1,7 @@
 <template>
   <header>
     <ul>
-      <li><NuxtLink to="/">技术</NuxtLink></li>
+      <li><NuxtLink to="/">技术 test</NuxtLink></li>
       <li><NuxtLink to="/life">生活</NuxtLink></li>
     </ul>
 
