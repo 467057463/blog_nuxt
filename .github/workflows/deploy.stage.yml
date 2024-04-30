@@ -6,27 +6,41 @@ on:
       - stage
 
 jobs:
-  deploy:
+  create-deployment-artifacts:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x]
-
     steps:
-      - name: Deploy using ssh
-        uses: appleboy/ssh-action@master
+      - uses: actions/checkout@v3
+      - name: Build App Artifacts
+        uses: actions/setup-node@v3
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.DEPLOY_KEY }}
-          port: 22
-          script: |
-            export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh
-            npm --help
-            cd /var/www/blog_nuxt-stage
-            git pull origin stage
-            git status
-            npm install
-            npm run build:stage
-            pm2 restart ./ecosystem.config.stage.cjs
+          node-version: ${{env.NODE_VERSION}}
+          cache: 'npm'
+      - run: |
+        npm install
+        npm run build:stage
+        tar -czf "${GITHUB_SHA}".tar.gz .output
+        
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       node-version: [16.x]
+
+  #   steps:
+  #     - name: Deploy using ssh
+  #       uses: appleboy/ssh-action@master
+  #       with:
+  #         host: ${{ secrets.SSH_HOST }}
+  #         username: ${{ secrets.SSH_USERNAME }}
+  #         key: ${{ secrets.DEPLOY_KEY }}
+  #         port: 22
+  #         script: |
+  #           export NVM_DIR=~/.nvm
+  #           source ~/.nvm/nvm.sh
+  #           npm --help
+  #           cd /var/www/blog_nuxt-stage
+  #           git pull origin stage
+  #           git status
+  #           npm install
+  #           npm run build:stage
+  #           pm2 restart ./ecosystem.config.stage.cjs
