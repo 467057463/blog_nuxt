@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   // devtools: { enabled: true },
   runtimeConfig: {
     public: {
-      API_HOST: 'http://localhost:7001'
+      API_HOST: process.env.NUXT_PUBLIC_API_HOST
     }
   },
   routeRules: {
