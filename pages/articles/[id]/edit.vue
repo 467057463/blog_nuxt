@@ -1,7 +1,10 @@
 <template>
   <article-editer 
     :title="data?.data?.title"
-    :content="data?.data?.raw"
+    :content="data?.data?.content"
+    :categoryId="data?.data?.categoryId"
+    :tags="data?.data?.tags || []"
+    :describe="data?.data?.describe"
     @save="handleSave"
   />
 </template>
@@ -9,6 +12,10 @@
 <script setup lang="ts">
 import { getArticleById, updateArticle } from '~/api/idnex'
 import type { CreateArticleParamsType } from '~/api/index'
+
+definePageMeta({
+  layout: false
+})
 
 const route = useRoute()
 const articleId = route.params.id;

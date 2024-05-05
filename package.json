@@ -5,7 +5,7 @@
   "scripts": {
     "build:production": "nuxt build  --dotenv .env.production",
     "build:stage": "nuxt build --dotenv .env.stage",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --dotenv .env",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -17,6 +17,7 @@
     "md-editor-v3": "^4.13.5",
     "nuxt": "^3.11.2",
     "pinia": "^2.1.7",
+    "sass": "^1.76.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   }

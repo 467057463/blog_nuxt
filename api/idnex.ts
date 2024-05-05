@@ -1,3 +1,21 @@
+// 获取分类列表
+export type CategoryData = {
+  id: number,
+  name: string,
+}
+export function getCategories(){
+  return useRequest<RequestResult<CategoryData[]>>('/categories')
+}
+
+// 获取标签列表
+export type TagData = {
+  id: number,
+  name: string,
+}
+export function getTags(){
+  return useRequest<RequestResult<TagData[]>>('/tags')
+}
+
 // 获取文章列表
 type GetArticlesParams = {
   page?: number,
