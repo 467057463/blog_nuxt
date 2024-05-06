@@ -12,6 +12,7 @@
       :key="article.id" 
       class="article-item"
     >
+      <el-image :src="article.cover"/>
       <div class="title">
         <NuxtLink :to="`/articles/${article.id}`">{{ article.title }}</NuxtLink>
       </div>

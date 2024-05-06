@@ -1,6 +1,8 @@
 // 获取分类列表
 export type CategoryData = {
   id: number,
+  order: number,
+  label: string,
   name: string,
 }
 export function getCategories(){
@@ -30,7 +32,7 @@ type ArticlesData = {
     id: number,
     title: string,
     content: string,
-    raw: string,
+    cover: string,
     describe: string,
     createdAt: string,
     tags: Array<{

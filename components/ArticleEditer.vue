@@ -42,7 +42,7 @@
               @click="formData.categoryId = category.id"
               :checked="formData.categoryId === category.id"
             >
-              {{category.name}}
+              {{category.label}}
             </el-check-tag>
           </div>
         </el-form-item>
@@ -59,7 +59,27 @@
         </el-form-item>
 
         <el-form-item label="文章封面">
-          
+          <div class="image-list">
+            <div class="image-item" v-for="(image, index) in files" :key="image.uid">
+              <img :src="image.url" />
+              <div class="image-item__actions">
+              <span class="image-delete" @click="handleRemove(image)">
+                <el-icon><Delete /></el-icon>
+              </span>
+            </div>
+            </div>
+          </div>
+          <el-upload 
+            action="#" 
+            list-type="picture-card" 
+            :auto-upload="false"
+            :limit="1"
+            v-model:file-list="files"
+            :show-file-list="false"
+            v-show="files.length < 1"
+          >
+            <el-icon><Plus /></el-icon>
+          </el-upload>
         </el-form-item>
 
         <el-form-item label="文章描述" prop="describe">
@@ -75,6 +95,7 @@
         <el-form-item>
           <el-button type="primary" @click="handleSubmit">确认发布</el-button>
         </el-form-item>
+
       </el-form>
     </el-drawer>
   </div>
@@ -83,6 +104,8 @@
 <script setup lang="ts">
 import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
+import { Plus, Delete } from '@element-plus/icons-vue'
+
 const labelReg = /<[^>]+>/g;
 const whiteReg = /\s/g;
 
@@ -96,6 +119,7 @@ const { categories, tags } = storeToRefs(appStore);
 const emit = defineEmits(['save'])
 const props = defineProps(['title', 'content', 'categoryId', 'tags', 'describe'])
 
+const files = ref([]);
 const formData = reactive({
   title: props.title,
   content: props.content,
@@ -104,23 +128,40 @@ const formData = reactive({
   describe: props.describe,
 })
 
-function onSave(v, h){
-  console.log(v, h)
-
-  h.then((html) => {
-    emit('save', {
-      title: title.value,
-      content: v,
-      // raw: v,
-      describe: html.replace(labelReg, '').replace(whiteReg, ''),
-      categoryId: 1,
-      tags: ['css']
-    })
-  });
+function handleRemove(file){
+  // console.log(files, file)
+  files.value = files.value.filter(i => i.uid !== file.uid)
 }
+// function onSave(v, h){
+//   console.log(v, h)
+
+//   h.then((html) => {
+//     emit('save', {
+//       title: title.value,
+//       content: v,
+//       // raw: v,
+//       describe: html.replace(labelReg, '').replace(whiteReg, ''),
+//       categoryId: 1,
+//       tags: ['css']
+//     })
+//   });
+// }
 
 function handleSubmit(){
-  emit('save', formData)
+  // console.log({
+  //   ...formData,
+  //   cover: files.value[0] ? files.value[0]?.raw : null
+  // })
+  const data = {
+    ...formData,
+    cover: files.value[0] ? files.value[0]?.raw : null
+  }
+  const formdata = new FormData()
+  for (const [key, value] of Object.entries(data)) {
+    formdata.append(key, value)
+  }
+  console.log(formdata)
+  emit('save', formdata)
 }
 </script>
 
@@ -160,4 +201,73 @@ function handleSubmit(){
     margin-left: 8px;
   }
 }
+
+.image-list{
+  display: flex;
+  .image-item {
+    width: 60px;
+    height: 60px;
+
+    margin-right: 15px;
+    position: relative;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .image-item__actions {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      &:hover {
+        .image-delete {
+          visibility: visible;
+        }
+      }
+    }
+
+    .image-delete {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-radius: 8px;
+      overflow: hidden;
+      top: -5px;
+      right: -5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #ed3232;
+      font-size: 10px;
+      color: #fff;
+      border: 1px solid #fff;
+      cursor: pointer;
+      visibility: hidden;
+
+      &:hover {
+        background: #fd4f4f;
+      }
+    }
+  }
+}
+
+::v-deep{
+  .el-upload--picture-card {
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #e2e2e2;
+    border-radius: 4px;
+  }
+}
+
 </style>
