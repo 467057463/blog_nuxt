@@ -117,9 +117,9 @@ const { userInfo } = storeToRefs(userStore);
 const { categories, tags } = storeToRefs(appStore);
 
 const emit = defineEmits(['save'])
-const props = defineProps(['title', 'content', 'categoryId', 'tags', 'describe'])
+const props = defineProps(['title', 'content', 'categoryId', 'tags', 'describe', 'cover'])
 
-const files = ref([]);
+const files = ref(props.cover ? [{url: props.cover, uid: 0}] : []);
 const formData = reactive({
   title: props.title,
   content: props.content,
@@ -154,11 +154,14 @@ function handleSubmit(){
   // })
   const data = {
     ...formData,
-    cover: files.value[0] ? files.value[0]?.raw : null
+    // cover: files.value[0] ? files.value[0]?.raw : null
   }
   const formdata = new FormData()
   for (const [key, value] of Object.entries(data)) {
     formdata.append(key, value)
+  }
+  if( files.value[0]?.raw){
+    formdata.append('cover', files.value[0]?.raw)
   }
   console.log(formdata)
   emit('save', formdata)
