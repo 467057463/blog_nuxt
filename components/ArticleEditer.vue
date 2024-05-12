@@ -2,7 +2,7 @@
   <div class="editer-wrapper">
     <div class="editer-header">
       <el-input v-model="formData.title"/>
-      <el-button type="primary" plain>保存为草稿</el-button>
+      <el-button type="primary" plain @click="handleDarft">保存为草稿</el-button>
       <el-button type="primary" @click="showMeta = true">发布</el-button>
       <el-dropdown>
         <div class="user-info">
@@ -105,7 +105,7 @@
 import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 import { Plus, Delete } from '@element-plus/icons-vue'
-
+import { createDraft } from '~/api/idnex'
 const labelReg = /<[^>]+>/g;
 const whiteReg = /\s/g;
 
@@ -132,20 +132,6 @@ function handleRemove(file){
   // console.log(files, file)
   files.value = files.value.filter(i => i.uid !== file.uid)
 }
-// function onSave(v, h){
-//   console.log(v, h)
-
-//   h.then((html) => {
-//     emit('save', {
-//       title: title.value,
-//       content: v,
-//       // raw: v,
-//       describe: html.replace(labelReg, '').replace(whiteReg, ''),
-//       categoryId: 1,
-//       tags: ['css']
-//     })
-//   });
-// }
 
 function handleSubmit(){
   // console.log({
@@ -165,6 +151,20 @@ function handleSubmit(){
   }
   console.log(formdata)
   emit('save', formdata)
+}
+
+// 发布到草稿箱
+async function handleDarft(){
+  const route = useRoute();
+  const router = useRouter();
+  console.log(route)
+  if(route.name === 'drafts-create'){
+    const res: any = await createDraft({
+      title: formData.title,
+      content: formData.content,
+    })
+    router.replace(`/drafts/${res.data.id}`)
+  }
 }
 </script>
 

@@ -2,16 +2,16 @@
   <article-editer 
     :title="data?.data?.title"
     :content="data?.data?.content"
-    :categoryId="data?.data?.categoryId"
-    :tags="data?.data?.tags || []"
-    :describe="data?.data?.describe"
-    :cover="data?.data?.cover"
+    :categoryId="data?.data?.article?.categoryId"
+    :tags="data?.data?.article?.tags || []"
+    :describe="data?.data?.article?.describe"
+    :cover="data?.data?.article?.cover"
     @save="handleSave"
   />
 </template>
 
 <script setup lang="ts">
-import { getArticleById, updateArticle } from '~/api/idnex'
+import { getDraftById, updateArticle } from '~/api/idnex'
 import type { CreateArticleParamsType } from '~/api/index'
 
 definePageMeta({
@@ -20,7 +20,7 @@ definePageMeta({
 
 const route = useRoute()
 const articleId = route.params.id;
-const { data } = await useAsyncData(articleId, () => getArticleById(route.params.id))
+const { data } = await useAsyncData(articleId, () => getDraftById(route.params.id))
 
 async function handleSave(params: CreateArticleParamsType){
   try {

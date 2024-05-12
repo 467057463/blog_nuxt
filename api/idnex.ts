@@ -125,3 +125,26 @@ export function deleteArticle(id: number){
     method: "DELETE",
   })
 }
+
+export type CreateDraftParamsType = Pick<CreateArticleParamsType, 'title'| 'content' >
+// 新建草稿
+export function createDraft(params: CreateDraftParamsType){
+  return useRequest('/drafts', {
+    body: params,
+    method: "POST"
+  })
+}
+
+// 更新草稿
+export type UpdateDraftParamsType = CreateDraftParamsType & {articleId?: number}
+export function updateDraft(id:number, params: UpdateDraftParamsType){
+  return useRequest(`/drafts/${id}`, {
+    body: params,
+    method: "POST"
+  })
+}
+
+// 草稿详情
+export function getDraftById(id: number){
+  return useRequest(`/drafts/${id}`)
+}
