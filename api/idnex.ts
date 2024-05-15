@@ -126,9 +126,9 @@ export function deleteArticle(id: number){
   })
 }
 
-export type CreateDraftParamsType = Pick<CreateArticleParamsType, 'title'| 'content' >
+export type CreateDraftParamsType = Pick<CreateArticleParamsType, 'title' | 'content' >
 // 新建草稿
-export function createDraft(params: CreateDraftParamsType){
+export function createDraft(params: CreateDraftParamsType & {articleId?: number}){
   return useRequest('/drafts', {
     body: params,
     method: "POST"

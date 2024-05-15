@@ -5,7 +5,8 @@
 
   <div class="page-center">
     <div class="actions">
-      <NuxtLink :to="`/articles/${$route.params.id}/edit`">编辑</NuxtLink>
+      <NuxtLink :to="data.data.draft ? `/drafts/${data.data.draft.id}` : `/articles/${$route.params.id}/edit`">编辑</NuxtLink>
+ 
       <span @click="handleDelete">删除</span>
     </div>
 
@@ -38,6 +39,10 @@ const id = 'preview-only';
 const route = useRoute()
 const articleId = route.params.id;
 const { data } = await useAsyncData(articleId, () => getArticleById(articleId))
+
+function handleEdit(){
+
+}
 
 async function handleDelete(){
   try {

@@ -1,5 +1,7 @@
 <template>
   <article-editer 
+    draftId=""
+    :articleId="articleId"
     :title="data?.data?.title"
     :content="data?.data?.content"
     :categoryId="data?.data?.categoryId"
@@ -19,8 +21,9 @@ definePageMeta({
 })
 
 const route = useRoute()
+const router = useRouter();
 const articleId = route.params.id;
-const { data } = await useAsyncData(articleId, () => getArticleById(route.params.id))
+const { data } = await useAsyncData(() => getArticleById(articleId))
 
 async function handleSave(params: CreateArticleParamsType){
   try {

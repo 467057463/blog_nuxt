@@ -1,7 +1,7 @@
 <template>
   <div class="editer-wrapper">
     <div class="editer-header">
-      <el-input v-model="formData.title"/>
+      <el-input v-model="form.title"/>
       <el-button type="primary" plain @click="handleDarft">保存为草稿</el-button>
       <el-button type="primary" @click="showMeta = true">发布</el-button>
       <el-dropdown>
@@ -20,7 +20,7 @@
         </template>
       </el-dropdown>
     </div>
-    <MdEditor @onSave="onSave" v-model="formData.content" />
+    <MdEditor @onSave="onSave" v-model="form.content" />
     <el-drawer
       v-model="showMeta"
       title="文章发布"
@@ -30,7 +30,7 @@
         labelWidth="6em" 
         labelSuffix=":" 
         ref="$form"
-        :model="formData"
+        :model="form"
       >
         <el-form-item label="分类" prop="category">
           <div class="categories-wrapper">
@@ -39,8 +39,8 @@
               size="small" 
               v-for="category in categories" 
               :key="category.id"
-              @click="formData.categoryId = category.id"
-              :checked="formData.categoryId === category.id"
+              @click="form.categoryId = category.id"
+              :checked="form.categoryId === category.id"
             >
               {{category.label}}
             </el-check-tag>
@@ -48,7 +48,7 @@
         </el-form-item>
 
         <el-form-item label="标签" prop="tags">
-          <el-select v-model="formData.tags" multiple :multiple-limit="2">
+          <el-select v-model="form.tags" multiple :multiple-limit="2">
             <el-option
               v-for="tag in tags"
               :key="tag.id"
@@ -85,7 +85,7 @@
         <el-form-item label="文章描述" prop="describe">
           <el-input 
             type="textarea" 
-            v-model="formData.describe" 
+            v-model="form.describe" 
             maxlength="140" 
             show-word-limit 
             rows="6"
@@ -105,9 +105,7 @@
 import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 import { Plus, Delete } from '@element-plus/icons-vue'
-import { createDraft } from '~/api/idnex'
-const labelReg = /<[^>]+>/g;
-const whiteReg = /\s/g;
+import { createDraft, updateDraft, createArticle, updateArticle } from '~/api/idnex'
 
 const showMeta = ref(false)
 const userStore = useUserStore();
@@ -117,10 +115,11 @@ const { userInfo } = storeToRefs(userStore);
 const { categories, tags } = storeToRefs(appStore);
 
 const emit = defineEmits(['save'])
-const props = defineProps(['title', 'content', 'categoryId', 'tags', 'describe', 'cover'])
+const props = defineProps(['draftId', 'articleId', 'title', 'content', 'categoryId', 'tags', 'describe', 'cover'])
 
 const files = ref(props.cover ? [{url: props.cover, uid: 0}] : []);
-const formData = reactive({
+const form = reactive({
+  draftId: props.draftId,
   title: props.title,
   content: props.content,
   categoryId: props.categoryId,
@@ -129,29 +128,10 @@ const formData = reactive({
 })
 
 function handleRemove(file){
-  // console.log(files, file)
   files.value = files.value.filter(i => i.uid !== file.uid)
 }
 
-function handleSubmit(){
-  // console.log({
-  //   ...formData,
-  //   cover: files.value[0] ? files.value[0]?.raw : null
-  // })
-  const data = {
-    ...formData,
-    // cover: files.value[0] ? files.value[0]?.raw : null
-  }
-  const formdata = new FormData()
-  for (const [key, value] of Object.entries(data)) {
-    formdata.append(key, value)
-  }
-  if( files.value[0]?.raw){
-    formdata.append('cover', files.value[0]?.raw)
-  }
-  console.log(formdata)
-  emit('save', formdata)
-}
+
 
 // 发布到草稿箱
 async function handleDarft(){
@@ -160,12 +140,58 @@ async function handleDarft(){
   console.log(route)
   if(route.name === 'drafts-create'){
     const res: any = await createDraft({
-      title: formData.title,
-      content: formData.content,
+      title: form.title,
+      content: form.content,
+      articleId: props.articleId
     })
     router.replace(`/drafts/${res.data.id}`)
+  } else if(route.name === 'articles-id-edit'){
+    const res: any = await createDraft({
+      title: form.title,
+      content: form.content,
+      articleId: props.articleId
+    })
+    router.replace(`/drafts/${res.data.id}`)
+  } else if(route.name === 'drafts-id'){
+    const draftId = Number(route.params.id);
+    const res: any = await updateDraft(draftId, {
+      title: form.title,
+      content: form.content,
+    })
   }
 }
+
+// 发布
+async function handleSubmit(){
+  const route = useRoute();
+  const router = useRouter();
+  const formdata = new FormData()
+  for (const [key, value] of Object.entries(form)) {
+    formdata.append(key, value)
+  }
+  if(files.value[0]?.raw){
+    formdata.append('cover', files.value[0]?.raw)
+  }
+  console.log(formdata)
+   let res;
+  if(route.name === 'drafts-id'){
+    if(props.articleId){
+      res = await updateArticle(props.articleId, formdata)
+    } else {
+      res = await createArticle(formdata)
+    }
+  } else if(route.name === 'drafts-create'){
+    res = await createArticle(formdata)
+  } else if(route.name === 'articles-id-edit'){
+    res = await updateArticle(props.articleId, formdata)
+  }
+  router.replace(`/articles/${res.data.id}`)
+
+  // navigateTo(`/articles/${res.data.id}`)
+  // console.log(formdata)
+  // emit('save', formdata)
+}
+
 </script>
 
 <style lang="scss" scoped>

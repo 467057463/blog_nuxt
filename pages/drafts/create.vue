@@ -1,5 +1,7 @@
 <template>
   <article-editer
+    draftId=""
+    :articleId="null"
     title=""
     content=""
     categoryId=""
