@@ -27,6 +27,9 @@
             <NuxtLink to="/drafts/create">添加文章</NuxtLink>
           </el-dropdown-item>
           <el-dropdown-item>
+            <NuxtLink to="/drafts">我的草稿</NuxtLink>
+          </el-dropdown-item>
+          <el-dropdown-item>
             <span @click="userStore.logout">退出登录</span>
           </el-dropdown-item>
         </el-dropdown-menu>

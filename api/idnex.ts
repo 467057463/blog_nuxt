@@ -126,6 +126,10 @@ export function deleteArticle(id: number){
   })
 }
 
+export function getDraftList(){
+  return useRequest('/drafts')
+}
+
 export type CreateDraftParamsType = Pick<CreateArticleParamsType, 'title' | 'content' >
 // 新建草稿
 export function createDraft(params: CreateDraftParamsType & {articleId?: number}){
@@ -147,4 +151,11 @@ export function updateDraft(id:number, params: UpdateDraftParamsType){
 // 草稿详情
 export function getDraftById(id: number){
   return useRequest(`/drafts/${id}`)
+}
+
+// 删除文章
+export function destroyDraft(id: number){
+  return useRequest(`/drafts/${id}`, {
+    method: 'delete'
+  })
 }

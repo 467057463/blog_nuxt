@@ -14,7 +14,7 @@
               <NuxtLink to="/">返回首页</NuxtLink>
             </el-dropdown-item>
             <el-dropdown-item>
-              <NuxtLink to="/">我的草稿</NuxtLink>
+              <NuxtLink to="/drafts">我的草稿</NuxtLink>
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
