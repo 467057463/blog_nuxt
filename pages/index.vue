@@ -30,9 +30,9 @@
             <span>发布于：{{ article.createdAt }}</span>
           </div>
 
-          <div class="tags">
+          <!-- <div class="tags">
             <el-tag type="primary" v-for="tag in article.tags" :key="tag.id">{{ tag.name }}</el-tag>
-          </div>
+          </div> -->
         </div>
       </div>
       <el-image :src="article.cover" v-if="article.cover"/>
