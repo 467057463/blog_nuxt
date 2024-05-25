@@ -12,28 +12,30 @@
       :key="article.id" 
       class="article-item"
     >
-      <el-image :src="article.cover"/>
-      <div class="title">
-        <NuxtLink :to="`/articles/${article.id}`">{{ article.title }}</NuxtLink>
-      </div>
-      <div class="content">
-        <NuxtLink :to="`/articles/${article.id}`">{{ article.describe }}</NuxtLink>
-      </div>
-      <div class="meta">
-        <div class="user-info">
-          <!-- <el-avatar 
-            class="avatar" 
-            :src="article.author.profile.avatar" 
-            :size="26"
-            /> -->
-          <span>作者：{{ article.author.username }} </span>
-          <span>发布于：{{ article.createdAt }}</span>
+      <div class="content-container">
+        <div class="title">
+          <NuxtLink :to="`/articles/${article.id}`">{{ article.title }}</NuxtLink>
         </div>
+        <div class="content">
+          <NuxtLink :to="`/articles/${article.id}`">{{ article.describe }}</NuxtLink>
+        </div>
+        <div class="meta">
+          <div class="user-info">
+            <!-- <el-avatar 
+              class="avatar" 
+              :src="article.author.profile.avatar" 
+              :size="26"
+              /> -->
+            <span>作者：{{ article.author.username }} </span>
+            <span>发布于：{{ article.createdAt }}</span>
+          </div>
 
-        <div class="tags">
-          <el-tag type="primary" v-for="tag in article.tags" :key="tag.id">{{ tag.name }}</el-tag>
+          <div class="tags">
+            <el-tag type="primary" v-for="tag in article.tags" :key="tag.id">{{ tag.name }}</el-tag>
+          </div>
         </div>
       </div>
+      <el-image :src="article.cover" v-if="article.cover"/>
     </div>
   </div>
 
@@ -107,6 +109,16 @@ const { tags } = storeToRefs(appStore);
 }
 .article-item{
   padding: 8px 10px;
+  display: flex;
+  align-items: flex-start;
+  .content-container{
+    flex: 1;
+  }
+  .el-image{
+    height: 77px;
+    width: 110px;
+    margin-left: 10px;
+  }
   .title {
     a{
       font-size: 16px;
