@@ -85,7 +85,8 @@ jobs:
               npm --help
               ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH
               cd $ACTIVE_RELEASE_PATH
-              pm2 restart ./ecosystem.stage.config.cjs
+              pm2 del ./ecosystem.stage.config.cjs
+              pm2 start ./ecosystem.stage.config.cjs
 
 
   clean-up:
