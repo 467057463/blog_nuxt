@@ -2,7 +2,9 @@
   <header>
     <ul class="nav">
       <li class="brand">
-        <img src="~/assets/img/logo.png"/>
+        <NuxtLink to="/">
+          <img src="~/assets/img/logo.png"/>
+        </NuxtLink>
       </li>
       <!-- <li v-for="item in categories">
         <NuxtLink :to="`/${item.name}`">{{ item.name }}</NuxtLink>

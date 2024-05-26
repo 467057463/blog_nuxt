@@ -159,3 +159,8 @@ export function destroyDraft(id: number){
     method: 'delete'
   })
 }
+
+// 热门推荐
+export function getHotArtices(){
+  return useRequest('/articles/hots')
+}

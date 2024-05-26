@@ -24,7 +24,11 @@
   </div>
 
   <div class="page-right">
-    <!-- <MdCatalog :editorId="id" :scrollElement="scrollElement" /> -->
+    <hot-recommend/>
+
+    <ClientOnly>
+      <MdCatalog :editorId="id" :scrollElement="scrollElement"/>
+    </ClientOnly>
   </div>
 </template>
 
@@ -32,13 +36,37 @@
 import { getArticleById, deleteArticle } from "~/api/idnex"
 import { MdPreview, MdCatalog } from 'md-editor-v3';
 import 'md-editor-v3/lib/preview.css';
+import { onMounted } from "vue";
 
 const id = 'preview-only';
-// const scrollElement = document.documentElement;
+// let scrollElement = ref('')
+// const scrollElement = 'body'
+// onMounted(() => {
+//   const scrollElement = document.documentElement
+//   scrollElement.value = document.documentElement;
+// })
 
 const route = useRoute()
 const articleId = route.params.id;
 const { data } = await useAsyncData(articleId, () => getArticleById(articleId))
+
+let scrollElement: string | HTMLElement | undefined = undefined
+onMounted(() => {
+    scrollElement = document.documentElement
+})
+
+// 点击目录
+// const handleClickCatalog = (e: MouseEvent, t) => {
+//   // 下面这个阻止默认事件可以不需要，但e必须在，如果警告没使用的话，可以用_e: MouseEvent,也有可能是我方式不太对
+//   e.preventDefault();
+//   const el = document.getElementById(t.text);
+//   if (el) {
+//     scrollElement.value.scrollTo({
+//       top: el.offsetTop + 50,
+//       behavior: "smooth",
+//     });
+//   }
+// };
 
 function handleEdit(){
 
@@ -102,6 +130,24 @@ async function handleDelete(){
 
 .page-right{
   width: 260px;
+  .title{
+    height: 48px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f2;
+    color: #222226;
+    padding: 0 20px;
+  }
+  .hot-recommend{
+    background: #ffffff;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+
+  .md-editor-catalog{
+    position: sticky;
+    top: 10px;
+  }
 }
 
 </style>

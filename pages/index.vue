@@ -1,8 +1,13 @@
 <template>
   <div class="page-left">
     <ul class="sub-nav">
-      <li>全部</li>
-      <li v-for="item in tags" :key="item.id">{{item.name}}</li>
+      <li @click="handleAll" :class="{active: currentTag === 'all'}">全部</li>
+      <li 
+        v-for="item in tags" 
+        :key="item.id" 
+        @click="handleTagClick(item)"
+        :class="{active: currentTag === item.name}"
+      >{{item.name}}</li>
     </ul>
   </div>
 
@@ -40,19 +45,38 @@
   </div>
 
   <div class="page-right">
-    <div class="hot-recommend">
+    <!-- <div class="hot-recommend">
       <div class="title">文章推荐</div>
-    </div>
+    </div> -->
+    <hot-recommend/>
   </div>
 </template>
 
 <script lang="ts" setup>
 const appStore = useAppStore();
 import { getArticles } from '~/api/idnex'
-const { data } = await useAsyncData('articles', () => getArticles())
+const route = useRoute();
+let { data } = await useAsyncData(() => getArticles(route.query))
 
 const { tags } = storeToRefs(appStore);
 
+const currentTag = computed(() => route.query.tag || 'all')
+async function handleAll(){
+  navigateTo(`/`)
+  const res = await getArticles();
+  console.log(data.value, res)
+  data.value = res;
+}
+
+async function handleTagClick(item){
+  navigateTo(`/?categoryId=1&tag=${item.name}`)
+  const res = await getArticles({
+    categoryId: "1",
+    tag: item.name,
+  });
+  console.log(data.value, res)
+  data.value = res;
+}
 </script>
 
 <style lang="scss" scoped>
@@ -74,7 +98,7 @@ const { tags } = storeToRefs(appStore);
       padding: 0 18px;
       font-size: 16px;
       color: #515767;
-      &:hover{
+      &:hover, &.active{
         cursor: pointer;
         background: #f7f9fa;
         color: #1e80ff;
@@ -86,18 +110,6 @@ const { tags } = storeToRefs(appStore);
 .page-right{
   width: 260px;
   flex-shrink: 0;
-  .title{
-    height: 48px;
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #f0f0f2;
-    color: #222226;
-    padding: 0 20px;
-  }
-  .hot-recommend{
-    background: #ffffff;
-    border-radius: 4px;
-  }
 }
 .page-center{
   background: #ffffff;
