@@ -19,6 +19,7 @@
     "pinia": "^2.1.7",
     "sass": "^1.76.0",
     "vue": "^3.4.21",
+    "vue-image-crop-upload": "^3.0.3",
     "vue-router": "^4.3.0"
   }
 }

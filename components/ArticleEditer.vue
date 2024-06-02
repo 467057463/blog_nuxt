@@ -58,8 +58,9 @@
           </el-select>
         </el-form-item>
 
+
         <el-form-item label="文章封面">
-          <div class="image-list">
+          <!-- <div class="image-list">
             <div class="image-item" v-for="(image, index) in files" :key="image.uid">
               <img :src="image.url" />
               <div class="image-item__actions">
@@ -79,7 +80,11 @@
             v-show="files.length < 1"
           >
             <el-icon><Plus /></el-icon>
-          </el-upload>
+          </el-upload> -->
+          <img class="prev-img" :src="imgUrl" v-if="imgUrl" @click="showUploader = true"/>
+          <div v-else @click="showUploader = true" class="upload-btn">
+            <el-icon><Plus/></el-icon>
+          </div>
         </el-form-item>
 
         <el-form-item label="文章描述" prop="describe">
@@ -98,6 +103,14 @@
 
       </el-form>
     </el-drawer>
+    <my-upload 
+      v-model="showUploader"
+      img-format="png"
+      :width="154"
+		  :height="154"
+      @crop-success="cropSuccess"
+      noCircle
+    />
   </div>
 </template>
 
@@ -106,6 +119,7 @@ import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 import { Plus, Delete } from '@element-plus/icons-vue'
 import { createDraft, updateDraft, createArticle, updateArticle } from '~/api/idnex'
+import myUpload from 'vue-image-crop-upload';
 
 const showMeta = ref(false)
 const userStore = useUserStore();
@@ -116,6 +130,13 @@ const { categories, tags } = storeToRefs(appStore);
 
 const emit = defineEmits(['save'])
 const props = defineProps(['draftId', 'articleId', 'title', 'content', 'categoryId', 'tags', 'describe', 'cover'])
+
+const imgUrl = ref(props.cover)
+const showUploader = ref(false)
+function cropSuccess(imgDataUrl, field){
+  // console.log(imgDataUrl, field)
+  imgUrl.value = imgDataUrl;
+}
 
 const files = ref(props.cover ? [{url: props.cover, uid: 0}] : []);
 const form = reactive({
@@ -161,6 +182,15 @@ async function handleDarft(){
   }
 }
 
+function dataURLtoBlob(dataurl) {
+  var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+  while(n--){
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new Blob([u8arr], {type:mime});
+}
+
 // 发布
 async function handleSubmit(){
   const route = useRoute();
@@ -169,9 +199,12 @@ async function handleSubmit(){
   for (const [key, value] of Object.entries(form)) {
     formdata.append(key, value)
   }
-  if(files.value[0]?.raw){
-    formdata.append('cover', files.value[0]?.raw)
+  if(imgUrl.value && !imgUrl.value.startsWith("http")){
+    formdata.append('cover', dataURLtoBlob(imgUrl.value), 'image.png')
   }
+  // if(files.value[0]?.raw){
+  //   formdata.append('cover', files.value[0]?.raw)
+  // }
   console.log(formdata)
    let res;
   if(route.name === 'drafts-id'){
@@ -286,6 +319,22 @@ async function handleSubmit(){
   }
 }
 
+.upload-btn{
+  width: 77px;
+  height: 77px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  font-size: 28px;
+  color: var(--el-text-color-secondary);
+  cursor: pointer;
+}
+.prev-img{
+  height: 77px;
+  width: 77px;
+}
 ::v-deep{
   .el-upload--picture-card {
     width: 60px;

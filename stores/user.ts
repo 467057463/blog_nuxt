@@ -4,7 +4,7 @@ import type { FetchLoginParams, UserInfoType } from '~/api/idnex'
 
 export const useUserStore = defineStore('user', () => {
   let token = useCookie('token', {
-    maxAge: 60 * 24 * 30
+    maxAge: 60 * 60 * 24 * 30
   });
   let userInfo = ref<UserInfoType | null>(null)
 

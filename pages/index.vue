@@ -1,13 +1,14 @@
 <template>
   <div class="page-left">
     <ul class="sub-nav">
-      <li @click="handleAll" :class="{active: currentTag === 'all'}">全部</li>
+      <li :class="{active: currentTag === 'all'}">
+        <NuxtLink to="/">全部</NuxtLink></li>
       <li 
         v-for="item in tags" 
         :key="item.id" 
-        @click="handleTagClick(item)"
         :class="{active: currentTag === item.name}"
-      >{{item.name}}</li>
+      >
+        <NuxtLink :to="`/?tag=${item.name}`">{{item.name}}</NuxtLink></li>
     </ul>
   </div>
 
@@ -40,8 +41,27 @@
           </div> -->
         </div>
       </div>
-      <el-image :src="article.cover" v-if="article.cover"/>
+      <el-image :src="article.cover" v-if="article.cover" fit="cover"/>
     </div>
+
+    <NuxtLink 
+      v-show="false"
+      v-for="page in data.data.pages"
+      :key="page"
+      :to="{path: '/', query: {...route.query, page: page}}"
+    >
+      {{ page }}
+    </NuxtLink>
+
+    <el-pagination 
+      layout="prev, pager, next" 
+      :total="data.data.count" 
+      hide-on-single-page
+      :default-current-page="data.data.currentPage"
+      @current-change="pageChange"
+      @prev-click="pageChange"
+      @next-click="pageChange"
+    />
   </div>
 
   <div class="page-right">
@@ -77,6 +97,25 @@ async function handleTagClick(item){
   console.log(data.value, res)
   data.value = res;
 }
+
+const currentPage = computed(() => Number(route.query.page || 1)) 
+
+function pageChange(page){
+  navigateTo({
+    path: '/',
+    query: {
+      ...route.query, 
+      page
+    }
+  })
+}
+
+
+watchEffect(async () => {
+  const res = await getArticles(route.query);
+  console.log(data.value, res)
+  data.value = res;
+})
 </script>
 
 <style lang="scss" scoped>
@@ -130,6 +169,8 @@ async function handleTagClick(item){
     height: 77px;
     width: 110px;
     margin-left: 10px;
+    border-radius: 3px;
+    overflow: hidden;
   }
   .title {
     a{
