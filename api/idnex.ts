@@ -48,6 +48,9 @@ export function getArticles(params?: GetArticlesParams){
   })
 }
 
+export function getCaptcha(){
+  return useRequest('/captcha')
+}
 
 // 登录
 export type FetchLoginParams = {

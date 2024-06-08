@@ -8,13 +8,18 @@
     <el-form-item label="密码">
       <el-input v-model="form.password" type="password"/>
     </el-form-item>
+    <el-form-item label="验证码">
+      <span v-html="data?.data" @click="handleCaptcha"></span>
+      <el-input v-model="form.code"/>
+    </el-form-item>
     <el-button @click="handleLogin" native-type="submit">登录</el-button>
   </el-form>
 </template>
 
 <script setup lang="ts">
+import { getCaptcha } from '~/api/idnex'
 const userStore = useUserStore()
-
+let { data } = await useAsyncData(() => getCaptcha())
 const $form = ref('');
 const rules = reactive({
   username: [
@@ -33,8 +38,14 @@ const rules = reactive({
 });
 const form = reactive({
   username: '',
-  password: ''
+  password: '',
+  code: ''
 });
+
+async function handleCaptcha(){
+  const res = await getCaptcha();
+  data.value = res;
+}
 
 async function handleLogin(){
   try {

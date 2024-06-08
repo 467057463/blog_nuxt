@@ -24,6 +24,10 @@
 
 <script setup>
 import { getDraftList, destroyDraft } from '~/api/idnex'
+definePageMeta({
+  middleware: 'auth'
+})
+
 const { data, refresh } = await useAsyncData('articles', () => getDraftList())
 
 

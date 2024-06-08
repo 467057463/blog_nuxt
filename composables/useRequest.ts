@@ -5,6 +5,7 @@ export type RequestResult<T = any> = {
 }
 
 const request = $fetch.create({
+  credentials: "include",
   // 请求拦截
   onRequest({options}){
     console.log(options)

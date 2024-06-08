@@ -17,7 +17,8 @@ import { createArticle } from '~/api/idnex'
 import type { CreateArticleParamsType } from '~/api/index'
 
 definePageMeta({
-  layout: false
+  layout: false,
+  middleware: 'auth'
 })
 
 async function handleSave(params: CreateArticleParamsType){
