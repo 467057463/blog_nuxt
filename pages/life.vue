@@ -2,7 +2,7 @@
   <div class="page-left">
     <ul>
       <li 
-        v-for="article in data?.data.list" 
+        v-for="article in data?.list" 
         :key="article.id" 
         class="article-item"
       >

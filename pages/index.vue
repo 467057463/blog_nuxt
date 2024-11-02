@@ -14,7 +14,7 @@
 
   <div class="page-center">
     <div 
-      v-for="article in data?.data.list" 
+      v-for="article in data?.list" 
       :key="article.id" 
       class="article-item"
     >
@@ -46,7 +46,7 @@
 
     <NuxtLink 
       v-show="false"
-      v-for="page in data.data.pages"
+      v-for="page in data.pages"
       :key="page"
       :to="{path: '/', query: {...route.query, page: page}}"
     >
@@ -55,9 +55,9 @@
 
     <el-pagination 
       layout="prev, pager, next" 
-      :total="data.data.count" 
+      :total="data.count" 
       hide-on-single-page
-      :default-current-page="data.data.currentPage"
+      :default-current-page="data.currentPage"
       @current-change="pageChange"
       @prev-click="pageChange"
       @next-click="pageChange"
@@ -73,14 +73,14 @@
 </template>
 
 <script lang="ts" setup>
-const appStore = useAppStore();
 import { getArticles } from '~/api/idnex'
+const appStore = useAppStore();
 const route = useRoute();
+
 let { data } = await useAsyncData(() => getArticles(route.query))
-
 const { tags } = storeToRefs(appStore);
-
 const currentTag = computed(() => route.query.tag || 'all')
+
 async function handleAll(){
   navigateTo(`/`)
   const res = await getArticles();

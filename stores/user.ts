@@ -10,13 +10,10 @@ export const useUserStore = defineStore('user', () => {
 
   // 登录方法
   async function login(params: FetchLoginParams){
-    try {
-      const res = await fetchLogin(params);
+    return fetchLogin(params).then((res) => {
       token.value = res.data.token;
       userInfo.value = res.data.userInfo;
-    } catch (error) {
-      console.error(error)
-    }
+    })
   }
 
   // 获取用户信息

@@ -49,7 +49,7 @@ export function getArticles(params?: GetArticlesParams){
 }
 
 export function getCaptcha(){
-  return useRequest('/captcha')
+  return useRequest<string>('/captcha')
 }
 
 // 登录

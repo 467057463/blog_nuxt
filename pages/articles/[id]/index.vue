@@ -5,21 +5,21 @@
 
   <div class="page-center">
     <div class="actions">
-      <NuxtLink :to="data.data.draft ? `/drafts/${data.data.draft.id}` : `/articles/${$route.params.id}/edit`">编辑</NuxtLink>
+      <NuxtLink :to="data.draft ? `/drafts/${data.draft.id}` : `/articles/${$route.params.id}/edit`">编辑</NuxtLink>
  
       <span @click="handleDelete">删除</span>
     </div>
 
-    <div class="title">{{data.data.title}}</div>
+    <div class="title">{{data?.title}}</div>
 
     <div class="meta">
-      {{ data.data.author.username }} 
-      {{ data.data.createdAt }}
+      {{ data.author.username }} 
+      {{ data.createdAt }}
     </div>
 
     <MdPreview 
       :editorId="id" 
-      :modelValue="data?.data?.content"
+      :modelValue="data?.content"
     />
   </div>
 
@@ -49,9 +49,9 @@ const id = 'preview-only';
 const route = useRoute()
 const articleId = route.params.id;
 const { data } = await useAsyncData(articleId, () => getArticleById(articleId))
-
+console.log('data', data)
 useSeoMeta({
-  title: `${data.value.data.title} 毛毛前端技术博客-mmisme`,
+  title: `${data.value.title} 毛毛前端技术博客-mmisme`,
   // ogTitle: '我的神奇网站',
   // description: '这是我的神奇网站，让我来告诉你关于它的一切。',
   // ogDescription: '这是我的神奇网站，让我来告诉你关于它的一切。',

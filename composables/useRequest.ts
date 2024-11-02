@@ -19,6 +19,16 @@ const request = $fetch.create({
       options.headers = new Headers(options.headers)
       options.headers.set('Authorization', `Bearer ${token.value}`)
     }
+  },
+
+  onResponse({request, response, options}){
+    console.log({request, response, options})
+    const data = response._data.data
+    if(response._data.code !== 0){
+      return Promise.reject(response)
+    } else {
+      response._data = data;
+    }
   }
 })
 
