@@ -1,0 +1,10 @@
+@use 'common/var' as *;
+@use './common/mixin' as *;
+
+:root{
+  @each $name, $value in $colors{
+    @include set-css-var-value("color-#{$name}",  $value);
+  }
+
+  @include set-component-css-var('bg-color', $bg-color);
+}

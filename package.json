@@ -5,14 +5,16 @@
   "scripts": {
     "build:production": "nuxt build  --dotenv .env.production",
     "build:stage": "nuxt build --dotenv .env.stage",
-    "dev": "nuxt dev --dotenv .env",
+    "dev": "nuxt dev --dotenv .env.stage",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "sass": "sass --watch assets/styles:sass_test"
   },
   "dependencies": {
     "@element-plus/nuxt": "^1.0.9",
     "@pinia/nuxt": "^0.5.1",
+    "@vueuse/core": "^12.0.0",
     "element-plus": "^2.7.1",
     "md-editor-v3": "^4.13.5",
     "nuxt": "^3.11.2",

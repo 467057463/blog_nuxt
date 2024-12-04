@@ -1,0 +1,13 @@
+@use 'sass:map';
+@use '../common/mixin' as *;
+// @use "../common/var" as *;
+
+// 背景颜色
+$bg-color: () !default;
+$bg-color: map.deep-merge(
+  (
+    'page': getCssVar('color', 'gray-9'),
+    'overlay': getCssVar('color', 'gray-8')
+  ),
+  $bg-color
+);

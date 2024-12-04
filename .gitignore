@@ -5,6 +5,7 @@
 .nitro
 .cache
 dist
+sass_test
 
 # Node dependencies
 node_modules
