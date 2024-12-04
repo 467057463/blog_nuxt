@@ -1,7 +1,11 @@
+@use 'var';
+@use 'dark/css-vars';
+@use 'common/mixin' as *;
+
 body{
   padding: 0;
   margin: 0;
-  background: #f2f3f5;
+  background: getCssVar('bg-color', 'page');
 }
 
 .app-wrapper{

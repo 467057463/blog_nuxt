@@ -123,13 +123,13 @@ watchEffect(async () => {
 .page-left{
   width: 180px;
   .sub-nav{
-    background: #ffffff;
+    // background: #ffffff;
     border-radius: 4px;
     list-style: none;
     padding: 0;
     margin: 0;
     padding: 10px;
-    box-shadow: 0 2px 8px #f2f3f5;
+    // box-shadow: 0 2px 8px #f2f3f5;
     li{
       height: 46px;
       display: flex;
@@ -149,14 +149,26 @@ watchEffect(async () => {
 .page-right{
   width: 260px;
   flex-shrink: 0;
+  .title{
+    height: 48px;
+    display: flex;
+    align-items: center;
+    // border-bottom: 1px solid #f0f0f2;
+    color: #222226;
+    padding: 0 20px;
+  }
+  .hot-recommend{
+    // background: #ffffff;
+    border-radius: 4px;
+  }
 }
 .page-center{
-  background: #ffffff;
+  // background: #ffffff;
   border-radius: 4px;
   padding: 10px 10px;
   flex: 1;
   margin: 0 20px;
-  box-shadow: 0 2px 8px #f2f3f5;
+  // box-shadow: 0 2px 8px #f2f3f5;
 }
 .article-item{
   padding: 8px 10px;

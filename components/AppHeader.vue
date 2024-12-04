@@ -1,18 +1,17 @@
 <template>
   <header>
     <ul class="nav">
-      <li class="brand">
-        <NuxtLink to="/">
-          <img src="~/assets/img/logo.png"/>
-        </NuxtLink>
+      <li class="brand"  @click="handleToggle">
+        <img src="~/assets/img/logo.png"/>
       </li>
-      <!-- <li v-for="item in categories">
-        <NuxtLink :to="`/${item.name}`">{{ item.name }}</NuxtLink>
-      </li> -->
       <li><NuxtLink to="/" activeClass="active">技术</NuxtLink></li>
       <li><NuxtLink to="/life" activeClass="active">生活</NuxtLink></li>
+      <li>
+        {{isDark ? '暗' : '亮'}}
+      </li>
     </ul>
 
+    
     <NuxtLink 
       v-if="!userInfo" 
       to="/login" 
@@ -41,11 +40,16 @@
 </template>
 
 <script setup lang="ts">
-const userStore = useUserStore();
-// const appStore = useAppStore();
+import { useDark, useToggle, usePreferredDark } from '@vueuse/core'
 
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
+function handleToggle(){
+  toggleDark();
+}
+
+const userStore = useUserStore();
 const { userInfo } = storeToRefs(userStore);
-// const { categories, tags } = storeToRefs(appStore);
 </script>
 
 <style lang="scss" scoped>
@@ -55,8 +59,8 @@ header{
   align-items: center;
   height: 48px;
   padding: 0 24px;
-  background: #ffffff;
-  box-shadow: 0 2px 8px #f2f3f5;
+  // background: #ffffff;
+  // box-shadow: 0 2px 8px #f2f3f5;
   color: #515767;
   font-size: 14px;
   a {
