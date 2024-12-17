@@ -1,11 +1,11 @@
 @use 'var';
-@use 'dark/css-vars';
+// @use 'dark/css-vars';
 @use 'common/mixin' as *;
 
 body{
   padding: 0;
   margin: 0;
-  background: getCssVar('bg-color', 'page');
+  background: getCssVar('bg', '-gray-0--gray-10');
 }
 
 .app-wrapper{
@@ -22,4 +22,3 @@ body{
   width: 100%;
   margin: 20px 24px;
 }
-

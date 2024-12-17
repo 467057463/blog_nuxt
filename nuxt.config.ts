@@ -6,7 +6,21 @@ export default defineNuxtConfig({
       API_HOST: process.env.NUXT_PUBLIC_API_HOST
     }
   },
-  css: ['~/assets/styles/index.scss'],
+  css: [
+    '~/assets/styles/index.scss',
+    '~/assets/iconfont/iconfont.css'
+  ],
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `
+            @use "@/assets/styles/common/_mixin.scss" as *;
+          `,
+        },
+      },
+    },
+  },
   routeRules: {
     '/login': {
       ssr: false

@@ -1,0 +1,135 @@
+{
+  "id": "1345267",
+  "name": "myblog",
+  "font_family": "font-icon",
+  "css_prefix_text": "fi-",
+  "description": "个人博客项目",
+  "glyphs": [
+    {
+      "icon_id": "22894714",
+      "name": "github",
+      "font_class": "github",
+      "unicode": "e673",
+      "unicode_decimal": 58995
+    },
+    {
+      "icon_id": "128719",
+      "name": "moon",
+      "font_class": "moon",
+      "unicode": "e6bb",
+      "unicode_decimal": 59067
+    },
+    {
+      "icon_id": "128755",
+      "name": "sun",
+      "font_class": "sun",
+      "unicode": "e6df",
+      "unicode_decimal": 59103
+    },
+    {
+      "icon_id": "12978141",
+      "name": "编辑",
+      "font_class": "create",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "24056835",
+      "name": "草稿箱",
+      "font_class": "draft",
+      "unicode": "e70c",
+      "unicode_decimal": 59148
+    },
+    {
+      "icon_id": "24656995",
+      "name": "笔记本、笔记",
+      "font_class": "life",
+      "unicode": "e6c1",
+      "unicode_decimal": 59073
+    },
+    {
+      "icon_id": "255810",
+      "name": "关于我们",
+      "font_class": "about",
+      "unicode": "e684",
+      "unicode_decimal": 59012
+    },
+    {
+      "icon_id": "26433316",
+      "name": "编程",
+      "font_class": "technology",
+      "unicode": "e676",
+      "unicode_decimal": 58998
+    },
+    {
+      "icon_id": "5226518",
+      "name": "error-1",
+      "font_class": "error",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "9512564",
+      "name": "空",
+      "font_class": "empty",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "11488207",
+      "name": "unlock",
+      "font_class": "lock",
+      "unicode": "e773",
+      "unicode_decimal": 59251
+    },
+    {
+      "icon_id": "6337455",
+      "name": "点赞",
+      "font_class": "good",
+      "unicode": "ec7f",
+      "unicode_decimal": 60543
+    },
+    {
+      "icon_id": "2892818",
+      "name": "删除",
+      "font_class": "delete",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "3868263",
+      "name": "编辑",
+      "font_class": "edit",
+      "unicode": "eb61",
+      "unicode_decimal": 60257
+    },
+    {
+      "icon_id": "5387753",
+      "name": "编辑_o",
+      "font_class": "edit_info",
+      "unicode": "eb49",
+      "unicode_decimal": 60233
+    },
+    {
+      "icon_id": "1327509",
+      "name": "view",
+      "font_class": "view",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "4868903",
+      "name": "like",
+      "font_class": "like",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "1270489",
+      "name": "user",
+      "font_class": "user",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    }
+  ]
+}

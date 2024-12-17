@@ -1,0 +1,85 @@
+@font-face {
+  font-family: "font-icon"; /* Project id 1345267 */
+  src: url('iconfont.ttf?t=1734008158833') format('truetype');
+}
+
+.font-icon {
+  font-family: "font-icon" !important;
+  /* font-size: 16px; */
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.fi-github:before {
+  content: "\e673";
+}
+
+.fi-moon:before {
+  content: "\e6bb";
+}
+
+.fi-sun:before {
+  content: "\e6df";
+}
+
+.fi-create:before {
+  content: "\e615";
+}
+
+.fi-draft:before {
+  content: "\e70c";
+}
+
+.fi-life:before {
+  content: "\e6c1";
+}
+
+.fi-about:before {
+  content: "\e684";
+}
+
+.fi-technology:before {
+  content: "\e676";
+}
+
+.fi-error:before {
+  content: "\e616";
+}
+
+.fi-empty:before {
+  content: "\e621";
+}
+
+.fi-lock:before {
+  content: "\e773";
+}
+
+.fi-good:before {
+  content: "\ec7f";
+}
+
+.fi-delete:before {
+  content: "\e645";
+}
+
+.fi-edit:before {
+  content: "\eb61";
+}
+
+.fi-edit_info:before {
+  content: "\eb49";
+}
+
+.fi-view:before {
+  content: "\e619";
+}
+
+.fi-like:before {
+  content: "\e609";
+}
+
+.fi-user:before {
+  content: "\e63c";
+}
+

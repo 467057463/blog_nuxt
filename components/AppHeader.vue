@@ -1,41 +1,64 @@
 <template>
   <header>
-    <ul class="nav">
-      <li class="brand"  @click="handleToggle">
+    <div class="nav">
+      <div class="brand">
         <img src="~/assets/img/logo.png"/>
-      </li>
-      <li><NuxtLink to="/" activeClass="active">技术</NuxtLink></li>
-      <li><NuxtLink to="/life" activeClass="active">生活</NuxtLink></li>
-      <li>
-        {{isDark ? '暗' : '亮'}}
-      </li>
-    </ul>
-
-    
-    <NuxtLink 
-      v-if="!userInfo" 
-      to="/login" 
-      class="login-btn"
-    >登录</NuxtLink>
-    <el-dropdown v-else>
-      <div class="user-info">
-        <el-avatar :src="userInfo.profile.avatar" class="avatar" :size="30"/>
-        {{ userInfo?.username }} 
       </div>
-      <template #dropdown>
-        <el-dropdown-menu>
-          <el-dropdown-item>
-            <NuxtLink to="/drafts/create">添加文章</NuxtLink>
-          </el-dropdown-item>
-          <el-dropdown-item>
-            <NuxtLink to="/drafts">我的草稿</NuxtLink>
-          </el-dropdown-item>
-          <el-dropdown-item>
-            <span @click="userStore.logout">退出登录</span>
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </template>
-    </el-dropdown>
+      <div class="nav-item">
+        <NuxtLink to="/" activeClass="active">
+          <!-- <i class="font-icon fi-technology"></i> -->
+          代码
+        </NuxtLink>
+      </div>
+      <div class="nav-item">
+        <NuxtLink to="/life" activeClass="active">
+          <!-- <i class="font-icon fi-life"></i> -->
+          随笔
+        </NuxtLink>
+      </div>
+      <div class="nav-item">
+        <NuxtLink to="/life" activeClass="active">
+          <!-- <i class="font-icon fi-life"></i> -->
+          友链
+        </NuxtLink>
+      </div>
+      <div class="nav-item">
+        <NuxtLink to="/life" activeClass="active">
+          <!-- <i class="font-icon fi-life"></i> -->
+          关于
+        </NuxtLink>
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <div class="action-wrapper" @click="handleToggle">
+        <i class="font-icon" :class="isDark ? 'fi-sun' : 'fi-moon'"></i>
+      </div>
+
+      <div class="action-wrapper">
+        <i class="font-icon fi-github"></i>
+      </div>
+    
+      <el-dropdown v-if="userInfo">
+        <div class="user-info">
+          <el-avatar :src="userInfo.profile.avatar" class="avatar" :size="30"/>
+          {{ userInfo?.username }} 
+        </div>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>
+              <NuxtLink to="/drafts/create">添加文章</NuxtLink>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <NuxtLink to="/drafts">我的草稿</NuxtLink>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <span @click="userStore.logout">退出登录</span>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    </div>
   </header>
 </template>
 
@@ -57,57 +80,66 @@ header{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 48px;
+  height: 60px;
   padding: 0 24px;
-  // background: #ffffff;
-  // box-shadow: 0 2px 8px #f2f3f5;
-  color: #515767;
   font-size: 14px;
-  a {
-    color: #515767;
-    text-decoration: none;
-  }
-  ul.nav{
+
+  .nav{
     display: flex;
     list-style: none;
     align-items: center;
     padding: 0;
     margin: 0;
     height: 100%;
-    li:not(.brand){
-      height: 100%;
+
+    .brand{
+      margin-right: 15px;
+      img{
+        height: 30px;
+      }
     }
+
+    .nav-item{
+      margin: 5px;
+      padding: 0 5px;
+    }
+
     a{
       position: relative;
       height: 100%;
       display: flex;
-      list-style: none;
       align-items: center;
-    }
-    li + li {
-      margin: 5px;
-      padding: 0 5px;
-    }
-    .active{
-      color: #1e80ff;
-      font-weight: bold;
-      // &::after{
-      //   content: "";
-      //   position: absolute;
-      //   bottom: 0px;
-      //   height: 2px;
-      //   left: 0;
-      //   right: 0;
-      //   background: #458ef6;
-      // }
+      text-decoration: none;
+      color: getCssVar("text", '-gray-7--gray-2');
+      .font-icon{
+        margin-right: 5px;
+      }
+      &:hover{
+        color: getCssVar("text", '-gray-9--gray-1');
+      }
+      &.active{
+        color: getCssVar('color', 'brand');
+      }
     }
   }
-  li.brand{
-    margin-right: 15px;
-    img{
+  
+  .nav-right{
+    display: flex;
+    .action-wrapper{
       height: 30px;
+      width: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 18px;
+      color: getCssVar("text", '-gray-7--gray-2');
+      &:hover{
+        color: getCssVar("text", '-gray-9--gray-1');
+      }
     }
   }
+
   .user-info{
     display: flex;
     align-items: center;

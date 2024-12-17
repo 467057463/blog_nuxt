@@ -1,6 +1,7 @@
 @use 'sass:map';
 @use 'sass:color';
 @use 'sass:math';
+@use 'sass:list';
 @use './mixin' as *;
 
 $colors: ()!default;
@@ -36,10 +37,9 @@ $color-black: map.get($colors, 'black') !default;
   ) !global;
 }
 
-@for $i from 1 through 9 {
+@for $i from 0 through 10 {
   @include set-color-mix-level($color-white, $i)
 }
-
 
 // 把基色中的彩色生成四个亮度值
 $color-types: brand, brand-sub;
@@ -73,17 +73,29 @@ $color-light-map: (
   }
 }
 
-
-// 背景颜色
-$bg-color: () !default;
-$bg-color: map.deep-merge(
-  (
-    'page': getCssVar('color', 'white'),
-    'overlay': getCssVar('color', 'gray-1')
+// 文本颜色
+$text-colors: ()!default;
+$text-colors:  map.deep-merge(
+  generate-theme-color(
+    'text',
+    (
+      gray-7--gray-2,
+      gray-9--gray-1
+    )
   ),
-  $bg-color
+  ()
 );
 
 
-
-
+// 背景颜色
+$bg-colors: ()!default;
+$bg-colors: map.deep-merge(
+  generate-theme-color(
+    'bg',
+    (
+      gray-0--gray-10,
+      gray-1--gray-9,
+    )
+  ),
+  ()
+);

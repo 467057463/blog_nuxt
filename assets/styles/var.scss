@@ -2,9 +2,13 @@
 @use './common/mixin' as *;
 
 :root{
-  @each $name, $value in $colors{
-    @include set-css-var-value("color-#{$name}",  $value);
-  }
+  @include insert-css-var($colors);
 
-  @include set-component-css-var('bg-color', $bg-color);
+  @include insert-theme-css-var($text-colors);
+  @include insert-theme-css-var($bg-colors);
+  // @each $name, $value in $colors{
+  //   @include set-css-var-value("color-#{$name}",  $value);
+  // }
+
+  // @include set-component-css-var('bg-color', $bg-color);
 }
