@@ -1,6 +1,0 @@
-@use 'var' as *;
-@use '../common/mixin' as *;
-
-:root.dark{
-  @include set-component-css-var('bg-color', $bg-color);
-}

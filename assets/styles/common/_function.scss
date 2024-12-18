@@ -1,0 +1,39 @@
+@use 'sass:list';
+@use 'sass:map';
+@use '../common/config';
+
+@function joinVarName($list...) {
+  $name: '--' + config.$namespace;
+  @each $item in $list {
+    @if $item != '' {
+      $name: $name + '-' + $item;
+    }
+  }
+  @return $name;
+}
+
+@function getCssVar($args...){
+  @return var(#{joinVarName($args...)});
+}
+
+@function listSlice($list, $index){
+	$result: ();
+	$start: if($index < 0, list.length($list) + $index + 1, $index);
+	@for $i from $start through list.length($list) {
+		$result: list.append($result, list.nth($list, $i))
+	}
+	@return $result;
+};
+
+@function formEntries($list){
+  $result: ();
+  @for $i from 1 through list.length($list){
+    $result: map.deep-merge(
+      (
+        #{list.nth(list.nth($list, $i), 1)}: list.nth(list.nth($list, $i), 2)
+      ),
+      $result
+    )
+  }
+  @return $result;
+};

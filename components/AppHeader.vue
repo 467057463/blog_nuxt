@@ -110,12 +110,12 @@ header{
       display: flex;
       align-items: center;
       text-decoration: none;
-      color: getCssVar("text", '-gray-7--gray-2');
+      color: getCssVar("text", "color", 'normal');
       .font-icon{
         margin-right: 5px;
       }
       &:hover{
-        color: getCssVar("text", '-gray-9--gray-1');
+        color: getCssVar("text", "color", 'gray-9--gray-1');
       }
       &.active{
         color: getCssVar('color', 'brand');
@@ -133,9 +133,9 @@ header{
       align-items: center;
       cursor: pointer;
       font-size: 18px;
-      color: getCssVar("text", '-gray-7--gray-2');
+      color: getCssVar("text", "color", 'normal');
       &:hover{
-        color: getCssVar("text", '-gray-9--gray-1');
+        color: getCssVar("text", "color", 'gray-9--gray-1');
       }
     }
   }

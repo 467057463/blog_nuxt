@@ -1,0 +1,70 @@
+@use '../common/config';
+@use "../common/function" as *;
+@use 'sass:map';
+@use 'sass:string';
+@use 'sass:list';
+@use 'sass:selector';
+@use 'sass:meta';
+
+// 插入基础颜色变量
+@mixin insert-css-var($var-map, $prefix: 'color'){
+  @each $name, $value in $var-map {
+    #{joinVarName($prefix, $name)}: $value;
+  }
+}
+
+// 生成主题颜色
+@function transform-theme-colors($type, $list){
+  $result: ();
+  @each $item in $list{
+    $name: list.nth($item, 1);
+    $color: if(list.length($item) == 1, list.nth($item, 1), list.nth($item, 2));
+    $split-list: string.split($color, '--');
+    $color-list: listSlice($split-list, -1 * list.length(config.$theme-list));
+
+    @for $i from 1 through list.length(config.$theme-list) {
+      @if(meta.type-of(list.nth($color-list, $i)) == null){
+        $color-list: list.set-nth($color-list, $i, list.nth($color-list, $i))
+      }
+    }
+
+    $result: list.append($result, (
+      joinVarName($type, 'color', $name), $color-list
+    ))
+  }
+  @return formEntries($result);
+}
+
+@function generate-theme-color-list($color-map){
+  $result: ();
+  @each $theme in config.$theme-list{
+    $result: map.deep-merge(
+      (
+        $theme: (),
+      ),
+      $result
+    )
+  };
+
+  @each $name, $colors in $color-map{
+    @for $i from 1 through list.length(config.$theme-list) {
+      $theme: list.nth(config.$theme-list, $i);
+      $result: map.set($result, $theme, $name, getCssVar('color', list.nth($colors, $i)));
+    }
+  }
+  @return $result;
+}
+
+// 插入主题色
+@mixin insert-theme-css-var($color-map){
+  $color-list: generate-theme-color-list($color-map);
+  @each $theme in config.$theme-list{
+    $selector: if($theme == light, ':root', selector.append(':root', '.'+$theme));
+    @at-root #{$selector}{
+      $var-map: map.get($color-list, $theme);
+      @each $name, $value in $var-map {
+        #{$name}: $value;
+      }
+    }
+  }
+}
