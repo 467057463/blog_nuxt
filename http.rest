@@ -1,11 +1,18 @@
 ### list
 http://localhost:3000/api/tags
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbiIsImlhdCI6MTczNjMyNDc2OCwiZXhwIjoxNzM4OTE2NzY4fQ.BGOjGwgp0X2EFP6l-QsxOooNvvX1CsgBUxGlDZnSvpY
 
 ### detail
 http://localhost:3000/api/tags/1
 
 ### create
 POST http://localhost:3000/api/tags
+Content-Type: application/json
+
+{
+  "name": "test",
+  "label": "t"
+}
 
 ### edit
 POST http://localhost:3000/api/tags/4

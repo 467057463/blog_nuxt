@@ -44,11 +44,12 @@ export default defineEventHandler(async (event) => {
   )
 
   await setUserSession(event, {
-    // user: {
-    //   id: user.id,
-    // },
+    user: {
+      id: user.id,
+    },
     token,
-    loggedInAt: Date.now()
+  }, {
+    maxAge: 60 * 60 * 24 * 30
   })
   
   return {

@@ -46,6 +46,12 @@
             <i class="fi fi-github"></i>
           </NuxtLink>
         </div>
+
+        <div class="nav-item" v-if="loggedIn">
+          <NuxtLink  @click="clear">
+            <i class="fi fi-user"></i>
+          </NuxtLink>
+        </div>
       
         <!-- <el-dropdown v-if="userInfo">
           <div class="user-info">
@@ -94,11 +100,7 @@ router.afterEach(() => {
   shownMenu.value = false
 })
 
-const nuxtApp = useNuxtApp();
-console.log(nuxtApp)
-
-// const userStore = useUserStore();
-// const { userInfo } = storeToRefs(userStore);
+const { loggedIn, clear } = useUserSession()
 </script>
 
 <style lang="scss" scoped>
