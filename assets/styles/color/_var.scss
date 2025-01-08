@@ -80,7 +80,10 @@ $theme-colors:  map.deep-merge(
     'text',
     (
       (normal, gray-7--gray-2),
-      gray-9--gray-1
+      gray-10--gray-0,
+      gray-9--gray-1,
+      gray-6--gray-4,
+      gray-5--gray-5,
     )
   ),
   $theme-colors
@@ -93,7 +96,17 @@ $theme-colors: map.deep-merge(
     'bg',
     (
       gray-0--gray-10,
-      gray-1--gray-9,
+      gray-1--gray-9
+    )
+  ),
+  $theme-colors
+);
+
+$theme-colors:  map.deep-merge(
+  transform-theme-colors(
+    'border',
+    (
+      gray-1--gray-8
     )
   ),
   $theme-colors

@@ -6,18 +6,28 @@
   </footer>
 </template>
 
+<script setup lang="ts">
+</script>
+
 <style lang="scss" scoped>
 footer{
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #000000;
-  color: #ffffff80;
+  background: getCssVar('color', 'gray-10');
+  color: getCssVar('text', 'color', 'gray-5--gray-5');
   font-size: 14px;
-  padding: 10px 0;
+  padding: 15px 0;
+  flex-shrink: 0;
+  margin-top: 10px;
+  border-top: 1px solid getCssVar("border", "color", 'gray-1--gray-8');
   a{
     text-decoration: none;
-    color: #ffffff80;
+    color: getCssVar('text', 'color', 'gray-5--gray-5');
+    &:hover{
+      text-decoration: underline;
+      color: getCssVar('color', 'gray-1')
+    }
   }
 }
 </style>

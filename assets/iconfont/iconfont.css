@@ -1,14 +1,26 @@
 @font-face {
-  font-family: "font-icon"; /* Project id 1345267 */
-  src: url('iconfont.ttf?t=1734008158833') format('truetype');
+  font-family: "fi"; /* Project id 1345267 */
+  src: url('iconfont.ttf?t=1735263000656') format('truetype');
 }
 
-.font-icon {
-  font-family: "font-icon" !important;
-  /* font-size: 16px; */
+.fi {
+  font-family: "fi" !important;
+  font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.fi-close:before {
+  content: "\e685";
+}
+
+.fi-link:before {
+  content: "\e656";
+}
+
+.fi-menu:before {
+  content: "\e622";
 }
 
 .fi-github:before {
@@ -21,10 +33,6 @@
 
 .fi-sun:before {
   content: "\e6df";
-}
-
-.fi-create:before {
-  content: "\e615";
 }
 
 .fi-draft:before {

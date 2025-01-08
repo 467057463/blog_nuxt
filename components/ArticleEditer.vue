@@ -134,7 +134,6 @@ const props = defineProps(['draftId', 'articleId', 'title', 'content', 'category
 const imgUrl = ref(props.cover)
 const showUploader = ref(false)
 function cropSuccess(imgDataUrl, field){
-  // console.log(imgDataUrl, field)
   imgUrl.value = imgDataUrl;
 }
 
@@ -158,7 +157,6 @@ function handleRemove(file){
 async function handleDarft(){
   const route = useRoute();
   const router = useRouter();
-  console.log(route)
   if(route.name === 'drafts-create'){
     const res: any = await createDraft({
       title: form.title,
@@ -202,10 +200,6 @@ async function handleSubmit(){
   if(imgUrl.value && !imgUrl.value.startsWith("http")){
     formdata.append('cover', dataURLtoBlob(imgUrl.value), 'image.png')
   }
-  // if(files.value[0]?.raw){
-  //   formdata.append('cover', files.value[0]?.raw)
-  // }
-  console.log(formdata)
    let res;
   if(route.name === 'drafts-id'){
     if(props.articleId){
@@ -219,10 +213,6 @@ async function handleSubmit(){
     res = await updateArticle(props.articleId, formdata)
   }
   router.replace(`/articles/${res.data.id}`)
-
-  // navigateTo(`/articles/${res.data.id}`)
-  // console.log(formdata)
-  // emit('save', formdata)
 }
 
 </script>

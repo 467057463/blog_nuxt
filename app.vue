@@ -5,21 +5,21 @@
 </template>
 
 <script setup lang="ts">
-const userStore = useUserStore();
-const appStore = useAppStore();
-
-useSeoMeta({
-  title: '毛毛前端技术博客-mmisme',
-  // ogTitle: '我的神奇网站',
-  // description: '这是我的神奇网站，让我来告诉你关于它的一切。',
-  // ogDescription: '这是我的神奇网站，让我来告诉你关于它的一切。',
-  // ogImage: 'https://example.com/image.png',
-  // twitterCard: 'summary_large_image',
+useHead({
+  titleTemplate: (titleChunk?: string) => {
+    return titleChunk ? `${titleChunk} -毛毛前端技术博客-mmisme` : '毛毛前端技术博客-mmisme';
+  }
 })
-
-await Promise.all([
-  useAsyncData('userinfo', () => userStore.fetchUserInfo()),
-  useAsyncData('categories', () => appStore.fetchCategories()),
-  useAsyncData('tags', () => appStore.fetchTags()),
-])
 </script>
+
+<style lang="scss">
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.1s;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  transform: translateX(-50px);
+}
+</style>

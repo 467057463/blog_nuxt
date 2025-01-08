@@ -36,7 +36,7 @@
           placeholder="请输入验证码"
         />
         <span 
-          v-html="data" 
+          v-html="data?.data.captcha" 
           @click="handleCaptcha"
         ></span>
       </el-form-item>
@@ -54,7 +54,7 @@
 
 <script setup lang="ts">
 import type { FormInstance, FormRules  } from 'element-plus'
-import { getCaptcha } from '~/api/idnex'
+import { fetchLogin, getCaptcha } from '~/api/idnex'
 const userStore = useUserStore()
 
 const form = reactive({
@@ -86,23 +86,16 @@ const rules = reactive<FormRules>({
     }
   ]
 });
-
 // 刷新验证码
-let { data } = await useAsyncData(() => getCaptcha())
-async function handleCaptcha(){
-  try {
-    const res = await getCaptcha();
-    data.value = res;
-    console.log(res)
-  } catch (error) {
-    console.log(error)
-  }
-}
+const { data, refresh: handleCaptcha } = getCaptcha();
 // 登录
 async function handleLogin(){
   try {
     await $form?.value?.validate();
-    await userStore.login(form);
+    await userStore.login({
+      ...form,
+      uuid: data.value?.data.uuid
+    });
     navigateTo('/')
   } catch (error) {
     console.error((error as any)._data);
@@ -113,8 +106,6 @@ async function handleLogin(){
 
 <style lang="scss">
 .login-page{
-  // padding-top: 30px;
-  // background: red;
   width: 100%;
   .el-form{
     background: #ffffff;

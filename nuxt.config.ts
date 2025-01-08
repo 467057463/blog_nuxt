@@ -2,8 +2,15 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
+    jwtSecert: '',
     public: {
-      API_HOST: process.env.NUXT_PUBLIC_API_HOST
+      API_HOST: ''
+    }
+  },
+  app: {
+    pageTransition: {
+      name: 'page',
+      mode: 'out-in'
     }
   },
   css: [
@@ -40,6 +47,8 @@ export default defineNuxtConfig({
   },
   modules: [
     '@pinia/nuxt',
-    '@element-plus/nuxt'
+    '@element-plus/nuxt',
+    '@prisma/nuxt',
+    'nuxt-auth-utils',
   ],
 })

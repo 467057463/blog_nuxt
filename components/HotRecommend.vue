@@ -15,7 +15,6 @@
 <script lang="ts" setup>
 import { getHotArtices } from '~/api/idnex'
 let { data } = await useAsyncData(() => getHotArtices())
-console.log(data)
 </script>
 
 <style lang="scss" scoped>

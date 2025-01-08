@@ -39,44 +39,21 @@ import 'md-editor-v3/lib/preview.css';
 import { onMounted } from "vue";
 
 const id = 'preview-only';
-// let scrollElement = ref('')
-// const scrollElement = 'body'
-// onMounted(() => {
-//   const scrollElement = document.documentElement
-//   scrollElement.value = document.documentElement;
-// })
+
 
 const route = useRoute()
 const articleId = route.params.id;
 const { data } = await useAsyncData(articleId, () => getArticleById(articleId))
-console.log('data', data)
 useSeoMeta({
-  title: `${data.value.title} 毛毛前端技术博客-mmisme`,
-  // ogTitle: '我的神奇网站',
-  // description: '这是我的神奇网站，让我来告诉你关于它的一切。',
-  // ogDescription: '这是我的神奇网站，让我来告诉你关于它的一切。',
-  // ogImage: 'https://example.com/image.png',
-  // twitterCard: 'summary_large_image',
+  title: data.value.title,
 })
-
 
 let scrollElement: string | HTMLElement | undefined = undefined
 onMounted(() => {
     scrollElement = document.documentElement
 })
 
-// 点击目录
-// const handleClickCatalog = (e: MouseEvent, t) => {
-//   // 下面这个阻止默认事件可以不需要，但e必须在，如果警告没使用的话，可以用_e: MouseEvent,也有可能是我方式不太对
-//   e.preventDefault();
-//   const el = document.getElementById(t.text);
-//   if (el) {
-//     scrollElement.value.scrollTo({
-//       top: el.offsetTop + 50,
-//       behavior: "smooth",
-//     });
-//   }
-// };
+
 
 function handleEdit(){
 

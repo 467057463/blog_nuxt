@@ -1,10 +1,31 @@
 {
   "id": "1345267",
   "name": "myblog",
-  "font_family": "font-icon",
+  "font_family": "fi",
   "css_prefix_text": "fi-",
   "description": "个人博客项目",
   "glyphs": [
+    {
+      "icon_id": "15838563",
+      "name": "close",
+      "font_class": "close",
+      "unicode": "e685",
+      "unicode_decimal": 59013
+    },
+    {
+      "icon_id": "248911",
+      "name": "link",
+      "font_class": "link",
+      "unicode": "e656",
+      "unicode_decimal": 58966
+    },
+    {
+      "icon_id": "10886682",
+      "name": "menu",
+      "font_class": "menu",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
     {
       "icon_id": "22894714",
       "name": "github",
@@ -25,13 +46,6 @@
       "font_class": "sun",
       "unicode": "e6df",
       "unicode_decimal": 59103
-    },
-    {
-      "icon_id": "12978141",
-      "name": "编辑",
-      "font_class": "create",
-      "unicode": "e615",
-      "unicode_decimal": 58901
     },
     {
       "icon_id": "24056835",
@@ -56,7 +70,7 @@
     },
     {
       "icon_id": "26433316",
-      "name": "编程",
+      "name": "code",
       "font_class": "technology",
       "unicode": "e676",
       "unicode_decimal": 58998

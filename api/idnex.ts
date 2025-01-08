@@ -1,29 +1,26 @@
 // 获取分类列表
-export type CategoryData = {
+export type CategoryType = {
   id: number,
   order: number,
   label: string,
   name: string,
 }
-export function getCategories(){
-  return useRequest<RequestResult<CategoryData[]>>('/categories')
-}
+export const getCategories = () => useAPI<CategoryType[]>('/categoriess') 
+
 
 // 获取标签列表
-export type TagData = {
+export type TagType = {
   id: number,
   name: string,
 }
-export function getTags(){
-  return useRequest<RequestResult<TagData[]>>('/tags')
-}
+export const getTags = () => useAPI<TagType[]>('/tags') 
 
 // 获取文章列表
 type GetArticlesParams = {
   page?: number,
   limit?: number
 }
-type ArticlesData = {
+export type ArticlesData = {
   count: number,
   currentPage: number,
   limit: number,
@@ -43,13 +40,18 @@ type ArticlesData = {
   pages: number  
 }
 export function getArticles(params?: GetArticlesParams){
-  return useRequest<RequestResult<ArticlesData>>('/articles', {
+  return useAPI<ArticlesData>('/articles', {
     params
   })
 }
 
+export type CaptchaType = {
+  uuid: string,
+  captcha: string
+}
+
 export function getCaptcha(){
-  return useRequest<string>('/captcha')
+  return useAPI<CaptchaType>('/captcha')
 }
 
 // 登录
@@ -62,7 +64,7 @@ type LoginResultType = {
   userInfo: UserInfoType
 }
 export function fetchLogin(body: FetchLoginParams){
-  return useRequest<RequestResult<LoginResultType>>('/login', {
+  return useAPI<RequestResult<LoginResultType>>('/login', {
     method: "POST",
     body
   })
@@ -85,7 +87,7 @@ export type UserInfoType = {
   }
 }
 export function getUserInfo(){
-  return useRequest<RequestResult<UserInfoType>>('/getuser_info', {
+  return useAPI<RequestResult<UserInfoType>>('/getuser_info', {
     method: "POST"
   })
 }
@@ -101,7 +103,7 @@ export type CreateArticleParamsType = {
 
 // 添加文章
 export function createArticle(body: CreateArticleParamsType){
-  return useRequest('/articles', {
+  return useAPI('/articles', {
     method: 'POST',
     body
   })
@@ -109,14 +111,14 @@ export function createArticle(body: CreateArticleParamsType){
 
 // 文章详情
 export function getArticleById(id: number){
-  return useRequest(`/articles/${id}`, {
+  return useAPI(`/articles/${id}`, {
     method: 'GET'
   })
 }
 
 // 更新文章
 export function updateArticle(id: number, body: CreateArticleParamsType){
-  return useRequest(`/articles/${id}`, {
+  return useAPI(`/articles/${id}`, {
     method:"POST",
     body
   })
@@ -124,19 +126,19 @@ export function updateArticle(id: number, body: CreateArticleParamsType){
 
 // 删除文章
 export function deleteArticle(id: number){
-  return useRequest(`/articles/${id}`, {
+  return useAPI(`/articles/${id}`, {
     method: "DELETE",
   })
 }
 
 export function getDraftList(){
-  return useRequest('/drafts')
+  return useAPI('/drafts')
 }
 
 export type CreateDraftParamsType = Pick<CreateArticleParamsType, 'title' | 'content' >
 // 新建草稿
 export function createDraft(params: CreateDraftParamsType & {articleId?: number}){
-  return useRequest('/drafts', {
+  return useAPI('/drafts', {
     body: params,
     method: "POST"
   })
@@ -145,7 +147,7 @@ export function createDraft(params: CreateDraftParamsType & {articleId?: number}
 // 更新草稿
 export type UpdateDraftParamsType = CreateDraftParamsType & {articleId?: number}
 export function updateDraft(id:number, params: UpdateDraftParamsType){
-  return useRequest(`/drafts/${id}`, {
+  return useAPI(`/drafts/${id}`, {
     body: params,
     method: "POST"
   })
@@ -153,17 +155,17 @@ export function updateDraft(id:number, params: UpdateDraftParamsType){
 
 // 草稿详情
 export function getDraftById(id: number){
-  return useRequest(`/drafts/${id}`)
+  return useAPI(`/drafts/${id}`)
 }
 
 // 删除文章
 export function destroyDraft(id: number){
-  return useRequest(`/drafts/${id}`, {
+  return useAPI(`/drafts/${id}`, {
     method: 'delete'
   })
 }
 
 // 热门推荐
 export function getHotArtices(){
-  return useRequest('/articles/hots')
+  return useAPI('/articles/hots')
 }
