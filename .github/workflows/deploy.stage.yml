@@ -21,7 +21,6 @@ jobs:
       - run: |
           npm install
           echo "${{ secrets.STAGE_ENV_FILE }}" > .env
-          cat ./env
           npm run build:stage
           tar -czf "${GITHUB_SHA}".tar.gz .output ./ecosystem.stage.config.cjs
       - name: Store app-artifacts for distribution
