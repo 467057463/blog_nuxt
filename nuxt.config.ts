@@ -2,10 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
-    jwtSecert: '',
-    public: {
-      API_HOST: ''
-    }
+    jwtSecert: ""
   },
   app: {
     pageTransition: {

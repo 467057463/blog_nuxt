@@ -3,7 +3,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   const { session } = useUserSession()
 
   const api = $fetch.create({
-    baseURL: config.public.API_HOST,
+    baseURL: '/api',
     credentials: 'include',
     onRequest({request, options, error}){
       if (session.value?.token) {
