@@ -10,9 +10,6 @@ jobs:
   create-deployment-artifacts:
     runs-on: ubuntu-latest
     steps:
-      - name: create .env file
-        run: | 
-          echo "${{ secrets.STAGE_ENV_FILE }}" > .env
       - uses: actions/checkout@v3
       - name: Build App Artifacts
         env:
