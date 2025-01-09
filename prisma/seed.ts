@@ -9,6 +9,13 @@ async function main(){
       label: 'css'
     }
   })
+
+  await prisma.user.create({
+    data: {
+      username: 'admin',
+      password: 'dev123456'
+    }
+  })
 }
 
 main()
