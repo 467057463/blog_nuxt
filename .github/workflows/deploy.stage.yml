@@ -22,7 +22,7 @@ jobs:
           touch .env
           echo NUXT_JWT_SECERT=${{secrets.JWT_SECERT}} >> .env
           echo NUXT_PUBLIC_API_HOST=/api >> .env
-          echo NUXT_SESSION_PASSWORD=${{secrets.SESSION_PASSWORD}} >> .env
+          echo NUXT_SESSION_PASSWORD="${{secrets.SESSION_PASSWORD}}" >> .env
           echo DATABASE_URL=${{secrets.STAGE_DATABASE_URL}} >> .env
 
           npm install
