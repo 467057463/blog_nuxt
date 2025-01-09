@@ -19,10 +19,10 @@ jobs:
           node-version: ${{env.NODE_VERSION}}
           cache: 'npm'
       - run: |
-          npm install
           echo "${{ secrets.STAGE_ENV_FILE }}" > .env
+          npm install
           npm run build:stage
-          tar -czf "${GITHUB_SHA}".tar.gz .output ./ecosystem.stage.config.cjs
+          tar -czf "${GITHUB_SHA}".tar.gz .output ./ecosystem.stage.config.cjs ./.env
       - name: Store app-artifacts for distribution
         uses: actions/upload-artifact@v3
         with:
