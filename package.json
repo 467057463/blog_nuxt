@@ -3,8 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build:production": "nuxt build  --dotenv .env.production",
-    "build:stage": "nuxt build --dotenv .env.stage",
+    "build:production": "nuxt build",
+    "build:stage": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
