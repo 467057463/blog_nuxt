@@ -1,9 +1,9 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
+// import { hashPassword } from 'nuxt-auth-utils';
 const prisma = new PrismaClient()
-// import prisma from "~/lib/prisma";
 
 async function main(){
-  await prisma.category.create({
+  await prisma.tag.create({
     data: {
       name: 'css',
       label: 'css'
@@ -13,7 +13,7 @@ async function main(){
   await prisma.user.create({
     data: {
       username: 'admin',
-      password: 'dev123456'
+      password: "$scrypt$n=16384,r=8,p=1$c3qowH2SlqkuyaakmMMU8w$urlE1l+Kn5JCa+H+Bi1lHvHuHinQnJPmgw99nLC8UP6RaiqTlpydi+gOJcT1tgpm8e8i35qPy/UkiGj1618dxQ"
     }
   })
 }

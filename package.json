@@ -14,7 +14,7 @@
   "dependencies": {
     "@element-plus/nuxt": "^1.0.9",
     "@pinia/nuxt": "^0.5.1",
-    "@prisma/client": "^6.2.0",
+    "@prisma/client": "^6.2.1",
     "@prisma/nuxt": "^0.2.0",
     "@vueuse/core": "^12.0.0",
     "element-plus": "^2.7.1",
