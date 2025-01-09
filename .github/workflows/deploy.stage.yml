@@ -20,10 +20,10 @@ jobs:
           cache: 'npm'
       - run: |
           touch .env
-          echo NUXT_JWT_SECERT=jwt_secert >> .env
+          echo NUXT_JWT_SECERT=${{secrets.JWT_SECERT}} >> .env
           echo NUXT_PUBLIC_API_HOST=/api >> .env
-          echo NUXT_SESSION_PASSWORD=password-with-at-least-32-characters >> .env
-          echo DATABASE_URL=mysql://root:Nandudu_0914@127.0.0.1:3306/blog-state_1 >> .env
+          echo NUXT_SESSION_PASSWORD=${{secrets.SESSION_PASSWORD}} >> .env
+          echo DATABASE_URL=${{secrets.STAGE_DATABASE_URL}} >> .env
 
           npm install
           npm run build:stage
