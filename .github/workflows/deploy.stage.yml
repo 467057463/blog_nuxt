@@ -10,6 +10,9 @@ jobs:
   create-deployment-artifacts:
     runs-on: ubuntu-latest
     steps:
+      - name create .env file
+        run: | 
+          echo "${{ secrets.STAGE_ENV_FILE }}" > .env
       - uses: actions/checkout@v3
       - name: Build App Artifacts
         env:
@@ -19,7 +22,6 @@ jobs:
           node-version: ${{env.NODE_VERSION}}
           cache: 'npm'
       - run: |
-          echo "${{ secrets.STAGE_ENV_FILE }}" > .env
           npm install
           npm run build:stage
           tar -czf "${GITHUB_SHA}".tar.gz .output ./ecosystem.stage.config.cjs ./.env
@@ -109,34 +111,3 @@ jobs:
       - uses: geekyeggo/delete-artifact@v1
         with:
           name: app-artifacts
-
-  # systemctl restart fullstackjack
-  # chown -R www-data:www-data ${RELEASE_PATH}
-  # chown -R www-data:www-data  /var/www/blog_nuxt-stage/database
-  # cd /var/www/blog_nuxt-stage/database && npx prisma migrate deploy
-
-
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       node-version: [16.x]
-
-  #   steps:
-  #     - name: Deploy using ssh
-  #       uses: appleboy/ssh-action@master
-  #       with:
-  #         host: ${{ secrets.SSH_HOST }}
-  #         username: ${{ secrets.SSH_USERNAME }}
-  #         key: ${{ secrets.DEPLOY_KEY }}
-  #         port: 22
-  #         script: |
-  #           export NVM_DIR=~/.nvm
-  #           source ~/.nvm/nvm.sh
-  #           npm --help
-  #           cd /var/www/blog_nuxt-stage
-  #           git pull origin stage
-  #           git status
-  #           npm install
-  #           npm run build:stage
-  #           pm2 restart ./ecosystem.config.stage.cjs
