@@ -1,6 +1,7 @@
 name: BLOG_API CI/CD
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - stage
