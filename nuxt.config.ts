@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
-    jwtSecert: ""
+    jwtSecert: process.env.NUXT_JWT_SECERT
   },
   app: {
     pageTransition: {
