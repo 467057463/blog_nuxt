@@ -18,6 +18,11 @@ export default defineNuxtConfig({
     '~/assets/iconfont/iconfont.css'
   ],
   vite: {
+    resolve: {
+      alias: {
+        '.prisma/client/index-browser': './node_modules/.prisma/client/index-browser.js',
+      },
+    },
     css: {
       preprocessorOptions: {
         scss: {

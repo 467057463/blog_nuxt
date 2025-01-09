@@ -19,8 +19,15 @@ jobs:
           node-version: ${{env.NODE_VERSION}}
           cache: 'npm'
       - run: |
+          touch .env
+          echo NUXT_JWT_SECERT=jwt_secert >> .env
+          echo NUXT_PUBLIC_API_HOST=/api >> .env
+          echo NUXT_SESSION_PASSWORD=password-with-at-least-32-characters >> .env
+          echo DATABASE_URL=mysql://root:Nandudu_0914@127.0.0.1:3306/blog-state_1 >> .env
+
           npm install
           npm run build:stage
+          cp .env  prisma .output/server
           tar -czf "${GITHUB_SHA}".tar.gz .output ./ecosystem.stage.config.cjs
       - name: Store app-artifacts for distribution
         uses: actions/upload-artifact@v3
@@ -85,6 +92,7 @@ jobs:
               source ~/.nvm/nvm.sh
               npm --help
               ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH
+              cd $ACTIVE_RELEASE_PATH/.output/server && npx prisma migrate deploy
               cd $ACTIVE_RELEASE_PATH
               pm2 del ./ecosystem.stage.config.cjs
               pm2 start ./ecosystem.stage.config.cjs
