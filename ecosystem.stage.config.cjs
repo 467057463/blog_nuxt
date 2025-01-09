@@ -7,7 +7,7 @@ module.exports = {
       instances: 'max',
       script: './.output/server/index.mjs',
       env: {
-        DATABASE_URL: "mysql://root:nandudu_@localhost:3306/blog-state_1"
+        DATABASE_URL: "mysql://root:nandudu_@127.0.0.1:3306/blog-state_1"
       }
     }
   ]
