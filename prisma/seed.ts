@@ -81,6 +81,7 @@ async function main(){
 main()
   .then(async () => {
     await prisma.$disconnect()
+    console.log('sess run success!')
   })
   .catch(async (e) => {
     console.error(e)
