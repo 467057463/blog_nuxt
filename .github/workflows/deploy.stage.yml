@@ -28,7 +28,7 @@ jobs:
           npm install
           npm run build:stage
           cp .env .output/server/.env
-          # cp -r prisma .output/server
+          cp -r prisma .output/server
           tar -czf "${GITHUB_SHA}".tar.gz .output ./ecosystem.stage.config.cjs
       - name: Store app-artifacts for distribution
         uses: actions/upload-artifact@v3
