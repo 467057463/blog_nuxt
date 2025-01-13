@@ -10,20 +10,66 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Tag {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  label String @unique
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  label    String    @unique
+  order    Int
+  articles Article[]
+  tags     Tag[]
 }
 
-model Category {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  label String @unique
+model Tag {
+  id         Int       @id @default(autoincrement())
+  name       String    @unique
+  label      String    @unique
+  articles   Article[]
+  categoryId Int
+  category   Category  @relation(fields: [categoryId], references: [id])
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  username String @unique
-  password String @unique
+  id        Int       @id @default(autoincrement())
+  username  String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  role      Role      @default(USER)
+  articles  Article[]
+  profile   Profile?
+}
+
+model Profile {
+  id        Int      @id @default(autoincrement())
+  name      String
+  avatar    String
+  email     String?
+  intro     String?
+  site      String?
+  github    String?
+  phone     String?
+  qq        String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int      @unique
+}
+
+model Article {
+  id         Int        @id @default(autoincrement())
+  cover      String?
+  title      String
+  conttent   String
+  describe   String
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  author     User       @relation(fields: [authorId], references: [id])
+  authorId   Int
+  tags       Tag[]
+  Categories Category[]
+}
+
+enum Role {
+  USER
+  ADMIN
 }
