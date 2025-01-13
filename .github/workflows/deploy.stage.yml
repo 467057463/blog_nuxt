@@ -93,8 +93,7 @@ jobs:
               source ~/.nvm/nvm.sh
               npm --help
               ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH
-              cd $ACTIVE_RELEASE_PATH/.output/server && npx prisma migrate deploy --schema=./node_mod
-ules/.prisma/client/schema.prisma && tsx prisma/seed.ts 
+              cd $ACTIVE_RELEASE_PATH/.output/server && npx prisma migrate deploy --schema=./node_modules/.prisma/client/schema.prisma && tsx prisma/seed.ts 
               cd $ACTIVE_RELEASE_PATH
               pm2 del ./ecosystem.stage.config.cjs
               pm2 start ./ecosystem.stage.config.cjs
