@@ -4,11 +4,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     jwtSecert: process.env.NUXT_JWT_SECERT
   },
-  app: {
-    pageTransition: {
-      name: 'page',
-      mode: 'out-in'
-    }
+  imports: {
+    dirs: ['~/lib', 'constant/**']
   },
   css: [
     '~/assets/styles/index.scss',

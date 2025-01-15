@@ -1,0 +1,5 @@
+### 文章列表
+http://localhost:3000/api/articles
+
+### 文章详情
+http://localhost:3000/api/articles/1

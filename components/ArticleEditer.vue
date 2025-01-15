@@ -6,7 +6,8 @@
       <el-button type="primary" @click="showMeta = true">发布</el-button>
       <el-dropdown>
         <div class="user-info">
-          <el-avatar :src="userInfo.profile.avatar" class="avatar" :size="30"/>
+          <i class="fi fi-user"></i>
+          <!-- <el-avatar :src="userInfo.profile.avatar" class="avatar" :size="30"/> -->
         </div>
         <template #dropdown>
           <el-dropdown-menu>

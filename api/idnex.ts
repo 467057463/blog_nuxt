@@ -1,49 +1,6 @@
-// 获取分类列表
-export type CategoryType = {
-  id: number,
-  order: number,
-  label: string,
-  name: string,
-}
-export const getCategories = () => useAPI<CategoryType[]>('/categoriess') 
+import type { Category, Tag, Article } from '@prisma/client'
+import type { LoginParamsType } from '~/constant/ApiRequestSchema'
 
-
-// 获取标签列表
-export type TagType = {
-  id: number,
-  name: string,
-}
-export const getTags = () => useAPI<TagType[]>('/tags') 
-
-// 获取文章列表
-type GetArticlesParams = {
-  page?: number,
-  limit?: number
-}
-export type ArticlesData = {
-  count: number,
-  currentPage: number,
-  limit: number,
-  list: Array<{
-    author: UserInfoType,
-    id: number,
-    title: string,
-    content: string,
-    cover: string,
-    describe: string,
-    createdAt: string,
-    tags: Array<{
-      id: number,
-      name: string
-    }>,
-  }>
-  pages: number  
-}
-export function getArticles(params?: GetArticlesParams){
-  return useAPI<ArticlesData>('/articles', {
-    params
-  })
-}
 
 export type CaptchaType = {
   uuid: string,
@@ -55,18 +12,38 @@ export function getCaptcha(){
 }
 
 // 登录
-export type FetchLoginParams = {
-  username: string,
-  password: string
-}
 type LoginResultType = {
   token: string,
   userInfo: UserInfoType
 }
-export function fetchLogin(body: FetchLoginParams){
-  return useAPI<RequestResult<LoginResultType>>('/login', {
+export function fetchLogin(body: LoginParamsType){
+  return useRequest<LoginResultType>('/login', {
     method: "POST",
     body
+  })
+}
+
+
+
+export const getCategories = () => useAPI<Category[]>('/categoriess') 
+
+export const getTags = () => useAPI<Tag[]>('/tags') 
+
+// 获取文章列表
+type GetArticlesParams = {
+  page?: number,
+  limit?: number
+}
+export type ArticlesData = {
+  count: number,
+  currentPage: number,
+  limit: number,
+  list: Article[]
+  pages: number  
+}
+export function getArticles(params?: GetArticlesParams){
+  return useAPI<ArticlesData>('/articles', {
+    params
   })
 }
 
@@ -111,7 +88,7 @@ export function createArticle(body: CreateArticleParamsType){
 
 // 文章详情
 export function getArticleById(id: number){
-  return useAPI(`/articles/${id}`, {
+  return useAPI<Article>(`/articles/${id}`, {
     method: 'GET'
   })
 }

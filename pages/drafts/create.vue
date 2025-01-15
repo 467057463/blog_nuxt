@@ -18,7 +18,7 @@ import type { CreateArticleParamsType } from '~/api/index'
 
 definePageMeta({
   layout: false,
-  middleware: 'auth'
+  middleware: ['auth']
 })
 
 async function handleSave(params: CreateArticleParamsType){

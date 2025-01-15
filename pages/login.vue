@@ -36,8 +36,8 @@
           placeholder="请输入验证码"
         />
         <span 
-          v-html="data?.data.captcha" 
-          @click="handleCaptcha"
+          v-html="captcha?.data.captcha" 
+          @click="() => handleCaptcha()"
         ></span>
       </el-form-item>
       <el-form-item>
@@ -53,15 +53,20 @@
 </template>
 
 <script setup lang="ts">
-import type { FormInstance, FormRules  } from 'element-plus'
-import { fetchLogin, getCaptcha } from '~/api/idnex'
-const userStore = useUserStore()
+import type { FormInstance, FormRules  } from 'element-plus';
+import { getCaptcha } from '~/api/idnex';
 
+definePageMeta({
+  middleware: ["no-auth"]
+})
+
+const userStore = useUserStore();
 const form = reactive({
   username: '',
   password: '',
   code: ''
 });
+
 const $form = ref<FormInstance>();
 const rules = reactive<FormRules>({
   username: [
@@ -87,18 +92,18 @@ const rules = reactive<FormRules>({
   ]
 });
 // 刷新验证码
-const { data, refresh: handleCaptcha } = getCaptcha();
+const { data: captcha, refresh: handleCaptcha } = getCaptcha();
+
 // 登录
 async function handleLogin(){
   try {
     await $form?.value?.validate();
     await userStore.login({
       ...form,
-      uuid: data.value?.data.uuid
+      uuid: captcha.value?.data.uuid
     });
     navigateTo('/')
-  } catch (error) {
-    console.error((error as any)._data);
+  } catch (error: any) {
     handleCaptcha()
   };
 }
@@ -108,7 +113,6 @@ async function handleLogin(){
 .login-page{
   width: 100%;
   .el-form{
-    background: #ffffff;
     padding:  40px;
     max-width: 300px;
     margin: 0 auto

@@ -7,7 +7,7 @@
 
     <!-- 菜单 -->
     <div class="menu" :class="{shown: shownMenu}">
-      <div class="nav">
+      <div :class="['nav', {'is-login': loggedIn}]">
         <div class="nav-item">
           <NuxtLink to="/" activeClass="active">
             <i class="fi fi-technology"></i>
@@ -21,17 +21,39 @@
           </NuxtLink>
         </div>
         <div class="nav-item">
-          <NuxtLink to="/life" activeClass="active">
+          <NuxtLink to="/link" activeClass="active">
             <i class="fi fi-link"></i>
             友链
           </NuxtLink>
         </div>
         <div class="nav-item">
-          <NuxtLink to="/life" activeClass="active">
+          <NuxtLink to="/about" activeClass="active">
             <i class="fi fi-about"></i>
             关于
           </NuxtLink>
         </div>
+
+        <!-- 只在移动端显示 -->
+        <template v-if="loggedIn">
+          <div class="nav-item">
+            <NuxtLink to="/drafts/create" activeClass="active">
+              <i class="fi fi-about"></i>
+              发布文章
+            </NuxtLink>
+          </div>
+          <div class="nav-item">
+            <NuxtLink to="/drafts" activeClass="active">
+              <i class="fi fi-about"></i>
+              我的草稿
+            </NuxtLink>
+          </div>
+          <div class="nav-item">
+            <NuxtLink @click="clear" activeClass="active">
+              <i class="fi fi-about"></i>
+              退出登录
+            </NuxtLink>
+          </div>
+        </template>
       </div>
 
       <div class="nav-right">
@@ -47,31 +69,27 @@
           </NuxtLink>
         </div>
 
+        <!-- 只在PC显示 -->
         <div class="nav-item" v-if="loggedIn">
-          <NuxtLink  @click="clear">
-            <i class="fi fi-user"></i>
-          </NuxtLink>
+          <el-dropdown>
+            <a>
+              <i class="fi fi-user"></i>
+            </a>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>
+                  <NuxtLink to="/drafts/create">发布文章</NuxtLink>
+                </el-dropdown-item>
+                <el-dropdown-item>
+                  <NuxtLink to="/drafts">我的草稿</NuxtLink>
+                </el-dropdown-item>
+                <el-dropdown-item>
+                  <span @click="clear">退出登录</span>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </div>
-      
-        <!-- <el-dropdown v-if="userInfo">
-          <div class="user-info">
-            <el-avatar :src="userInfo.profile.avatar" class="avatar" :size="30"/>
-            {{ userInfo?.username }} 
-          </div>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item>
-                <NuxtLink to="/drafts/create">添加文章</NuxtLink>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <NuxtLink to="/drafts">我的草稿</NuxtLink>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <span @click="userStore.logout">退出登录</span>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown> -->
       </div>
     </div>
     
@@ -147,12 +165,8 @@ header{
   }
 
   .menu{
-    // padding: 0 24px;
     flex: 1;
-    // position: absolute;
-    // left: 0;
-    // right: 0;
-    
+
     a {
       display: flex;
       align-items: center;
@@ -177,10 +191,6 @@ header{
         align-items: center;
         height: 100%;
         flex: 1;
-        // margin-left: -20px;
-        // position: absolute;
-        // left: 50%;
-        // transform: translateX(-50%);
         font-size: 14px;
 
         .nav-item{
@@ -193,6 +203,11 @@ header{
         .fi{
           margin-right: 6px;
           display: none;
+        }
+        &.is-login{
+          .nav-item:nth-last-child(-n+3){
+            display: none;
+          }
         }
       }
       
@@ -244,6 +259,8 @@ header{
         .nav-item + .nav-item{
           border-top: 1px solid getCssVar("border", "color", 'gray-1--gray-8');
         }
+
+
       }
       .nav-right{
         display: flex;
@@ -263,15 +280,11 @@ header{
             font-size: 16px;
           }
         }
+        .nav-item:nth-last-child(1){
+          display: none;
+        }
       }
     }
   }
-  // .user-info{
-  //   display: flex;
-  //   align-items: center;
-  //   .avatar{
-  //     margin-right: 6px;
-  //   }
-  // }
 }
 </style>

@@ -1,17 +1,15 @@
 import prisma from "~/lib/prisma";
 import jwt from 'jsonwebtoken';
+import { ApiErrorMap } from "~/constant/ApiErrorMap";
+import { loginParamsSchem } from "~/constant/ApiRequestSchema";
 
-export default defineEventHandler(async (event) => {
-  const { username, password, code, uuid } = await readBody(event);
+export default defineEventHandler(async (event) => {  
+  const { username, password, code, uuid }  = await readValidatedBody(event, loginParamsSchem.parse);
 
   // 图形验证码验证
   const captchaCode = await captchaStorage.getItem(uuid) as string;
   if(!captchaCode || captchaCode.toLowerCase() !== code.toLowerCase()){
-    return {
-      code: 100002,
-      message: 'invalid captcha.',
-      data: null
-    }
+    return responFormat(null, 100002, ApiErrorMap[100002])
   }
 
   const user = await prisma.user.findUnique({
@@ -22,14 +20,9 @@ export default defineEventHandler(async (event) => {
 
   // 验证 用户名/密码 是否正确
   if(!user || !await verifyPassword(user.password, password)){
-    return {
-      code: 100001,
-      message: 'Invalid username or password',
-      data: null
-    }
+    return responFormat(null, 100001, ApiErrorMap[100001])
   }
 
-  
   // 生成 jwt token
   const runtimeConfig = useRuntimeConfig();
   const token = jwt.sign(
@@ -52,11 +45,6 @@ export default defineEventHandler(async (event) => {
     maxAge: 60 * 60 * 24 * 30
   })
   
-  return {
-    code: 0,
-    data: {
-      token 
-    },
-    message: 'login success'
-  }
+  return responFormat({ token }, 0, 'login success')
 })
+

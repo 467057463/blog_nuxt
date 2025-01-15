@@ -1,5 +1,4 @@
 export default defineNuxtPlugin((nuxtApp) => {
-  const config = useRuntimeConfig()
   const { session } = useUserSession()
 
   const api = $fetch.create({

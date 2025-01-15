@@ -5,26 +5,26 @@
 
   <div class="page-center">
     <div class="actions">
-      <NuxtLink :to="data.draft ? `/drafts/${data.draft.id}` : `/articles/${$route.params.id}/edit`">编辑</NuxtLink>
+      <!-- <NuxtLink :to="data?.data.draft ? `/drafts/${data.data?.draft?.id}` : `/articles/${$route.params.id}/edit`">编辑</NuxtLink> -->
  
       <span @click="handleDelete">删除</span>
     </div>
 
-    <div class="title">{{data?.title}}</div>
+    <div class="title">{{data?.data?.title}}</div>
 
     <div class="meta">
-      {{ data.author.username }} 
-      {{ data.createdAt }}
+      <!-- {{ data?.data.author.username }}  -->
+      {{ data?.data.createdAt }}
     </div>
 
     <MdPreview 
       :editorId="id" 
-      :modelValue="data?.content"
+      :modelValue="data?.data?.conttent"
     />
   </div>
 
   <div class="page-right">
-    <hot-recommend/>
+    <!-- <hot-recommend/> -->
 
     <ClientOnly>
       <MdCatalog :editorId="id" :scrollElement="scrollElement"/>
@@ -43,9 +43,9 @@ const id = 'preview-only';
 
 const route = useRoute()
 const articleId = route.params.id;
-const { data } = await useAsyncData(articleId, () => getArticleById(articleId))
+const { data } = getArticleById(Number(articleId))
 useSeoMeta({
-  title: data.value.title,
+  title: data.value?.data.title,
 })
 
 let scrollElement: string | HTMLElement | undefined = undefined

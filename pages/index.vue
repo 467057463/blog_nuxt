@@ -27,8 +27,7 @@
 <script lang="ts" setup>
 import { getArticles, getTags } from '@/api/idnex'
 const { data } = getArticles();
-const tags = getTags()
-console.log(tags)
+// const tags = getTags()
 </script>
 
 <style lang="scss" scoped>

@@ -7,7 +7,6 @@ export type RequestResult<T> = {
   msg: string
 }
 
-
 export function useAPI<T>(
   url: string,
   options?: UseFetchOptions<RequestResult<T>>
