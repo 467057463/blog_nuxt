@@ -65,10 +65,10 @@ CREATE TABLE `Article` (
     `updatedAt` DATETIME(3) NOT NULL,
     `authorId` INTEGER NOT NULL,
     `categoryId` INTEGER NULL,
-    `parentId` INTEGER NULL,
-    `darftId` INTEGER NULL,
     `status` ENUM('DARFT', 'OFFICIAL') NOT NULL DEFAULT 'DARFT',
+    `darftId` INTEGER NULL,
 
+    UNIQUE INDEX `Article_darftId_key`(`darftId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -92,6 +92,9 @@ ALTER TABLE `Article` ADD CONSTRAINT `Article_authorId_fkey` FOREIGN KEY (`autho
 
 -- AddForeignKey
 ALTER TABLE `Article` ADD CONSTRAINT `Article_categoryId_fkey` FOREIGN KEY (`categoryId`) REFERENCES `Category`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Article` ADD CONSTRAINT `Article_darftId_fkey` FOREIGN KEY (`darftId`) REFERENCES `Article`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `_ArticleToTag` ADD CONSTRAINT `_ArticleToTag_A_fkey` FOREIGN KEY (`A`) REFERENCES `Article`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
