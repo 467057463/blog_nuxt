@@ -25,9 +25,10 @@
 </template>
 
 <script lang="ts" setup>
-import { getArticles, getTags } from '@/api/idnex'
-const { data } = getArticles();
-// const tags = getTags()
+import { getArticles } from '@/api/idnex'
+const { data } = getArticles({
+  categoryId: 1
+});
 </script>
 
 <style lang="scss" scoped>

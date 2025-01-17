@@ -16,6 +16,7 @@ export function useRequest<T>(
       })
       return Promise.reject(res)
     }
+    return res.data;
   }).catch(error => {
     console.error(error)
     if(error.status === 400 && error?.data?.data?.issues?.length){

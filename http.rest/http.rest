@@ -2,6 +2,9 @@
 http://localhost:3000/api/tags
 authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbiIsImlhdCI6MTczNjMyNDc2OCwiZXhwIjoxNzM4OTE2NzY4fQ.BGOjGwgp0X2EFP6l-QsxOooNvvX1CsgBUxGlDZnSvpY
 
+### category
+http://localhost:3000/api/categories
+
 ### detail
 http://localhost:3000/api/tags/1
 

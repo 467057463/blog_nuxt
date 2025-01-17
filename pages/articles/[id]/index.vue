@@ -5,21 +5,20 @@
 
   <div class="page-center">
     <div class="actions">
-      <!-- <NuxtLink :to="data?.data.draft ? `/drafts/${data.data?.draft?.id}` : `/articles/${$route.params.id}/edit`">编辑</NuxtLink> -->
- 
+      <NuxtLink :to="`/articles/${data?.data.id}/edit`">编辑</NuxtLink>
       <span @click="handleDelete">删除</span>
     </div>
 
     <div class="title">{{data?.data?.title}}</div>
 
     <div class="meta">
-      <!-- {{ data?.data.author.username }}  -->
+      {{ data?.data.author.username }} 
       {{ data?.data.createdAt }}
     </div>
 
     <MdPreview 
       :editorId="id" 
-      :modelValue="data?.data?.conttent"
+      :modelValue="data?.data?.content"
     />
   </div>
 
@@ -61,7 +60,7 @@ function handleEdit(){
 
 async function handleDelete(){
   try {
-    await deleteArticle(articleId)
+    await deleteArticle(route.params.id as string)
     navigateTo(`/`)
   } catch (error) {
     console.error(error)

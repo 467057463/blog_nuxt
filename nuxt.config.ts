@@ -2,7 +2,10 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
-    jwtSecert: process.env.NUXT_JWT_SECERT
+    jwtSecert: process.env.NUXT_JWT_SECERT,
+    ossEnv: process.env.NUXT_OSS_ENV,
+    ossAccessKeyId: process.env.NUXT_OSS_ACCESS_KEY_ID,
+    ossAccessKeySecret: process.env.NUXT_OSS_ACCESS_KEY_SECRET,
   },
   imports: {
     dirs: ['~/lib', 'constant/**']

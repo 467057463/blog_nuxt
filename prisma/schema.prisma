@@ -56,20 +56,31 @@ model Profile {
 }
 
 model Article {
-  id         Int        @id @default(autoincrement())
+  id         Int           @id @default(autoincrement())
   cover      String?
   title      String
-  conttent   String
-  describe   String
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  author     User       @relation(fields: [authorId], references: [id])
+  content    String
+  describe   String?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  author     User          @relation(fields: [authorId], references: [id])
   authorId   Int
   tags       Tag[]
-  Categories Category[]
+  categoryId Int?
+  category   Category?     @relation(fields: [categoryId], references: [id])
+  status     ArticleStatus @default(DARFT)
+  // parentId   Int?
+  darftId    Int?          @unique
+  darft      Article?      @relation("articleDarft", fields: [darftId], references: [id])
+  parent     Article?      @relation("articleDarft")
 }
 
 enum Role {
   USER
   ADMIN
+}
+
+enum ArticleStatus {
+  DARFT
+  OFFICIAL
 }

@@ -6,10 +6,11 @@ export default defineEventHandler(async(event) => {
 
   return responFormat(await prisma.article.findUnique({
     where: {
+      status: "OFFICIAL",
       id: id
     },
     include: {
       author: true
     }
   }))
-})
+})  

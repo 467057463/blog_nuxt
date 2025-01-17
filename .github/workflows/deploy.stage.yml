@@ -24,6 +24,9 @@ jobs:
           echo NUXT_PUBLIC_API_HOST=/api >> .env
           echo NUXT_SESSION_PASSWORD=${{secrets.SESSION_PASSWORD}} >> .env
           echo DATABASE_URL=${{secrets.STAGE_DATABASE_URL}} >> .env
+          echo NUXT_OSS_ENV=stage >> .env
+          echo NUXT_OSS_ACCESS_KEY_ID=${{secrets.OSS_ACCESS_KEY_ID}} >> .env
+          echo NUXT_OSS_ACCESS_KEY_SECRET=${{secrets.OSS_ACCESS_KEY_SECRET}} >> .env
 
           npm install
           npm run build:stage

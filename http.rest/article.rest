@@ -1,5 +1,39 @@
 ### 文章列表
-http://localhost:3000/api/articles
+http://localhost:3000/api/articles?categoryId=1
+
+### 草稿列表
+http://localhost:3000/api/articles?categoryId=1&status=DARFT
 
 ### 文章详情
 http://localhost:3000/api/articles/1
+
+### 草稿详情-真草稿
+http://localhost:3000/api/articles/12/darft
+
+### 草稿详情-详情草稿
+http://localhost:3000/api/articles/2/darft
+
+### 新建草稿文章
+POST http://localhost:3000/api/articles
+Content-Type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbiIsImlhdCI6MTczNjk0Mzk4NSwiZXhwIjoxNzM5NTM1OTg1fQ.hovNsjOPe2Y3-0gjPeDWGlscc0pVhy_R7Wcnj563ILY
+
+{
+  "title": "test",
+  "content": "test",
+  "describe": "test",
+  "tags": [],
+  "saveToDarft": true
+}
+
+### 新建文章
+POST http://localhost:3000/api/articles
+Content-Type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbiIsImlhdCI6MTczNjk0Mzk4NSwiZXhwIjoxNzM5NTM1OTg1fQ.hovNsjOPe2Y3-0gjPeDWGlscc0pVhy_R7Wcnj563ILY
+
+{
+  "title": "test",
+  "content": "test",
+  "describe": "test",
+  "saveToDarft": false
+}

@@ -2,7 +2,7 @@
   <div class="editer-wrapper">
     <div class="editer-header">
       <el-input v-model="form.title"/>
-      <el-button type="primary" plain @click="handleSubmit('DARFT')">保存为草稿</el-button>
+      <el-button type="primary" plain @click="handleDarft">保存为草稿</el-button>
       <el-button type="primary" @click="showMeta = true">发布</el-button>
       <el-dropdown>
         <div class="user-info">
@@ -14,13 +14,13 @@
               <NuxtLink to="/">返回首页</NuxtLink>
             </el-dropdown-item>
             <el-dropdown-item>
-              <NuxtLink to="/articles/drafts">我的草稿</NuxtLink>
+              <NuxtLink to="/drafts">我的草稿</NuxtLink>
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
     </div>
-    <MdEditor v-model="form.content" />
+    <MdEditor @onSave="onSave" v-model="form.content" />
     <el-drawer
       v-model="showMeta"
       title="文章发布"
@@ -37,7 +37,7 @@
             <el-check-tag 
               type="primary" 
               size="small" 
-              v-for="category in categories?.data" 
+              v-for="category in categories" 
               :key="category.id"
               @click="form.categoryId = category.id"
               :checked="form.categoryId === category.id"
@@ -48,9 +48,9 @@
         </el-form-item>
 
         <el-form-item label="标签" prop="tags">
-          <el-select v-model="form.tags" multiple>
+          <el-select v-model="form.tags" multiple :multiple-limit="2">
             <el-option
-              v-for="tag in tagList"
+              v-for="tag in tags"
               :key="tag.id"
               :label="tag.name"
               :value="tag.id"
@@ -77,7 +77,7 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="handleSubmit('OFFICIAL')">确认发布</el-button>
+          <el-button type="primary" @click="handleSubmit">确认发布</el-button>
         </el-form-item>
 
       </el-form>
@@ -96,88 +96,104 @@
 <script setup lang="ts">
 import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-import { Plus } from '@element-plus/icons-vue'
-import { createDraft, updateDraft, createArticle, updateArticle, getTags, getCategories, getArticleDraftById } from '~/api/idnex'
-// @ts-ignore
+import { Plus, Delete } from '@element-plus/icons-vue'
+import { createDraft, updateDraft, createArticle, updateArticle } from '~/api/idnex'
 import myUpload from 'vue-image-crop-upload';
 
-const { data: tags } = getTags();
-const { data: categories } = getCategories();
-
-const props = defineProps<{
-  mode: 'create' | 'edit',
-  articleId?: string
-}>()
-
-const showMeta = ref(false);
-
-const form = reactive<{
-  title: string,
-  content: string,
-  categoryId?: number,
-  tags: number[],
-  describe: string
-}>({
-  title: '',
-  content: '',
-  categoryId: 1,
-  tags: [],
-  describe: '',
-})
+const showMeta = ref(false)
+const userStore = useUserStore();
+const appStore = useAppStore();
 
 
-// 标签
-const tagList = computed(() => tags.value?.data.filter(i => i.categoryId === form.categoryId))
-watch(() => form.categoryId, () => {
-  form.tags = []
-})
+const { categories, tags } = storeToRefs(appStore);
 
-// 封面
-const imgUrl = ref('');
+const emit = defineEmits(['save'])
+// const props = defineProps(['draftId', 'articleId', 'title', 'content', 'categoryId', 'tags', 'describe', 'cover'])
+
+const imgUrl = ref(props.cover)
 const showUploader = ref(false)
-function cropSuccess(imgDataUrl: string){
+function cropSuccess(imgDataUrl, field){
   imgUrl.value = imgDataUrl;
 }
 
-if(props.mode === 'edit'){
-  try{
-    const res = await getArticleDraftById(props.articleId!)
-    const data= res?.darft ?? res;
+const files = ref(props.cover ? [{url: props.cover, uid: 0}] : []);
+const form = reactive({
+  draftId: props.draftId,
+  title: props.title,
+  content: props.content,
+  categoryId: props.categoryId,
+  tags: props.tags.map(i => i.id),
+  describe: props.describe,
+})
 
-    form.title = data.title;
-    form.content = data.content;
-    form.categoryId = data.categoryId;
-    form.tags = data.tags.map(i => i.id);
-    form.describe = data.describe;
-    imgUrl.value = data.cover;
-  } catch(error){
-    console.error(error)
-    navigateTo('/')
+function handleRemove(file){
+  files.value = files.value.filter(i => i.uid !== file.uid)
+}
+
+
+
+// 发布到草稿箱
+async function handleDarft(){
+  const route = useRoute();
+  const router = useRouter();
+  if(route.name === 'drafts-create'){
+    const res: any = await createDraft({
+      title: form.title,
+      content: form.content,
+      articleId: props.articleId
+    })
+    router.replace(`/drafts/${res.data.id}`)
+  } else if(route.name === 'articles-id-edit'){
+    const res: any = await createDraft({
+      title: form.title,
+      content: form.content,
+      articleId: props.articleId
+    })
+    router.replace(`/drafts/${res.data.id}`)
+  } else if(route.name === 'drafts-id'){
+    const draftId = Number(route.params.id);
+    const res: any = await updateDraft(draftId, {
+      title: form.title,
+      content: form.content,
+    })
   }
 }
 
-// 生成 formdata
-function generateData(type: "OFFICIAL" | "DARFT" = "DARFT"){
-  const formdata = dataToFormData({
-    ...form,
-    status: type
-  })
+function dataURLtoBlob(dataurl) {
+  var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+  while(n--){
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new Blob([u8arr], {type:mime});
+}
+
+// 发布
+async function handleSubmit(){
+  const route = useRoute();
+  const router = useRouter();
+  const formdata = new FormData()
+  for (const [key, value] of Object.entries(form)) {
+    formdata.append(key, value)
+  }
   if(imgUrl.value && !imgUrl.value.startsWith("http")){
     formdata.append('cover', dataURLtoBlob(imgUrl.value), 'image.png')
   }
-  return formdata;
-}
-
-// 保存
-async function handleSubmit(type: "OFFICIAL" | "DARFT" = "DARFT"){
-  const formdata = generateData(type);
-
-  if(props.mode === 'create'){
-    createArticle(formdata)
-  } else {
-    updateArticle(props.articleId!, formdata)
+   let res;
+  if(route.name === 'drafts-id'){
+    if(props.articleId){
+      res = await updateArticle(props.articleId, formdata)
+    } else {
+      res = await createArticle(formdata)
+    }
+  } else if(route.name === 'drafts-create'){
+    res = await createArticle(formdata)
+  } else if(route.name === 'articles-id-edit'){
+    res = await updateArticle(props.articleId, formdata)
   }
+  router.replace(`/articles/${res.data.id}`)
 }
+
 </script>
 
 <style lang="scss" scoped>
@@ -300,4 +316,5 @@ async function handleSubmit(type: "OFFICIAL" | "DARFT" = "DARFT"){
     border-radius: 4px;
   }
 }
+
 </style>

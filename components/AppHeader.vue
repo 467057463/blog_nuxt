@@ -36,13 +36,13 @@
         <!-- 只在移动端显示 -->
         <template v-if="loggedIn">
           <div class="nav-item">
-            <NuxtLink to="/drafts/create" activeClass="active">
+            <NuxtLink to="/articles/create" activeClass="active">
               <i class="fi fi-about"></i>
               发布文章
             </NuxtLink>
           </div>
           <div class="nav-item">
-            <NuxtLink to="/drafts" activeClass="active">
+            <NuxtLink to="/articles/drafts" activeClass="active">
               <i class="fi fi-about"></i>
               我的草稿
             </NuxtLink>
@@ -78,10 +78,10 @@
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item>
-                  <NuxtLink to="/drafts/create">发布文章</NuxtLink>
+                  <NuxtLink to="/articles/create">发布文章</NuxtLink>
                 </el-dropdown-item>
                 <el-dropdown-item>
-                  <NuxtLink to="/drafts">我的草稿</NuxtLink>
+                  <NuxtLink to="/articles/drafts">我的草稿</NuxtLink>
                 </el-dropdown-item>
                 <el-dropdown-item>
                   <span @click="clear">退出登录</span>

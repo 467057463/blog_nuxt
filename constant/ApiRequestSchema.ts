@@ -21,3 +21,27 @@ export const loginParamsSchem = z.object({
 })
 
 export type LoginParamsType = z.infer<typeof loginParamsSchem>
+
+export const createArticleSchem = z.object({
+  title: z.string({
+    required_error: '文章标题不能为空',
+  }).trim(),
+  content: z.string({
+    required_error: '文章内容不能为空',
+  }).trim(),
+  describe: z.string().optional(),
+  categoryId: z.number().optional(),
+  tags: z.array(z.number()).optional(),
+  status: z.enum(['DARFT', 'OFFICIAL']).optional().default("OFFICIAL"),
+})
+
+export type CreateArticleType = z.infer<typeof createArticleSchem>
+
+export const queryArticleSchema = z.object({
+  categoryId: z.union([z.number(), z.string()]).optional().transform((val) => val ? Number(val) : undefined),
+  status: z.enum(['DARFT', 'OFFICIAL']).optional().default("OFFICIAL"),
+  limit: z.number().optional().default(10),
+  page: z.number().optional().default(1)
+})
+
+export type QueryArticleType = z.infer<typeof queryArticleSchema>

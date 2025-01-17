@@ -1,5 +1,5 @@
 import type { Category, Tag, Article } from '@prisma/client'
-import type { LoginParamsType } from '~/constant/ApiRequestSchema'
+import type { LoginParamsType, CreateArticleType, QueryArticleType } from '~/constant/ApiRequestSchema'
 
 
 export type CaptchaType = {
@@ -25,15 +25,27 @@ export function fetchLogin(body: LoginParamsType){
 
 
 
-export const getCategories = () => useAPI<Category[]>('/categoriess') 
+export const getCategories = () => useAPI<Category[]>('/categories') 
 
 export const getTags = () => useAPI<Tag[]>('/tags') 
 
-// 获取文章列表
-type GetArticlesParams = {
-  page?: number,
-  limit?: number
+// 添加文章
+export function createArticle(body: FormData){
+  return useRequest('/articles', {
+    method: 'POST',
+    body
+  })
 }
+
+// 更新文章
+export function updateArticle(id: number| string, body: FormData){
+  return useRequest(`/articles/${id}`, {
+    method: 'POST',
+    body
+  })
+}
+
+// 获取文章列表
 export type ArticlesData = {
   count: number,
   currentPage: number,
@@ -41,69 +53,30 @@ export type ArticlesData = {
   list: Article[]
   pages: number  
 }
-export function getArticles(params?: GetArticlesParams){
+export function getArticles(params?: Partial<QueryArticleType>){
   return useAPI<ArticlesData>('/articles', {
     params
   })
 }
 
-// 根据 token 获取用户信息
-export type UserInfoType = {
-  id: number,
-  username: string,
-  profile: {
-    id: number,
-    name: string,
-    avatar: string,
-    email: string,
-    intro: string,
-    site: string,
-    github: string,
-    phone: string,
-    qq: string
-  }
-}
-export function getUserInfo(){
-  return useAPI<RequestResult<UserInfoType>>('/getuser_info', {
-    method: "POST"
-  })
-}
-
-export type CreateArticleParamsType = {
-  title: string,
-  content: string,
-  raw: string,
-  describe: string,
-  categoryId: number,
-  tags: string[]
-}
-
-// 添加文章
-export function createArticle(body: CreateArticleParamsType){
-  return useAPI('/articles', {
-    method: 'POST',
-    body
-  })
-}
-
 // 文章详情
-export function getArticleById(id: number){
+export function getArticleById(id: number| string){
   return useAPI<Article>(`/articles/${id}`, {
     method: 'GET'
   })
 }
 
-// 更新文章
-export function updateArticle(id: number, body: CreateArticleParamsType){
-  return useAPI(`/articles/${id}`, {
-    method:"POST",
-    body
+// 草稿详情
+export function getArticleDraftById(id: number| string){
+  return useRequest<Article>(`/articles/${id}/darft`, {
+    method: 'GET'
   })
 }
 
+
 // 删除文章
-export function deleteArticle(id: number){
-  return useAPI(`/articles/${id}`, {
+export function deleteArticle(id: number|string){
+  return useRequest(`/articles/${id}`, {
     method: "DELETE",
   })
 }
@@ -145,4 +118,27 @@ export function destroyDraft(id: number){
 // 热门推荐
 export function getHotArtices(){
   return useAPI('/articles/hots')
+}
+
+
+// 根据 token 获取用户信息
+export type UserInfoType = {
+  id: number,
+  username: string,
+  profile: {
+    id: number,
+    name: string,
+    avatar: string,
+    email: string,
+    intro: string,
+    site: string,
+    github: string,
+    phone: string,
+    qq: string
+  }
+}
+export function getUserInfo(){
+  return useAPI<RequestResult<UserInfoType>>('/getuser_info', {
+    method: "POST"
+  })
 }

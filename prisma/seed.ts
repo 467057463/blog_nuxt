@@ -68,10 +68,23 @@ async function main(){
         }
       },
       articles: {
-        create: {
-          title: '这是 seed 生成的欢迎文章',
-          conttent: '欢迎来到 毛毛 的blog',
-          describe: '默认文章'
+        createMany: {
+          data: [
+            {
+              title: '这是 seed 生成的欢迎文章',
+              content: '欢迎来到 毛毛 的blog',
+              describe: '默认文章',
+              status: "OFFICIAL",
+              categoryId: 1
+            },
+            {
+              title: '这是 seed 生成的欢迎文章',
+              content: '欢迎来到 毛毛 的blog',
+              describe: '默认文章',
+              status: "OFFICIAL",
+              categoryId: 2
+            }
+          ]
         }
       }
     }
