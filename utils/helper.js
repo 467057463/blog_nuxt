@@ -1,6 +1,11 @@
 export function dataToFormData(obj){
   return Object.entries(obj).reduce((prev, [key, value]) => {
-    if(typeof value === 'string' && value === ''){
+    if(
+      (typeof value === 'string' && value === '') 
+      || value === undefined 
+      || value === null
+      || (Array.isArray(value) && !value.length)
+    ){
       return prev
     } else {
       prev.append(key, value)

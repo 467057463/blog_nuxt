@@ -48,9 +48,9 @@
         </el-form-item>
 
         <el-form-item label="标签" prop="tags">
-          <el-select v-model="form.tags" multiple>
+          <el-select v-model="form.tagIds" multiple>
             <el-option
-              v-for="tag in tagList"
+              v-for="tag in tags?.data"
               :key="tag.id"
               :label="tag.name"
               :value="tag.id"
@@ -60,7 +60,7 @@
 
 
         <el-form-item label="文章封面">
-          <img class="prev-img" :src="imgUrl" v-if="imgUrl" @click="showUploader = true"/>
+          <img class="prev-img" :src="form.cover" v-if="form.cover" @click="showUploader = true"/>
           <div v-else @click="showUploader = true" class="upload-btn">
             <el-icon><Plus/></el-icon>
           </div>
@@ -79,7 +79,6 @@
         <el-form-item>
           <el-button type="primary" @click="handleSubmit('OFFICIAL')">确认发布</el-button>
         </el-form-item>
-
       </el-form>
     </el-drawer>
     <my-upload 
@@ -93,13 +92,15 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-import { Plus } from '@element-plus/icons-vue'
-import { createDraft, updateDraft, createArticle, updateArticle, getTags, getCategories, getArticleDraftById } from '~/api/idnex'
+import { Plus } from '@element-plus/icons-vue';
+import { createArticle, getTags, getCategories, getArticleDraftById } from '~/api/idnex';
+import { ArticleStatus } from '@prisma/client';
 // @ts-ignore
 import myUpload from 'vue-image-crop-upload';
+import { ElMessage } from 'element-plus'
 
 const { data: tags } = getTags();
 const { data: categories } = getCategories();
@@ -115,55 +116,51 @@ const form = reactive<{
   title: string,
   content: string,
   categoryId?: number,
-  tags: number[],
-  describe: string
+  tagIds: number[],
+  cover?: string,
+  describe?: string
+
+  darftId?: number,
+  parentId?: number,
 }>({
   title: '',
   content: '',
   categoryId: 1,
-  tags: [],
+  tagIds: [],
+  cover: '',
   describe: '',
-})
 
-
-// 标签
-const tagList = computed(() => tags.value?.data.filter(i => i.categoryId === form.categoryId))
-watch(() => form.categoryId, () => {
-  form.tags = []
+  darftId: undefined,
+  parentId: undefined
 })
 
 // 封面
-const imgUrl = ref('');
 const showUploader = ref(false)
 function cropSuccess(imgDataUrl: string){
-  imgUrl.value = imgDataUrl;
+  form.cover = imgDataUrl;
 }
 
+// 编辑模式
 if(props.mode === 'edit'){
-  try{
-    const res = await getArticleDraftById(props.articleId!)
-    const data= res?.darft ?? res;
-
-    form.title = data.title;
-    form.content = data.content;
-    form.categoryId = data.categoryId;
-    form.tags = data.tags.map(i => i.id);
-    form.describe = data.describe;
-    imgUrl.value = data.cover;
-  } catch(error){
+  getArticleDraftById(props.articleId!).then(res => {
+    Object.assign(form, res)
+  }).catch(error => {
     console.error(error)
     navigateTo('/')
-  }
+  })
 }
 
 // 生成 formdata
-function generateData(type: "OFFICIAL" | "DARFT" = "DARFT"){
+function generateData(type: ArticleStatus = "DARFT"){
+  const {cover, ...res} = form;
   const formdata = dataToFormData({
-    ...form,
+    ...res,
     status: type
   })
-  if(imgUrl.value && !imgUrl.value.startsWith("http")){
-    formdata.append('cover', dataURLtoBlob(imgUrl.value), 'image.png')
+  if(cover && !cover.startsWith("http")){
+    formdata.append('cover', dataURLtoBlob(cover), 'image.png')
+  } else {
+    formdata.append('cover', cover)
   }
   return formdata;
 }
@@ -171,11 +168,23 @@ function generateData(type: "OFFICIAL" | "DARFT" = "DARFT"){
 // 保存
 async function handleSubmit(type: "OFFICIAL" | "DARFT" = "DARFT"){
   const formdata = generateData(type);
-
-  if(props.mode === 'create'){
-    createArticle(formdata)
-  } else {
-    updateArticle(props.articleId!, formdata)
+  try {
+    const res = await createArticle(formdata)
+    if(res.status === 'OFFICIAL'){
+      navigateTo(`/articles/${res.id}`)
+      ElMessage({
+        type: "success",
+        message: '文章发布成功'
+      })
+    } else {
+      navigateTo(`/articles/${res.id}/edit`)
+      ElMessage({
+        type: "success",
+        message: '文章保存成功'
+      })
+    }
+  } catch (error) {
+    console.error(error)
   }
 }
 </script>

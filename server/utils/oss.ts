@@ -24,12 +24,12 @@ const useClient = () => {
 }
 
 export const oss = {
-  async put(file: File){
+  async put({ filename, data }: {filename: string, data: Buffer} = { filename: '', data: Buffer.from('')}){
     const config = useRuntimeConfig();
     try {
       const result = await useClient().put(
-        `blog_data_${config.ossEnv}/${randomUUID()}${path.extname(file.name)}`,
-        Buffer.from(await file.arrayBuffer())
+        `blog_data_${config.ossEnv}/${randomUUID()}${path.extname(filename)}`,
+        data
       )
       return result;
     } catch (error) {

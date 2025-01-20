@@ -1,5 +1,5 @@
 import type { Category, Tag, Article } from '@prisma/client'
-import type { LoginParamsType, CreateArticleType, QueryArticleType } from '~/constant/ApiRequestSchema'
+import type { LoginParamsType, DarftDetailType, QueryArticleType } from '~/constant/ApiRequestSchema'
 
 
 export type CaptchaType = {
@@ -31,19 +31,12 @@ export const getTags = () => useAPI<Tag[]>('/tags')
 
 // 添加文章
 export function createArticle(body: FormData){
-  return useRequest('/articles', {
+  return useRequest<Article>('/articles', {
     method: 'POST',
     body
   })
 }
 
-// 更新文章
-export function updateArticle(id: number| string, body: FormData){
-  return useRequest(`/articles/${id}`, {
-    method: 'POST',
-    body
-  })
-}
 
 // 获取文章列表
 export type ArticlesData = {
@@ -67,8 +60,8 @@ export function getArticleById(id: number| string){
 }
 
 // 草稿详情
-export function getArticleDraftById(id: number| string){
-  return useRequest<Article>(`/articles/${id}/darft`, {
+export function getArticleDraftById(id: number | string){
+  return useRequest<DarftDetailType>(`/articles/${id}/darft`, {
     method: 'GET'
   })
 }
