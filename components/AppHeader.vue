@@ -125,6 +125,7 @@ header{
   justify-content: space-between;
   align-items: center;
   position: fixed;
+  z-index: 2;
   width: 100%;
   border-bottom: 1px solid getCssVar("border", "color", 'gray-1--gray-8');
   box-sizing: border-box;
