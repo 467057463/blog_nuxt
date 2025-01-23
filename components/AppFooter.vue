@@ -17,10 +17,11 @@ footer{
   background: getCssVar('color', 'gray-10');
   color: getCssVar('text', 'color', 'gray-5--gray-5');
   font-size: 14px;
-  padding: 15px 0;
+  padding: 20px 0 25px;
   flex-shrink: 0;
   margin-top: 10px;
   border-top: 1px solid getCssVar("border", "color", 'gray-1--gray-8');
+  line-height: 1.5;
   a{
     text-decoration: none;
     color: getCssVar('text', 'color', 'gray-5--gray-5');

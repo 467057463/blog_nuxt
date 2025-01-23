@@ -1,4 +1,4 @@
-import { getCategories, getTags } from "~/api/idnex";
+import { getCategories, getTags } from "~/api";
 
 function useAppInfoShared () {
   const { data: tags } = getCategories();

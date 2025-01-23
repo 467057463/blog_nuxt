@@ -1,10 +1,10 @@
 import prisma from "~/lib/prisma";
 import jwt from 'jsonwebtoken';
 import { ApiErrorMap } from "~/constant/ApiErrorMap";
-import { loginParamsSchem } from "~/constant/ApiRequestSchema";
+import { loginParamsSchema } from "~/api";
 
 export default defineEventHandler(async (event) => {  
-  const { username, password, code, uuid }  = await readValidatedBody(event, loginParamsSchem.parse);
+  const { username, password, code, uuid }  = await readValidatedBody(event, loginParamsSchema.parse);
 
   // 图形验证码验证
   const captchaCode = await captchaStorage.getItem(uuid) as string;

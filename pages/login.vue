@@ -54,7 +54,7 @@
 
 <script setup lang="ts">
 import type { FormInstance, FormRules  } from 'element-plus';
-import { getCaptcha } from '~/api/idnex';
+import { getCaptcha } from '~/api';
 
 definePageMeta({
   middleware: ["no-auth"]
@@ -93,7 +93,6 @@ const rules = reactive<FormRules>({
 });
 // 刷新验证码
 const { data: captcha, refresh: handleCaptcha } = getCaptcha();
-
 // 登录
 async function handleLogin(){
   try {

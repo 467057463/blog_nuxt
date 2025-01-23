@@ -1,12 +1,10 @@
-import { Article } from "@prisma/client";
-import { editArticleSchema } from "~/constant/ApiRequestSchema";
+import { createArticleSchema } from "~/api";
 import prisma from "~/lib/prisma";
-import { readValidateFormData } from "~/server/utils/readValidateFormData";
 
 
 export default defineEventHandler(async(event) => {
   const user = await useRquestUser(event);
-  const { parentId, darftId, tagIds, ...body } = await readValidateFormData(event, editArticleSchema);
+  const { parentId, darftId, tagIds, ...body } = await readValidateFormData(event, createArticleSchema);
 
   // 上传到 oss
   const coverUrl = body.cover ? await oss.put(body.cover).then(res => res?.url ?? '') : '';

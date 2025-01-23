@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getHotArtices } from '~/api/idnex'
+import { getHotArtices } from '~/api'
 let { data } = await useAsyncData(() => getHotArtices())
 </script>
 

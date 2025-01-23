@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getArticles, deleteArticle } from '~/api/idnex'
+import { getArticles, deleteArticle } from '~/api'
 
 definePageMeta({
   middleware: ['auth']

@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getArticles } from '@/api/idnex'
+import { getArticles } from '~/api'
 const { data } = getArticles({
   categoryId: 1
 });

@@ -1,6 +1,6 @@
 
-import { getCategories, getTags } from '~/api/idnex'
-import type { CategoryData, TagData } from '~/api/idnex'
+import { getCategories, getTags } from '~/api'
+import type { CategoryData, TagData } from '~/api'
 
 export const useAppStore = defineStore("app", () => {
   let categories = ref<CategoryData[]>([])

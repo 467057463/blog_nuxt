@@ -1,7 +1,7 @@
 import { Tag } from "@prisma/client";
 import prisma from "~/lib/prisma";
 import { responFormat } from "~/server/utils/responFormat";
-import type { DarftDetailType } from '~/constant/ApiRequestSchema';
+import { DarftData, type DarftResultType } from "~/api";
 
 export default defineEventHandler(async(event) => {
   const _id = Number(getRouterParam(event, 'id'));
@@ -10,31 +10,11 @@ export default defineEventHandler(async(event) => {
     where: {
       id: _id
     },
-    omit: {
-      createdAt: true,
-      updatedAt: true
-    },
-    include: {
-      tags: true,
-      parent: {
-        select: {
-          id: true
-        }
-      },
-      darft: {
-        omit: {
-          createdAt: true,
-          updatedAt: true
-        },
-        include: {
-          tags: true,
-        }
-      }
-    }
+    ...DarftData
   })
 
   const { id, parent, darft, darftId, status, ...article } = result!;
-  let res: DarftDetailType = (darft ?? article) as unknown as DarftDetailType;
+  let res: DarftResultType = (darft ?? article) as unknown as DarftResultType;
   
   res.tagIds = (res as any).tags.map((i: Tag) => i.id);
   res.categoryId = res.categoryId ?? 1;

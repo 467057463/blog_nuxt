@@ -96,7 +96,7 @@
 import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 import { Plus } from '@element-plus/icons-vue';
-import { createArticle, getTags, getCategories, getArticleDraftById } from '~/api/idnex';
+import { createArticle, getTags, getCategories, getArticleDraftById } from '~/api';
 import { ArticleStatus } from '@prisma/client';
 // @ts-ignore
 import myUpload from 'vue-image-crop-upload';

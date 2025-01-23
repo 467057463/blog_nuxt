@@ -1,5 +1,5 @@
-import { fetchLogin, getUserInfo } from '~/api/idnex'
-import type { FetchLoginParams, UserInfoType } from '~/api/idnex'
+import { fetchLogin, getUserInfo } from '~/api'
+import type { FetchLoginParams, UserInfoType } from '~/api'
 
 
 export const useUserStore = defineStore('user', () => {

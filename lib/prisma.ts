@@ -1,7 +1,21 @@
 import { PrismaClient } from '@prisma/client'
+import dayjs from 'dayjs'
 
 const prismaClientSingleton = () => {
-  return new PrismaClient()
+  return new PrismaClient().$extends({
+    result: {
+      article: {
+        createdAt: {
+          needs: {
+            createdAt: true
+          },
+          compute(article){
+            return dayjs(article.createdAt).format('YYYY-MM-DD HH:mm')
+          }
+        }
+      }
+    }
+  })
 }
 
 declare const globalThis: {
