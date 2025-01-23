@@ -17,7 +17,7 @@ footer{
   background: getCssVar('color', 'gray-10');
   color: getCssVar('text', 'color', 'gray-5--gray-5');
   font-size: 14px;
-  padding: 20px 0 25px;
+  padding: 35px 0 35px;
   flex-shrink: 0;
   margin-top: 10px;
   border-top: 1px solid getCssVar("border", "color", 'gray-1--gray-8');
