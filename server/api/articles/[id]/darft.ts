@@ -1,7 +1,5 @@
-import { Tag } from "@prisma/client";
-import prisma from "~/lib/prisma";
-import { responFormat } from "~/server/utils/responFormat";
-import { DarftData, type DarftResultType } from "~/api";
+import { type Tag } from "@prisma/client";
+// import { DarftData, type DarftResultType } from "~/api";
 
 export default defineEventHandler(async(event) => {
   const _id = Number(getRouterParam(event, 'id'));

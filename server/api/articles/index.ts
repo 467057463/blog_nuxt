@@ -1,10 +1,6 @@
-import prisma from "~/lib/prisma";
-import { responFormat } from "~/server/utils/responFormat";
-import { queryArticleListSchema, QueryArticleListItmeData } from '~/api'
-
 export default defineCachedEventHandler(async (event) => {
   const { limit, page, ...query } = await getValidatedQuery(event, queryArticleListSchema.parse)
-
+  
   const [total, list] = await prisma.$transaction([
     prisma.article.count({
       where: query

@@ -1,6 +1,4 @@
-import { createArticleSchema } from "~/api";
-import prisma from "~/lib/prisma";
-
+// import { createArticleSchema } from "~/api";
 
 export default defineEventHandler(async(event) => {
   const user = await useRquestUser(event);

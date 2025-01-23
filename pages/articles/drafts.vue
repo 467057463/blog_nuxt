@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getArticles, deleteArticle } from '~/api'
+// import { getArticles, deleteArticle } from '~/api'
 
 definePageMeta({
   middleware: ['auth']

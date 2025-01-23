@@ -8,7 +8,12 @@ export default defineNuxtConfig({
     ossAccessKeySecret: process.env.NUXT_OSS_ACCESS_KEY_SECRET,
   },
   imports: {
-    dirs: ['~/lib', 'constant/**']
+    dirs: ['constant', 'api']
+  },
+  nitro: {
+    imports: {
+      dirs: ['lib', 'constant', 'api']
+    }
   },
   css: [
     '~/assets/styles/index.scss',
