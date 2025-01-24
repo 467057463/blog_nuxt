@@ -4,6 +4,7 @@ CREATE TABLE `Category` (
     `name` VARCHAR(191) NOT NULL,
     `label` VARCHAR(191) NOT NULL,
     `order` INTEGER NOT NULL,
+    `parentId` INTEGER NULL,
 
     UNIQUE INDEX `Category_name_key`(`name`),
     UNIQUE INDEX `Category_label_key`(`label`),
@@ -80,6 +81,9 @@ CREATE TABLE `_ArticleToTag` (
     UNIQUE INDEX `_ArticleToTag_AB_unique`(`A`, `B`),
     INDEX `_ArticleToTag_B_index`(`B`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `Category` ADD CONSTRAINT `Category_parentId_fkey` FOREIGN KEY (`parentId`) REFERENCES `Category`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Tag` ADD CONSTRAINT `Tag_categoryId_fkey` FOREIGN KEY (`categoryId`) REFERENCES `Category`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
