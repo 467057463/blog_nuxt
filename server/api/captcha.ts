@@ -12,6 +12,6 @@ export const handle = async () => {
   }
 }
 
-export default defineEventHandler( () => {
-  return responFormat(handle)
+export default defineEventHandler(async () => {
+  return responFormat(await handle())
 })

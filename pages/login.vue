@@ -36,7 +36,7 @@
           placeholder="请输入验证码"
         />
         <span 
-          v-html="captcha?.data.captcha" 
+          v-html="captcha?.data?.captcha" 
           @click="() => handleCaptcha()"
         ></span>
       </el-form-item>
@@ -54,7 +54,7 @@
 
 <script setup lang="ts">
 import type { FormInstance, FormRules  } from 'element-plus';
-import { getCaptcha } from '~/api';
+// import { getCaptcha } from '~/api';
 
 definePageMeta({
   middleware: ["no-auth"]
