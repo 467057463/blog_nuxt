@@ -48,7 +48,6 @@ const { data } = getArticles({
 
 <style lang="scss" scoped>
 .article-item{
-  padding: 8px 0;
   margin: 0 24px;
   display: flex;
   align-items: center;
@@ -70,6 +69,7 @@ const { data } = getArticles({
       font-weight: bold;
       text-decoration: none;
       &:hover{
+        color: getCssVar('color', 'brand-sub');
         text-decoration: underline;
       }
     }

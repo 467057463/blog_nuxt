@@ -19,7 +19,7 @@ footer{
   font-size: 14px;
   padding: 35px 0 35px;
   flex-shrink: 0;
-  margin-top: 10px;
+  // margin-top: 10px;
   border-top: 1px solid getCssVar("border", "color", 'gray-1--gray-8');
   line-height: 1.5;
   a{

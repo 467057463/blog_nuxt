@@ -43,7 +43,7 @@
           </NuxtLink>
         </div>
         <div class="nav-item  user-item">
-          <NuxtLink to="/articles/drafts" activeClass="active">
+          <NuxtLink to="/articles/darfts" activeClass="active">
             <i class="fi fi-about"></i>
             我的草稿
           </NuxtLink>
@@ -76,7 +76,7 @@
                 <NuxtLink to="/articles/create">发布文章</NuxtLink>
               </el-dropdown-item>
               <el-dropdown-item>
-                <NuxtLink to="/articles/drafts">我的草稿</NuxtLink>
+                <NuxtLink to="/articles/darfts">我的草稿</NuxtLink>
               </el-dropdown-item>
               <el-dropdown-item>
                 <span @click="clear">退出登录</span>

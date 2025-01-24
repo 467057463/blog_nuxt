@@ -7,7 +7,7 @@ async function main(){
     data: [
       {
         name: 'code',
-        label: '技术',
+        label: '代码',
         order: 0,
       },
       {
@@ -18,6 +18,59 @@ async function main(){
     ],
     skipDuplicates: true
   })
+
+  await prisma.category.createMany({
+    data: [
+      {
+        name: "CSS",
+        label: 'css',
+        order: 0,
+        parentId: 1,
+      },
+      {
+        name: "JS",
+        label: 'js',
+        order: 1,
+        parentId: 1,
+      },
+      {
+        name: "HTML",
+        label: 'html',
+        order: 2,
+        parentId: 1,
+      },
+      {
+        name: "electron",
+        label: 'electron',
+        order: 3,
+        parentId: 1,
+      }
+    ]
+  })
+
+  await prisma.category.createMany({
+    data: [
+      {
+        name: "散文随笔",
+        label: 'note',
+        order: 0,
+        parentId: 2,
+      },
+      {
+        name: "小故事",
+        label: 'story',
+        order: 1,
+        parentId: 2,
+      },
+      {
+        name: "启示录",
+        label: 'reflection',
+        order: 2,
+        parentId: 2,
+      },
+    ]
+  })
+
 
   await prisma.tag.createMany({
     data: [

@@ -2,33 +2,32 @@
   <div class="editer-wrapper">
     <div class="editer-header">
       <el-input v-model="form.title"/>
-      <el-button type="primary" plain @click="handleSubmit('DARFT')">保存为草稿</el-button>
-      <el-button type="primary" @click="showMeta = true">发布</el-button>
-      <el-dropdown>
-        <div class="user-info">
-          <i class="fi fi-user"></i>
-        </div>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>
-              <NuxtLink to="/">返回首页</NuxtLink>
-            </el-dropdown-item>
-            <el-dropdown-item>
-              <NuxtLink to="/articles/drafts">我的草稿</NuxtLink>
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
+
+      <div class="meta-icon">
+        <el-icon @click="showMeta = true"><More /></el-icon>
+      </div>
     </div>
     <MdEditor v-model="form.content" />
+    <div class="editer-nav">
+      <div class="nav-wrapper">
+        <NuxtLink to="/">
+          返回首页
+        </NuxtLink>
+        <NuxtLink to="/articles/darfts">
+          我的草稿
+        </NuxtLink>
+      </div>
+      <el-button type="primary" plain @click="handleSubmit('DARFT')">保存为草稿</el-button>
+      <el-button type="primary" @click="showMeta = true">发布</el-button>
+    </div>
     <el-drawer
       v-model="showMeta"
       title="文章发布"
       direction="rtl"
+      size="100%"
     >
       <el-form 
-        labelWidth="6em" 
-        labelSuffix=":" 
+        labelWidth="5em" 
         ref="$form"
         :model="form"
       >
@@ -77,6 +76,7 @@
         </el-form-item>
 
         <el-form-item>
+          <el-button type="primary" plain @click="handleSubmit('DARFT')">保存为草稿</el-button>
           <el-button type="primary" @click="handleSubmit('OFFICIAL')">确认发布</el-button>
         </el-form-item>
       </el-form>
@@ -95,7 +95,7 @@
 <script lang="ts" setup>
 import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-import { Plus } from '@element-plus/icons-vue';
+import { Plus, More } from '@element-plus/icons-vue';
 import { createArticle, getTags, getCategories, getArticleDraftById } from '~/api';
 import { ArticleStatus } from '@prisma/client';
 // @ts-ignore
@@ -191,7 +191,7 @@ async function handleSubmit(type: "OFFICIAL" | "DARFT" = "DARFT"){
 
 <style lang="scss" scoped>
 .editer-wrapper{
-  height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   .editer-header{
@@ -211,8 +211,32 @@ async function handleSubmit(type: "OFFICIAL" | "DARFT" = "DARFT"){
     ::v-deep .el-input__inner{
       color: #000000;
     }
+    .meta-icon{
+      cursor: pointer;
+    }
     .user-info{
       margin-left: 12px;
+    }
+  }
+  .editer-nav{
+    display: flex;
+    align-items: center;
+    height: 64px;
+    padding: 0 10px;
+    a{
+      font-size: 14px;
+      text-decoration: none;
+      color: getCssVar("text", "color", 'normal');
+      &:hover{
+        color: getCssVar('text', 'color', 'gray-7--gray-2');
+        text-decoration: underline;
+      }
+    }
+    a + a {
+      margin-left: 5px;
+    }
+    .nav-wrapper{
+      flex: 1;
     }
   }
 }
