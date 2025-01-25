@@ -1,10 +1,8 @@
-import prisma from "~/lib/prisma"
 
 export default defineEventHandler(async (event) => {
-  return prisma.tag.create({
-    data: {
-      name: 'css',
-      label: 'css'
-    }
+  const body = await readBody(event, CreateTagSchema.parse)
+  const result = await prisma.tag.create({
+    data: body
   })
+  return responFormat(result)
 })

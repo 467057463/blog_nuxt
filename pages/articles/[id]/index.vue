@@ -32,7 +32,6 @@
 </template>
 
 <script setup lang="ts">
-// import { getArticleById, deleteArticle } from "~/api"
 import { MdPreview, MdCatalog } from 'md-editor-v3';
 import 'md-editor-v3/lib/preview.css';
 import { onMounted } from "vue";
@@ -52,11 +51,6 @@ onMounted(() => {
     scrollElement = document.documentElement
 })
 
-
-
-function handleEdit(){
-
-}
 
 async function handleDelete(){
   try {

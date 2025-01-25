@@ -1,5 +1,6 @@
 <template>
   <div class="page-center">
+    {{ counter }}
     <div 
       v-for="article in data?.data.list" 
       :key="article.id" 
@@ -44,6 +45,7 @@
 const { data } = getArticles({
   categoryId: 1
 });
+
 </script>
 
 <style lang="scss" scoped>

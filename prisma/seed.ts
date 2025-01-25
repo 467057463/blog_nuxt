@@ -22,20 +22,20 @@ async function main(){
   await prisma.category.createMany({
     data: [
       {
-        name: "CSS",
-        label: 'css',
+        name: 'css',
+        label: "CSS",
         order: 0,
         parentId: 1,
       },
       {
-        name: "JS",
-        label: 'js',
+        name: "js",
+        label: 'JS',
         order: 1,
         parentId: 1,
       },
       {
-        name: "HTML",
-        label: 'html',
+        name: "html",
+        label: 'HTML',
         order: 2,
         parentId: 1,
       },
@@ -51,20 +51,20 @@ async function main(){
   await prisma.category.createMany({
     data: [
       {
-        name: "散文随笔",
-        label: 'note',
+        name: "note",
+        label: '散文随笔',
         order: 0,
         parentId: 2,
       },
       {
-        name: "小故事",
-        label: 'story',
+        name: "story",
+        label: '小故事',
         order: 1,
         parentId: 2,
       },
       {
-        name: "启示录",
-        label: 'reflection',
+        name: "reflection",
+        label: '启示录',
         order: 2,
         parentId: 2,
       },

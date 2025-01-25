@@ -4,10 +4,53 @@ import { z } from 'zod'
 // ## 分类列表
 export const getCategories = () => useAPI<Category[]>('/categories') 
 
+// ## 新建分类
+
+// 请求参数
+export const CreateCategorySchema = z.object({
+  parentId: z.number(),
+  label: z.string({
+    required_error: '文章标题不能为空',
+  }).trim(),
+  name: z.string({
+    required_error: '文章内容不能为空',
+  }).trim(),
+  order: z.number().default(0),
+})
+
+// 请求参数类型
+export type CreateCategoryType = z.infer<typeof CreateCategorySchema>
+
+// 请求 API
+export const createCategory = (body: CreateCategoryType) => useRequest('/categories', {
+  method: "post",
+  body
+})
 
 // ## 标签列表
 export const getTags = () => useAPI<Tag[]>('/tags') 
 
+// ## 新建标签
+
+// 请求参数
+export const CreateTagSchema = z.object({
+  categoryId: z.number(),
+  label: z.string({
+    required_error: '文章标题不能为空',
+  }).trim(),
+  name: z.string({
+    required_error: '文章内容不能为空',
+  }).trim(),
+})
+
+// 请求参数类型
+export type CreateTagType = z.infer<typeof CreateTagSchema>
+
+// 请求 API
+export const createTga = (body: CreateTagType) => useRequest('/tags', {
+  method: "post",
+  body
+})
 
 // ##  文章列表
 
@@ -18,6 +61,7 @@ export const queryArticleListSchema = z.object({
   limit: z.number().optional().default(10),
   page: z.number().optional().default(1)
 })
+
 
 // 请求参数类型
 export type QueryArticleListParamsType = z.infer<typeof queryArticleListSchema>
