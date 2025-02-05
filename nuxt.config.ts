@@ -39,9 +39,6 @@ export default defineNuxtConfig({
     '/login': {
       ssr: false
     },
-    '/drafts/create': {
-      ssr: false
-    },
     '/drafts/:id': {
       ssr: false
     },

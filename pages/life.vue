@@ -27,6 +27,6 @@
 <script lang="ts" setup>
 // import { getArticles } from '~/api'
 const { data } = getArticles({
-  categoryId: 2
+  mainCategoryId: 2
 });
 </script>

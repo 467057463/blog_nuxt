@@ -1,49 +1,54 @@
 <template>
-  <div class="page-center">
-    {{ counter }}
-    <div 
-      v-for="article in data?.data.list" 
-      :key="article.id" 
-      class="article-item"
-    >
-      <div class="content-container">
-        <div class="title">
-          <NuxtLink :to="`/articles/${article.id}`">{{ article.title }}</NuxtLink>
-        </div>
+  <div class="page-content">
+    <div class="page-wrapper">
+      <div class="page-center">
+        <div 
+          v-for="article in data?.data.list" 
+          :key="article.id" 
+          class="article-item"
+        >
+          <div class="content-container">
+            <div class="title">
+              <NuxtLink :to="`/articles/${article.id}`">{{ article.title }}</NuxtLink>
+            </div>
 
-        <div class="meta">
-          <div class="user-info">
-            <span>作者：{{ article.author.username }} </span>
-            <span>发布于：{{ article.createdAt }}</span>
+            <div class="meta">
+              <div class="user-info">
+                <span>作者：{{ article.author.username }} </span>
+                <span>发布于：{{ article.createdAt }}</span>
+              </div>
+            </div>
+
+            <div class="content">
+              <NuxtLink :to="`/articles/${article.id}`">{{ article.describe }}</NuxtLink>
+            </div>
+            
+            <div class='read-more'>
+              <NuxtLink :to="`/articles/${article.id}`">阅读全文...</NuxtLink>
+            </div>
+
+            <div class="tags">
+              <span>标签：</span>
+              <NuxtLink v-for="tag in article.tags" :key="tag.id" :to="`/articles/${tag.id}`">{{tag.label}}</NuxtLink>
+            </div>
+
+            <div class="category">
+              <span>分类：</span>
+              <NuxtLink :to="`/articles/${article.category?.id}`">{{article.category?.label}}</NuxtLink>
+            </div>
           </div>
-        </div>
-
-        <div class="content">
-          <NuxtLink :to="`/articles/${article.id}`">{{ article.describe }}</NuxtLink>
-        </div>
-        
-        <div class='read-more'>
-          <NuxtLink :to="`/articles/${article.id}`">阅读全文...</NuxtLink>
-        </div>
-
-        <div class="tags">
-          <span>标签：</span>
-          <NuxtLink v-for="tag in article.tags" :key="tag.id" :to="`/articles/${tag.id}`">{{tag.label}}</NuxtLink>
-        </div>
-
-        <div class="category">
-          <span>分类：</span>
-          <NuxtLink :to="`/articles/${article.category?.id}`">{{article.category?.label}}</NuxtLink>
+          <el-image :src="article.cover" v-if="article.cover" fit="cover"/>
         </div>
       </div>
-      <el-image :src="article.cover" v-if="article.cover" fit="cover"/>
     </div>
   </div>
+
+  <AppSlider/>
 </template>
 
 <script lang="ts" setup>
 const { data } = getArticles({
-  categoryId: 1
+  mainCategoryId: 1
 });
 
 </script>

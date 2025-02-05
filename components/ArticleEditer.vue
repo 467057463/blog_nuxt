@@ -62,10 +62,12 @@
 
 
         <el-form-item label="文章封面">
-          <img class="prev-img" :src="form.cover" v-if="form.cover" @click="showUploader = true"/>
-          <div v-else @click="showUploader = true" class="upload-btn">
+          <img class="prev-img" :src="form.cover" v-if="form.cover" @click="handleFile"/>
+          <div v-else @click="handleFile" class="upload-btn">
             <el-icon><Plus/></el-icon>
           </div>
+          <input type="file" name="img" @change="chnage" class="hide" ref="$fileInput">
+          <h5-cropper :option="{}" ref="$cropper" hide-input @getbase64="getbase64Data"></h5-cropper>
         </el-form-item>
 
         <el-form-item label="文章描述" prop="describe">
@@ -85,14 +87,16 @@
       </el-form>
     </el-drawer>
     <!-- 图片上传 -->
-    <my-upload 
+    <!-- <my-upload 
       v-model="showUploader"
       img-format="png"
       :width="154"
 		  :height="154"
       @crop-success="cropSuccess"
       noCircle
-    />
+    /> -->
+    
+
     <!-- 添加分类 -->
     <el-dialog v-model="categoryDialog" title="添加分类">
       <el-form :model="categoryForm" labelWidth="5em" ref="$categoryForm" :rules="categoryFormRules" >
@@ -160,6 +164,8 @@ import { ArticleStatus } from '@prisma/client';
 // @ts-ignore
 import myUpload from 'vue-image-crop-upload';
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import H5Cropper  from 'vue-cropper-h5'
+import "vue-cropper-h5/dist/style.css";
 
 const { data: tags, refresh: refreshTag } = getTags();
 const { data: categories, refresh: refreshCategory } = getCategories();
@@ -309,6 +315,17 @@ async function submitTag(){
 // 封面
 const showUploader = ref(false)
 function cropSuccess(imgDataUrl: string){
+  form.cover = imgDataUrl;
+}
+const $fileInput = ref();
+const $cropper = ref();
+function handleFile(){
+  $fileInput.value.click();
+}
+function chnage({target}){
+  $cropper.value.loadFile(target.files[0])
+}
+function getbase64Data(imgDataUrl: string){
   form.cover = imgDataUrl;
 }
 
