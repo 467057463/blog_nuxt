@@ -175,7 +175,7 @@ const props = defineProps<{
   articleId?: string
 }>()
 
-const showMeta = ref(true);
+const showMeta = ref(false);
 
 const form = reactive<{
   title: string,

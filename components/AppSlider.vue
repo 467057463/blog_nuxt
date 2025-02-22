@@ -27,9 +27,14 @@
 </template>
 
 <script setup lang="ts">
+
+const props = defineProps<{
+  categoryId: number
+}>()
+
 const { data: categories } = getCategories();
 const { data: tags} = getTags();
 const { data: articles } = getArticles({
-  mainCategoryId: 1
+  mainCategoryId: props.categoryId
 });
 </script>
