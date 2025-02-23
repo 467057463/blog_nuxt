@@ -67,7 +67,7 @@
             <el-icon><Plus/></el-icon>
           </div>
           <input type="file" name="img" @change="chnage" class="hide" ref="$fileInput">
-          <h5-cropper :option="{}" ref="$cropper" hide-input @getbase64="getbase64Data"></h5-cropper>
+          <h5-cropper :option="{fixedNumber: [168, 108]}" ref="$cropper" hide-input @getbase64="getbase64Data"></h5-cropper>
         </el-form-item>
 
         <el-form-item label="文章描述" prop="describe">
@@ -509,6 +509,7 @@ async function handleSubmit(type: "OFFICIAL" | "DARFT" = "DARFT"){
 .prev-img{
   height: 77px;
   width: 77px;
+  object-fit: contain;
 }
 ::v-deep{
   .el-upload--picture-card {
