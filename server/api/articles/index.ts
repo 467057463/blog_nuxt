@@ -1,4 +1,4 @@
-export default defineCachedEventHandler(async (event) => {
+export default defineEventHandler(async (event) => {
   let { limit, page, ...query } = await getValidatedQuery(event, queryArticleListSchema.parse)
 
 

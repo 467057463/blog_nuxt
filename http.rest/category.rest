@@ -1,1 +1,1 @@
-http://localhost:3000/api/categories/categoriesCount?mainCategoryId=1
+http://localhost:3000/api/categories/categoriesCount?mainCategoryId=2

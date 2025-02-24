@@ -6,10 +6,10 @@
     /> -->
     <ul>
       <li v-for="category in categories?.data">
-        {{category.label}}
-        <ol>
+        {{category.label}}({{ category._count.articles }})
+        <!-- <ol>
           <li v-for="child in category.children">{{ child.label }}</li>
-        </ol>
+        </ol> -->
       </li>
     </ul>
     <b>最新文章</b>
