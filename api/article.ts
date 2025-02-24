@@ -4,6 +4,21 @@ import { z } from 'zod'
 // ## 分类列表
 export const getCategories = () => useAPI<Category[]>('/categories') 
 
+// ## 分类列表文章数量
+
+// 请求参数
+export const queryCategorySchema = z.object({
+  id: z.union([z.number(), z.string()]).optional().transform((val) => val ? Number(val) : undefined).default(1)
+})
+
+// 请求参数类型
+export type queryCategoryType = z.infer<typeof queryCategorySchema>
+
+// 请求 API
+export const getCategoriesWithCount = (params: queryCategoryType) => useAPI<Category[]>('/categories/categoriesCount?id=1', {
+  params
+}) 
+
 // ## 新建分类
 
 // 请求参数

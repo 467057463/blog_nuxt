@@ -27,7 +27,9 @@
 </template>
 
 <script setup lang="ts">
-const { data: categories } = getCategories();
+const { data: categories } = getCategoriesWithCount({
+  id: 1
+});
 const { data: tags} = getTags();
 const { data: articles } = getArticles({
   mainCategoryId: 1
