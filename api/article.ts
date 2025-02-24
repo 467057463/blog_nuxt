@@ -8,7 +8,7 @@ export const getCategories = () => useAPI<Category[]>('/categories')
 
 // 请求参数
 export const queryCategorySchema = z.object({
-  id: z.union([z.number(), z.string()]).optional().transform((val) => val ? Number(val) : undefined).default(1)
+  mainCategoryId: z.union([z.number(), z.string()]).optional().transform((val) => val ? Number(val) : undefined).default(1)
 })
 
 // 请求参数类型

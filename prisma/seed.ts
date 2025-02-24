@@ -44,6 +44,12 @@ async function main(){
         label: 'electron',
         order: 3,
         parentId: 1,
+      },
+      {
+        name: "bundler",
+        label: '打包工具',
+        order: 4,
+        parentId: 1
       }
     ]
   })
@@ -93,6 +99,11 @@ async function main(){
         name: 'react',
         label: 'react',
         categoryId: 1
+      },
+      {
+        name: 'vite',
+        label: 'vite',
+        categoryId: 1
       }
     ],
     skipDuplicates: true
@@ -128,14 +139,14 @@ async function main(){
               content: '欢迎来到 毛毛 的blog',
               describe: '默认文章',
               status: "OFFICIAL",
-              categoryId: 1
+              categoryId: 3
             },
             {
               title: '这是 seed 生成的欢迎文章',
               content: '欢迎来到 毛毛 的blog',
               describe: '默认文章',
               status: "OFFICIAL",
-              categoryId: 2
+              categoryId: 8
             }
           ]
         }
@@ -147,7 +158,7 @@ async function main(){
 main()
   .then(async () => {
     await prisma.$disconnect()
-    console.log('sess run success!')
+    console.log('seeds run success!')
   })
   .catch(async (e) => {
     console.error(e)

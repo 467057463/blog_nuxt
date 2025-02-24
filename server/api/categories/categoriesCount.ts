@@ -1,7 +1,7 @@
 import prisma from "~/lib/prisma"
 
 export default defineEventHandler(async (event) => {
-  const { id: parentId } = await getValidatedQuery(event, queryCategorySchema.parse)
+  const { mainCategoryId: parentId } = await getValidatedQuery(event, queryCategorySchema.parse)
 
 	return responFormat(await prisma.category.findMany({
 		where: {

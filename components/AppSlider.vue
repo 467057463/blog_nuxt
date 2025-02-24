@@ -27,11 +27,16 @@
 </template>
 
 <script setup lang="ts">
+
+const props = defineProps<{
+  categoryId: number
+}>()
+
 const { data: categories } = getCategoriesWithCount({
-  id: 1
+  mainCategoryId: props.categoryId
 });
 const { data: tags} = getTags();
 const { data: articles } = getArticles({
-  mainCategoryId: 1
+  mainCategoryId: props.categoryId
 });
 </script>

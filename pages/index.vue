@@ -43,7 +43,7 @@
     </div>
   </div>
 
-  <AppSlider/>
+  <AppSlider :categoryId="1"/>
 </template>
 
 <script lang="ts" setup>

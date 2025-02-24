@@ -1,5 +1,5 @@
 ### 文章列表
-http://localhost:3000/api/articles?categoryId=1
+http://localhost:3000/api/articles?mainCategoryId=1
 
 ### 草稿列表
 http://localhost:3000/api/articles?categoryId=1&status=DARFT
