@@ -15,7 +15,7 @@ export const queryCategorySchema = z.object({
 export type queryCategoryType = z.infer<typeof queryCategorySchema>
 
 // 请求 API
-export const getCategoriesWithCount = (params: queryCategoryType) => useAPI<Category[]>('/categories/categoriesCount?id=1', {
+export const getCategoriesWithCount = (params: queryCategoryType) => useAPI<Category[]>('/categories/categoriesCount', {
   params
 }) 
 
@@ -43,7 +43,17 @@ export const createCategory = (body: CreateCategoryType) => useRequest('/categor
 })
 
 // ## 标签列表
-export const getTags = () => useAPI<Tag[]>('/tags') 
+
+// 请求参数
+export const QueryTagSchema = z.object({
+  categoryId: z.union([z.number(), z.string()]).optional().transform((val) => val ? Number(val) : undefined).default(1)
+})
+
+// 请求参数类型
+export type QueryTagType = z.infer<typeof QueryTagSchema>
+
+// 请求 API
+export const getTags = (params: QueryTagType) => useAPI<Tag[]>('/tags', {params}) 
 
 // ## 新建标签
 

@@ -35,7 +35,9 @@ const props = defineProps<{
 const { data: categories } = getCategoriesWithCount({
   mainCategoryId: props.categoryId
 });
-const { data: tags} = getTags();
+const { data: tags} = getTags({
+  categoryId: props.categoryId
+});
 const { data: articles } = getArticles({
   mainCategoryId: props.categoryId
 });
