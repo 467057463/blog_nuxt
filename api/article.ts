@@ -82,6 +82,7 @@ export const createTga = (body: CreateTagType) => useRequest('/tags', {
 // 请求参数
 export const queryArticleListSchema = z.object({
   categoryId: z.union([z.number(), z.string()]).optional().transform((val) => val ? Number(val) : undefined),
+  tagId: z.union([z.number(), z.string()]).optional().transform((val) => val ? Number(val) : undefined),
   mainCategoryId:  z.union([z.number(), z.string()]).optional().transform((val) => val ? Number(val) : undefined),
   status: z.enum(['DARFT', 'OFFICIAL']).optional().default("OFFICIAL"),
   limit: z.number().optional().default(10),

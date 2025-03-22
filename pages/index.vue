@@ -29,12 +29,12 @@
 
             <div class="tags">
               <span>标签：</span>
-              <NuxtLink v-for="tag in article.tags" :key="tag.id" :to="`/articles/${tag.id}`">{{tag.label}}</NuxtLink>
+              <NuxtLink v-for="tag in article.tags" :key="tag.id" :to="`/search?tagId=${tag.id}`">{{tag.label}}</NuxtLink>
             </div>
 
             <div class="category">
               <span>分类：</span>
-              <NuxtLink :to="`/articles/${article.category?.id}`">{{article.category?.label}}</NuxtLink>
+              <NuxtLink :to="`/search?categoryId=${article.category?.id}`">{{article.category?.label}}</NuxtLink>
             </div>
           </div>
           <el-image :src="article.cover" v-if="article.cover" fit="cover"/>

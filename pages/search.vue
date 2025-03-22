@@ -43,14 +43,15 @@
     </div>
   </div>
 
-  <AppSlider :categoryId="2"/>
+  <!-- <AppSlider :categoryId="1"/> -->
 </template>
 
-<script lang="ts" setup>
-const { data } = getArticles({
-  mainCategoryId: 2
-});
 
+<script lang="ts" setup>
+const route = useRoute();
+const { data } = getArticles({
+  ...route.query
+})
 </script>
 
 <style lang="scss" scoped>
