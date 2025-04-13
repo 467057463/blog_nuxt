@@ -54,5 +54,6 @@ export default defineNuxtConfig({
     '@element-plus/nuxt',
     '@prisma/nuxt',
     'nuxt-auth-utils',
+    "@nuxt/icon"
   ],
 })

@@ -84,6 +84,7 @@ export const queryArticleListSchema = z.object({
   categoryId: z.union([z.number(), z.string()]).optional().transform((val) => val ? Number(val) : undefined),
   tagId: z.union([z.number(), z.string()]).optional().transform((val) => val ? Number(val) : undefined),
   mainCategoryId:  z.union([z.number(), z.string()]).optional().transform((val) => val ? Number(val) : undefined),
+  keyword: z.string().optional(),
   status: z.enum(['DARFT', 'OFFICIAL']).optional().default("OFFICIAL"),
   limit: z.number().optional().default(10),
   page: z.number().optional().default(1)

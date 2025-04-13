@@ -1,6 +1,10 @@
 ### 文章列表
 http://localhost:3000/api/articles?mainCategoryId=1
 
+### 关键字搜索
+http://localhost:3000/api/articles?keyword=测试
+
+
 ### 草稿列表
 http://localhost:3000/api/articles?categoryId=1&status=DARFT
 

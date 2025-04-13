@@ -11,7 +11,7 @@
     <div class="menu" :class="{shown: shownMenu}">
       <div class="nav-item">
         <NuxtLink to="/" activeClass="active">
-          <i class="fi fi-technology"></i>
+          <!-- <i class="fi fi-technology"></i> -->
           代码
         </NuxtLink>
       </div>
@@ -64,6 +64,7 @@
 
       <div class="nav-item" @click="navigateTo('https://github.com/467057463', { external: true, open: {target:'_blank'} })">
         <i class="fi fi-github"></i>
+        <!-- <Icon name="uil:github" style="color: black"/> -->
       </div>
 
       <!-- 只在PC显示 -->

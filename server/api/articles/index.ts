@@ -24,6 +24,22 @@ export default defineEventHandler(async (event) => {
         }
       }
     }
+  } else if(query.keyword){
+    query = {
+      OR: [
+        {
+          title: {
+            contains: query.keyword
+          }
+        },
+        {
+          content: {
+            contains: query.keyword
+          }
+        }
+      ]
+      
+    }
   }
   
 

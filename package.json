@@ -13,8 +13,9 @@
   },
   "dependencies": {
     "@element-plus/nuxt": "^1.0.9",
+    "@nuxt/icon": "^1.12.0",
     "@pinia/nuxt": "^0.5.1",
-    "@prisma/client": "^6.5.0",
+    "@prisma/client": "^6.6.0",
     "@prisma/nuxt": "^0.2.0",
     "@vueuse/core": "^12.0.0",
     "ali-oss": "^6.22.0",
