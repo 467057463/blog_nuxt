@@ -16,7 +16,7 @@ jobs:
           GITHUB_SHA: ${{ github.sha }}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{env.NODE_VERSION}}
+          node-version: 22
           cache: 'npm'
       - run: |
           touch .env
