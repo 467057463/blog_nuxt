@@ -31,15 +31,16 @@ jobs:
           npm install
           npm run build:stage
           cp .env .output/server/.env
-          cp -r prisma .output/server
 
-          # Prisma Client 必须在最终部署目录中生成，否则 seed 导入的只是未初始化占位包。
-          cd .output/server
-          # Nitro 可能把 Prisma 内部生成目录记录为虚拟依赖，但以点开头的名称不是合法 npm 包名。
-          node -e "const fs = require('fs'); const path = 'package.json'; const pkg = JSON.parse(fs.readFileSync(path, 'utf8')); if (pkg.dependencies) delete pkg.dependencies['.prisma']; fs.writeFileSync(path, JSON.stringify(pkg, null, 2) + '\n');"
+          # Prisma 部署工具使用独立 npm 项目，避免 npm 修改 Nitro 生成的依赖树。
+          mkdir -p .output/server/prisma-runtime
+          cp -r prisma .output/server/prisma-runtime/prisma
+          node -e "const fs = require('fs'); fs.writeFileSync('.output/server/prisma-runtime/package.json', JSON.stringify({ name: 'prisma-runtime', version: '1.0.0', private: true, type: 'module' }, null, 2) + '\n');"
+
+          cd .output/server/prisma-runtime
           npm install --no-save --package-lock=false prisma@6.19.3 @prisma/client@6.19.3 tsx@4.19.2
-          npx prisma generate --schema prisma/schema.prisma
-          cd ../..
+          ./node_modules/.bin/prisma generate --schema prisma/schema.prisma
+          cd ../../..
 
           tar -czf "${GITHUB_SHA}".tar.gz .output ./ecosystem.stage.config.cjs
       - name: Store app-artifacts for distribution
@@ -105,7 +106,7 @@ jobs:
               source ~/.nvm/nvm.sh
               npm --help
               ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH
-              cd $ACTIVE_RELEASE_PATH/.output/server
+              cd $ACTIVE_RELEASE_PATH/.output/server/prisma-runtime
               # 使用 CI 已生成并打包的固定版本工具，避免部署时下载到不同版本或缺少 Prisma Client。
               ./node_modules/.bin/prisma migrate deploy --schema prisma/schema.prisma
               ./node_modules/.bin/tsx prisma/seed.ts
