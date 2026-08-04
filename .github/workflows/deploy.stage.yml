@@ -35,6 +35,8 @@ jobs:
 
           # Prisma Client 必须在最终部署目录中生成，否则 seed 导入的只是未初始化占位包。
           cd .output/server
+          # Nitro 可能把 Prisma 内部生成目录记录为虚拟依赖，但以点开头的名称不是合法 npm 包名。
+          node -e "const fs = require('fs'); const path = 'package.json'; const pkg = JSON.parse(fs.readFileSync(path, 'utf8')); if (pkg.dependencies) delete pkg.dependencies['.prisma']; fs.writeFileSync(path, JSON.stringify(pkg, null, 2) + '\n');"
           npm install --no-save --package-lock=false prisma@6.19.3 @prisma/client@6.19.3 tsx@4.19.2
           npx prisma generate --schema prisma/schema.prisma
           cd ../..
