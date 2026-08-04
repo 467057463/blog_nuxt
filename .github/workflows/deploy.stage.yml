@@ -32,6 +32,13 @@ jobs:
           npm run build:stage
           cp .env .output/server/.env
           cp -r prisma .output/server
+
+          # Prisma Client 必须在最终部署目录中生成，否则 seed 导入的只是未初始化占位包。
+          cd .output/server
+          npm install --no-save --package-lock=false prisma@6.19.3 @prisma/client@6.19.3 tsx@4.19.2
+          npx prisma generate --schema prisma/schema.prisma
+          cd ../..
+
           tar -czf "${GITHUB_SHA}".tar.gz .output ./ecosystem.stage.config.cjs
       - name: Store app-artifacts for distribution
         uses: actions/upload-artifact@v6
@@ -96,7 +103,10 @@ jobs:
               source ~/.nvm/nvm.sh
               npm --help
               ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH
-              cd $ACTIVE_RELEASE_PATH/.output/server && npx prisma@6.19.3 migrate deploy && npx tsx prisma/seed.ts 
+              cd $ACTIVE_RELEASE_PATH/.output/server
+              # 使用 CI 已生成并打包的固定版本工具，避免部署时下载到不同版本或缺少 Prisma Client。
+              ./node_modules/.bin/prisma migrate deploy --schema prisma/schema.prisma
+              ./node_modules/.bin/tsx prisma/seed.ts
               cd $ACTIVE_RELEASE_PATH
               pm2 del ./ecosystem.stage.config.cjs
               pm2 start ./ecosystem.stage.config.cjs
