@@ -16,20 +16,38 @@ export default defineEventHandler(async (event) => {
     query.categoryId = {
       in: childrenCategoryIds
     } as any
+  } else if(query.tagId) {
+    query = {
+      tags: {
+        some: {
+          id: query.tagId
+        }
+      }
+    }
+  } else if(query.keyword){
+    query = {
+      OR: [
+        {
+          title: {
+            contains: query.keyword
+          }
+        },
+        {
+          content: {
+            contains: query.keyword
+          }
+        }
+      ]
+      
+    }
   }
   
-  
+
   const [total, list] = await prisma.$transaction([
     prisma.article.count({
       where: query
     }),
     prisma.article.findMany({
-      // where: {
-      //   ...query,
-      //   categoryId: {
-      //     in: childrenCategoryIds
-      //   }
-      // },
       where: query,
       skip: (page - 1) * limit,
       take: limit,
@@ -39,9 +57,9 @@ export default defineEventHandler(async (event) => {
       ...QueryArticleListItmeData
     })
   ])
-
   
 
+  
   return responFormat({
     total,
     list,

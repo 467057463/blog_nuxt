@@ -6,7 +6,9 @@
     /> -->
     <ul>
       <li v-for="category in categories?.data">
-        {{category.label}}({{ category._count.articles }})
+        <NuxtLink :to="`/search?categoryId=${category.id}`">
+          {{category.label}}({{ category._count.articles }})
+        </NuxtLink>
         <!-- <ol>
           <li v-for="child in category.children">{{ child.label }}</li>
         </ol> -->
@@ -14,19 +16,28 @@
     </ul>
     <b>最新文章</b>
     <ul>
-      <li v-for="article in articles?.data.list" :key="article.id">{{article.title}}</li>
+      <li v-for="article in articles?.data.list" :key="article.id">
+        <NuxtLink :to="`/articles/${article.id}`">
+          {{article.title}}
+        </NuxtLink>
+      </li>
     </ul>
     <b>文章标签</b>
     <div>
       <el-tag
         v-for="tag in tags?.data"
         :key="tag.id"
-      >{{tag.label}}</el-tag>
+      >
+        <NuxtLink :to="`/search?tagId=${tag.id}`">
+          {{tag.label}}
+        </NuxtLink>
+      </el-tag>
     </div>
   </slider>
 </template>
 
 <script setup lang="ts">
+
 
 const props = defineProps<{
   categoryId: number
@@ -35,7 +46,9 @@ const props = defineProps<{
 const { data: categories } = getCategoriesWithCount({
   mainCategoryId: props.categoryId
 });
-const { data: tags} = getTags();
+const { data: tags} = getTags({
+  categoryId: props.categoryId
+});
 const { data: articles } = getArticles({
   mainCategoryId: props.categoryId
 });
