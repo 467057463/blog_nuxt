@@ -9,11 +9,11 @@ jobs:
   create-deployment-artifacts:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: Build App Artifacts
         env:
           GITHUB_SHA: ${{ github.sha }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
           node-version: ${{env.NODE_VERSION}}
           cache: 'npm'
@@ -22,7 +22,7 @@ jobs:
           npm run build:production
           tar -czf "${GITHUB_SHA}".tar.gz .output ./ecosystem.production.config.cjs
       - name: Store app-artifacts for distribution
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v6
         with:
           name: app-artifacts
           path: ${{ github.sha }}.tar.gz
@@ -32,7 +32,7 @@ jobs:
     name: "Prepare release on INT server"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v7
         with:
           name: app-artifacts
 
@@ -104,9 +104,6 @@ jobs:
           script: |
             cd /var/www/blog_nuxt/releases && ls -t -1 | tail -n +4 | xargs rm -rf
             cd /var/www/blog_nuxt/artifacts && rm -rf *
-      - uses: geekyeggo/delete-artifact@v1
-        with:
-          name: app-artifacts
 
   # systemctl restart fullstackjack
   # chown -R www-data:www-data ${RELEASE_PATH}
