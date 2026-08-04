@@ -59,9 +59,9 @@ CREATE TABLE `Profile` (
 CREATE TABLE `Article` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `cover` VARCHAR(191) NULL,
-    `title` VARCHAR(191) NOT NULL,
-    `content` VARCHAR(191) NOT NULL,
-    `describe` VARCHAR(191) NULL,
+    `title` VARCHAR(1000) NOT NULL,
+    `content` TEXT NOT NULL,
+    `describe` VARCHAR(1000) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `authorId` INTEGER NOT NULL,
