@@ -1,4 +1,4 @@
-import { type Tag } from "@prisma/client";
+import { type Tag } from "../../../../generated/prisma/client";
 // import { DarftData, type DarftResultType } from "~/api";
 
 export default defineEventHandler(async(event) => {
@@ -12,23 +12,25 @@ export default defineEventHandler(async(event) => {
   })
 
   const { id, parent, darft, darftId, status, ...article } = result!;
-  let res: DarftResultType = (darft ?? article) as unknown as DarftResultType;
-  
-  res.tagIds = (res as any).tags.map((i: Tag) => i.id);
-  res.categoryId = res.categoryId ?? 1;
-  // @ts-ignore
-  res.id = undefined;
-  // @ts-ignore
-  res.tags = undefined;
-  res.status = status;
-  res.darftId = darftId ?? id ?? null;
-  res.parentId = parent?.id ?? id ?? null;
+  const source = (darft ?? article) as typeof article & { tags: Tag[] };
+  const { tags, ...draftResult } = source;
+
+  // 新建返回对象而不是删除查询结果属性，避免依赖类型忽略并保持 API 结构明确。
+  const response: DarftResultType = {
+    ...draftResult,
+    tagIds: tags.map(tag => tag.id),
+    categoryId: draftResult.categoryId ?? 1,
+    status,
+    darftId: darftId ?? id ?? null,
+    parentId: parent?.id ?? id ?? null,
+  };
+
   if(status === 'OFFICIAL' && !darft){
-    res.darftId = null;
+    response.darftId = null;
   }
   if(status === 'DARFT' && !parent){
-    res.parentId = null;
+    response.parentId = null;
   }
 
-  return responFormat(res)
+  return responFormat(response)
 })

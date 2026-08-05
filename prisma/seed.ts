@@ -1,6 +1,8 @@
-import { PrismaClient } from '@prisma/client';
-// import { hashPassword } from 'nuxt-auth-utils';
-const prisma = new PrismaClient()
+import 'dotenv/config'
+import { createPrismaClient } from '../lib/create-prisma-client'
+
+// Seed 必须拥有独立生命周期，避免部署脚本退出时遗留应用级连接池。
+const prisma = createPrismaClient()
 
 async function main(){
   await prisma.category.createMany({
@@ -160,8 +162,8 @@ main()
     await prisma.$disconnect()
     console.log('seeds run success!')
   })
-  .catch(async (e) => {
-    console.error(e)
+  .catch(async (error) => {
+    console.error(error)
     await prisma.$disconnect()
     process.exit(1)
   })

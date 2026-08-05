@@ -15,12 +15,13 @@ jobs:
           GITHUB_SHA: ${{ github.sha }}
         uses: actions/setup-node@v6
         with:
-          node-version: ${{env.NODE_VERSION}}
+          node-version: 22.12.0
           cache: 'npm'
       - run: |
-          npm install
+          npm ci
+          npx prisma generate
           npm run build:production
-          tar -czf "${GITHUB_SHA}".tar.gz .output ./ecosystem.production.config.cjs
+          tar -czf "${GITHUB_SHA}".tar.gz .output prisma prisma.config.ts package.json package-lock.json ecosystem.production.config.cjs
       - name: Store app-artifacts for distribution
         uses: actions/upload-artifact@v6
         with:
@@ -82,6 +83,8 @@ jobs:
             script: |
               export NVM_DIR=~/.nvm
               source ~/.nvm/nvm.sh
+              nvm install 22.12.0
+              nvm use 22.12.0
               npm --help
               ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH
               cd $ACTIVE_RELEASE_PATH

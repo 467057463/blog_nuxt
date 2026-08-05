@@ -16,7 +16,7 @@ jobs:
           GITHUB_SHA: ${{ github.sha }}
         uses: actions/setup-node@v6
         with:
-          node-version: ${{env.NODE_VERSION}}
+          node-version: 22.12.0
           cache: 'npm'
       - run: |
           touch .env
@@ -28,21 +28,11 @@ jobs:
           echo NUXT_OSS_ACCESS_KEY_ID=${{secrets.OSS_ACCESS_KEY_ID}} >> .env
           echo NUXT_OSS_ACCESS_KEY_SECRET=${{secrets.OSS_ACCESS_KEY_SECRET}} >> .env
 
-          npm install
+          npm ci
+          npx prisma generate
           npm run build:stage
           cp .env .output/server/.env
-
-          # Prisma 部署工具使用独立 npm 项目，避免 npm 修改 Nitro 生成的依赖树。
-          mkdir -p .output/server/prisma-runtime
-          cp -r prisma .output/server/prisma-runtime/prisma
-          node -e "const fs = require('fs'); fs.writeFileSync('.output/server/prisma-runtime/package.json', JSON.stringify({ name: 'prisma-runtime', version: '1.0.0', private: true, type: 'module' }, null, 2) + '\n');"
-
-          cd .output/server/prisma-runtime
-          npm install --no-save --package-lock=false prisma@6.19.3 @prisma/client@6.19.3 tsx@4.19.2
-          ./node_modules/.bin/prisma generate --schema prisma/schema.prisma
-          cd ../../..
-
-          tar -czf "${GITHUB_SHA}".tar.gz .output ./ecosystem.stage.config.cjs
+          tar -czf "${GITHUB_SHA}".tar.gz .output prisma prisma.config.ts package.json package-lock.json ecosystem.stage.config.cjs
       - name: Store app-artifacts for distribution
         uses: actions/upload-artifact@v6
         with:
@@ -104,13 +94,14 @@ jobs:
             script: |
               export NVM_DIR=~/.nvm
               source ~/.nvm/nvm.sh
+              nvm install 22.12.0
+              nvm use 22.12.0
               npm --help
               ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH
-              cd $ACTIVE_RELEASE_PATH/.output/server/prisma-runtime
-              # 使用 CI 已生成并打包的固定版本工具，避免部署时下载到不同版本或缺少 Prisma Client。
-              ./node_modules/.bin/prisma migrate deploy --schema prisma/schema.prisma
-              ./node_modules/.bin/tsx prisma/seed.ts
               cd $ACTIVE_RELEASE_PATH
+              npm ci --omit=dev=false
+              npx prisma migrate deploy
+              npx tsx prisma/seed.ts
               pm2 del ./ecosystem.stage.config.cjs
               pm2 start ./ecosystem.stage.config.cjs
 

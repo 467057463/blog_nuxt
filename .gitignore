@@ -9,6 +9,9 @@ sass_test
 
 # Node dependencies
 node_modules
+
+# Prisma Client 由安装和构建流程生成，避免提交平台相关生成物。
+generated/prisma
 # package-lock.json
 
 # Logs

@@ -20,11 +20,6 @@ export default defineNuxtConfig({
     '~/assets/iconfont/iconfont.css'
   ],
   vite: {
-    resolve: {
-      alias: {
-        '.prisma/client/index-browser': './node_modules/.prisma/client/index-browser.js',
-      },
-    },
     css: {
       preprocessorOptions: {
         scss: {
@@ -49,10 +44,10 @@ export default defineNuxtConfig({
       ssr: false
     }
   },
+  // @prisma/nuxt 0.3.0 尚未支持 Prisma 7 强制 adapter，保留依赖但暂不加载运行时模块。
   modules: [
     '@pinia/nuxt',
     '@element-plus/nuxt',
-    '@prisma/nuxt',
     'nuxt-auth-utils',
     "@nuxt/icon"
   ],

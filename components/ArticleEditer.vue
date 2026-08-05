@@ -160,7 +160,7 @@ import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 import { Plus, More } from '@element-plus/icons-vue';
 import { createArticle, getTags, getCategories, getArticleDraftById } from '~/api';
-import { ArticleStatus } from '@prisma/client';
+import type { ArticleStatus } from '../generated/prisma/client';
 // @ts-ignore
 import myUpload from 'vue-image-crop-upload';
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'

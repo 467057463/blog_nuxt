@@ -1,4 +1,4 @@
-import { Prisma, type Article, type Category, type Tag } from '@prisma/client'
+import type { Article, Category, Prisma, Tag } from '../generated/prisma/client'
 import { z } from 'zod'
 
 // ## 分类列表
@@ -95,7 +95,7 @@ export const queryArticleListSchema = z.object({
 export type QueryArticleListParamsType = z.infer<typeof queryArticleListSchema>
 
 // Prisma 结构数据
-export const QueryArticleListItmeData = Prisma.validator<Prisma.ArticleDefaultArgs>()({
+export const QueryArticleListItmeData = {
   omit:{
     authorId: true,
     updatedAt: true,
@@ -126,7 +126,7 @@ export const QueryArticleListItmeData = Prisma.validator<Prisma.ArticleDefaultAr
       }
     }
   }
-})
+} satisfies Prisma.ArticleDefaultArgs
 
 // 返回类型
 export type QueryArticleResultType = {
@@ -159,7 +159,7 @@ export function getArticleById(id: number){
 // ## 草稿详情
 
 // Prisma 结构数据
-export const DarftData = Prisma.validator<Prisma.ArticleDefaultArgs>()({
+export const DarftData = {
   omit: {
     createdAt: true,
     updatedAt: true
@@ -181,7 +181,7 @@ export const DarftData = Prisma.validator<Prisma.ArticleDefaultArgs>()({
       }
     }
   }
-})
+} satisfies Prisma.ArticleDefaultArgs
 
 export type DarftResultType = Omit<Prisma.ArticleGetPayload<typeof DarftData>, "id" | "darft" | "tags"> & {
   parentId?: number | null,
