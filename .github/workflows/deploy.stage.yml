@@ -32,7 +32,8 @@ jobs:
           npx prisma generate
           npm run build:stage
           cp .env .output/server/.env
-          tar -czf "${GITHUB_SHA}".tar.gz .output prisma prisma.config.ts package.json package-lock.json ecosystem.stage.config.cjs
+          # 服务器端需要根 .env 供 prisma CLI 解析 DATABASE_URL，lib/generated 供 seed 导入共享工厂与生成客户端。
+          tar -czf "${GITHUB_SHA}".tar.gz .env lib generated .output prisma prisma.config.ts package.json package-lock.json ecosystem.stage.config.cjs
       - name: Store app-artifacts for distribution
         uses: actions/upload-artifact@v6
         with:
