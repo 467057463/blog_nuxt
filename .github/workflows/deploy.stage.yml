@@ -95,12 +95,12 @@ jobs:
             script: |
               export NVM_DIR=~/.nvm
               source ~/.nvm/nvm.sh
-              nvm install 22.12.0
-              nvm use 22.12.0
+              # nvm install 22.12.0
+              # nvm use 22.12.0
               npm --help
               ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH
               cd $ACTIVE_RELEASE_PATH
-              npm ci --omit=dev=false
+              # npm ci --omit=dev=false
               npx prisma migrate deploy
               npx tsx prisma/seed.ts
               pm2 del ./ecosystem.stage.config.cjs
