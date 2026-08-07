@@ -20,4 +20,17 @@ export default tseslint.config(
       'no-undef': 'off',
     },
   },
+  {
+    // CommonJS 配置文件（pm2 ecosystem）使用 node 全局，需显式声明避免 no-undef 误报。
+    files: ['**/*.cjs'],
+    languageOptions: {
+      globals: {
+        module: 'readonly',
+        require: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        process: 'readonly',
+      },
+    },
+  },
 )
