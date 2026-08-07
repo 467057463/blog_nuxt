@@ -1,6 +1,7 @@
 import OSS from 'ali-oss';
 import path from 'node:path'
 import { randomUUID } from 'node:crypto';
+import { buildUploadKey } from './uploadValidate'
 
 let client: OSS;
 const useClient = () => {
@@ -32,6 +33,18 @@ export const oss = {
         data
       )
       return result;
+    } catch (error) {
+      console.error(error)
+      return null
+    }
+  },
+  // 供 Electron 更新上传复用同一 OSS client。directory 由路由层固定传入，key 保留原始文件名。
+  async upload ({ directory, filename, data }: { directory: string, filename: string, data: Buffer }){
+    const config = useRuntimeConfig();
+    try {
+      const key = buildUploadKey(config.ossEnv, directory, filename);
+      const result = await useClient().put(key, data)
+      return result.url as string
     } catch (error) {
       console.error(error)
       return null

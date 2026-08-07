@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     ossEnv: process.env.NUXT_OSS_ENV,
     ossAccessKeyId: process.env.NUXT_OSS_ACCESS_KEY_ID,
     ossAccessKeySecret: process.env.NUXT_OSS_ACCESS_KEY_SECRET,
+    uploadSecret: process.env.NUXT_UPLOAD_SECRET,
   },
   imports: {
     dirs: ['constant', 'api']
