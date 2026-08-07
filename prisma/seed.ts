@@ -53,7 +53,9 @@ async function main(){
         order: 4,
         parentId: 1
       }
-    ]
+    ],
+    // 每次部署都会重跑 seed，需保持幂等，避免二次部署时唯一约束冲突(P2002)。
+    skipDuplicates: true
   })
 
   await prisma.category.createMany({
@@ -76,7 +78,9 @@ async function main(){
         order: 2,
         parentId: 2,
       },
-    ]
+    ],
+    // 保持幂等：重复部署时跳过已存在的分类。
+    skipDuplicates: true
   })
 
 
