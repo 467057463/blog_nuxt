@@ -1,4 +1,4 @@
-// import 'dotenv/config'
+import 'dotenv/config'
 import { createPrismaClient } from '../lib/create-prisma-client'
 
 // Seed 必须拥有独立生命周期，避免部署脚本退出时遗留应用级连接池。

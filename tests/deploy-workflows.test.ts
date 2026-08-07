@@ -37,6 +37,8 @@ test('stage 部署产物包含 seed 依赖与数据库连接配置', async () =>
   assert.match(tarLine, /(^|\s)\.env(\s|$)/)
   assert.match(tarLine, /(^|\s)lib(\s|$)/)
   assert.match(tarLine, /(^|\s)generated(\s|$)/)
+  // 服务器 VPN 差无法 npm install，故 node_modules 必须随产物离线下发（dotenv/prisma/tsx 依赖服务器本地解析）。
+  assert.match(tarLine, /(^|\s)node_modules(\s|$)/)
 })
 
 test('production 不新增自动 migration 或 seed', async () => {
