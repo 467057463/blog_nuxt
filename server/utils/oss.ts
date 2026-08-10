@@ -19,7 +19,9 @@ const useClient = () => {
     authorizationV4: true,
     // yourBucketName填写Bucket名称。
     bucket: 'mmismeblog',
-    timeout: '60s',
+    // 服务器 VPN 差、上行到 OSS 慢，102MB 单块上传需数分钟。60s 会提前超时（ResponseTimeoutError），
+    // 调大到 300s 以容纳慢网络上大文件上传。
+    timeout: '300s',
     endpoint: 'https://oss-cn-wuhan-lr.aliyuncs.com'
   });
 }
@@ -58,8 +60,9 @@ export const oss = {
     try {
       // useRuntimeConfig() 返回 unknown，此处显式断言为 string（buildUploadKey 需 string）
       const key = buildUploadKey(config.ossEnv as string, directory, filename);
-      const result = await useClient().putStream(key, stream)
-      return result.url as string
+      // putStream 类型仅声明 {name,res}（无 url），上传成功与否以抛错判断，成功即返回 key 作 truthy。
+      await useClient().putStream(key, stream)
+      return key
     } catch (error) {
       console.error(error)
       return null
