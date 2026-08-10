@@ -49,5 +49,20 @@ export const oss = {
       console.error(error)
       return null
     }
+  },
+  // 流式上传：数据以 stream 传入，分片上传，内存占用恒定在缓冲区、不随文件体积增长。
+  // 用于 Electron 大文件（100MB+）上传，避免 readMultipartFormData 整块读内存触发 OOM。
+  async uploadStream ({ directory, filename, stream }: { directory: string, filename: string, stream: NodeJS.ReadableStream }){
+    const config = useRuntimeConfig();
+    try {
+      // useRuntimeConfig() 返回 unknown，此处显式断言为 string（buildUploadKey 需 string）
+      const key = buildUploadKey(config.ossEnv as string, directory, filename);
+      // multipartUpload 接受 stream 并自动分片，partSize 5MB 平衡内存与请求次数。
+      await useClient().multipartUpload(key, stream, { partSize: 5 * 1024 * 1024 })
+      return key
+    } catch (error) {
+      console.error(error)
+      return null
+    }
   }
 }
