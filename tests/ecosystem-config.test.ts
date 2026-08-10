@@ -34,6 +34,9 @@ test('stage ecosystem 通过 --env-file 加载 .env 且显式指定端口', () =
   // pm2 的 port 字段只是元数据，真正的监听端口必须通过 env.PORT 注入
   assert.equal(app.env?.PORT, '3001')
   assert.match(app.script, /\.output\/server\/index\.mjs/)
+  // 服务器内存仅 1.7GB，instances:'max' 会起满实例叠加内存触发 OOM（Electron 上传 102MB 时崩），
+  // 必须固定为单实例，避免集群内存叠加吃爆整机。
+  assert.equal(app.instances, 1, 'stage 必须单实例（内存受限，多实例会 OOM）')
 })
 
 test('production ecosystem 保持不使用运行时 .env 注入', () => {

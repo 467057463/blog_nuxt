@@ -10,7 +10,9 @@ module.exports = {
       // 用绝对路径加载 .env：pm2 启动的 node 进程 cwd 不可靠，相对路径会找不到 .env。
       node_args: `--env-file=${__dirname}/.env`,
       exec_mode: 'cluster',
-      instances: 'max',
+      // 服务器内存仅 1.7GB，instances:'max' 起满实例会叠加内存触发 OOM（Electron 上传 102MB 时崩），
+      // 固定为单实例，保留内存余量避免内核强杀进程。
+      instances: 1,
       // pm2 的 port 字段只是元数据，不会写入进程环境；监听端口需经 env.PORT 显式注入。
       env: {
         PORT: '3001',
